@@ -126,9 +126,7 @@
 		</div>
 		<div id='readme' style='width:70%;margin-left:20%;'>
 			<article class='markdown-body'>
-				<h1 id="-vue-js-">老马的Vue.js入门教程</h1>
-<p>此教程为Vue的基础入门教程，当然你必须要有一定的js、css、html的基础，最好有ES6的基础，没有ES6基础的童鞋可以参考<a href="http://es6.ruanyifeng.com/">阮一峰老师的ES6教程</a>，最好有一点前端工作流的概念，对Webpack有所了解。 本教程大部分参考<a href="https://cn.vuejs.org/">Vue官网</a>的文档，当然也有很多坑会详细介绍，也作为我自己学习Vue过程中的一些心得记录。如有错误之处请多多指教。</p>
-<h1 id="vue-helloworld">Vue入门之概念及Helloworld</h1>
+				<h1 id="vue-helloworld">Vue入门之概念及Helloworld</h1>
 <h2 id="vue-">Vue简介</h2>
 <p><code>Vue</code>是一个前端的双向绑定类的框架，发音[读音 /vjuː/, 类似于 view]。新的Vue版本参考了React的部分设计，当然也有自己独特的地方，比如Vue的单文件组件开发方式都很有创新，另外Vue自身的一些绑定的语法、用法等都非常精炼，很容易上手，而且第三方的插件都非常丰富，社区非常活跃，最新的文档都有中文版本。而且Vue配合官方的和第三方的库可以实现单文件的组件化开发、SPA等现代化前端开发。<br>详情请参考<a href="https://cn.vuejs.org/">Vue官网</a></p>
 <h2 id="vue-demo">Vue的入门demo</h2>
@@ -163,9 +161,9 @@
 
   &lt;!--第四步：创建Vue的对象，并把数据绑定到上面创建好的div上去。--&gt;
   &lt;script&gt;
-    var app = new Vue({         // 创建Vue实例。Vue的核心对象。
-      el: &#39;#app&#39;,               // el属性：把当前Vue实例挂载到 div标签上，#app是id选择器
-      data: {                   // data: 是Vue实例中绑定的数据
+    var app = new Vue({         // 创建Vue对象。Vue的核心对象。
+      el: &#39;#app&#39;,               // el属性：把当前Vue对象挂载到 div标签上，#app是id选择器
+      data: {                   // data: 是Vue对象中绑定的数据
         message: &#39;Hello Vue!&#39;   // message 自定义的数据
       }
     });
@@ -178,25 +176,25 @@
 </code></pre><hr>
 <h2 id="vue-helloworld-">Vue的Helloworld总结</h2>
 <ul>
-<li>Vue的el属性，就是element缩写，当前Vue实例挂载到哪个标签上的语法，一般用id选择器选择当前页面的标签。</li>
+<li>Vue的el属性，就是element缩写，当前Vue对象挂载到哪个标签上的语法，一般用id选择器选择当前页面的标签。</li>
 <li>Vue的data属性是自定义数据。这里我们只是演示了一个message属性，其实可以跟Ajax配合从后台获取数据，那就可以....想象空间很丰富了吧..</li>
 <li>Vue 数据绑定的方式就是用 <code>{{}}</code>，类似于handlebars.</li>
-<li>上面这个demo就是演示了Vue的绑定数据的基本模型。注意点，标签先创建好了之后，再创建Vue实例，具体你应该懂吧。</li>
+<li>上面这个demo就是演示了Vue的绑定数据的基本模型。注意点，标签先创建好了之后，再创建Vue对象，具体你应该懂吧。</li>
 </ul>
 <p><img src="imgs/01vue-helloworld.png" alt="helloworld"></p>
 <h1 id="vue-">Vue入门之数据绑定</h1>
 <h2 id="-">什么是双向绑定？</h2>
 <p>Vue框架很核心的功能就是双向的数据绑定。
-双向是指：HTML标签数据 绑定到 Vue实例，另外反方向数据也是绑定的。通俗点说就是，Vue实例的改变会直接影响到HTML的标签的变化，而且标签的变化也会反过来影响Vue实例的属性的变化。<br>这样以来，就彻底变革了之前Dom的开发方式，之前Dom驱动的开发方式尤其是以jQuery为主的开发时代，都是dom变化后，触发js事件，然后在事件中通过js代码取得标签的变化，再跟后台进行交互，然后根据后台返回的结果再更新HTML标签，异常的繁琐。有了Vue这种双向绑定，让开发人员只需要关心json数据的变化即可，Vue自动映射到HTML上，而且HTML的变化也会映射回js对象上，开发方式直接变革成了前端由数据驱动的
+双向是指：HTML标签数据 绑定到 Vue对象，另外反方向数据也是绑定的。通俗点说就是，Vue对象的改变会直接影响到HTML的标签的变化，而且标签的变化也会反过来影响Vue对象的属性的变化。<br>这样以来，就彻底变革了之前Dom的开发方式，之前Dom驱动的开发方式尤其是以jQuery为主的开发时代，都是dom变化后，触发js事件，然后在事件中通过js代码取得标签的变化，再跟后台进行交互，然后根据后台返回的结果再更新HTML标签，异常的繁琐。有了Vue这种双向绑定，让开发人员只需要关心json数据的变化即可，Vue自动映射到HTML上，而且HTML的变化也会映射回js对象上，开发方式直接变革成了前端由数据驱动的
 开发时代，远远抛弃了Dom开发主导的时代了。</p>
 <p><img src="imgs/02vue双向绑定.jpg" alt="vue 双向绑定"></p>
 <h2 id="vue-">Vue绑定文本</h2>
-<p>数据绑定最常见的形式就是使用 “Mustache” 语法（双大括号）的文本插值，比如模板引擎：handlebars中就是用的<code>{{}}</code>.<br>创建的Vue实例中的data属性就是用来绑定数据到HTML的。参考如下代码：</p>
+<p>数据绑定最常见的形式就是使用 “Mustache” 语法（双大括号）的文本插值，比如模板引擎：handlebars中就是用的<code>{{}}</code>.<br>创建的Vue对象中的data属性就是用来绑定数据到HTML的。参考如下代码：</p>
 <pre><code class="lang-html">&lt;span&gt;Message: {{ msg }}&lt;/span&gt;
 &lt;script&gt;
-  var app = new Vue({         // 创建Vue实例。Vue的核心对象。
-    el: &#39;#app&#39;,               // el属性：把当前Vue实例挂载到 div标签上，#app是id选择器
-    data: {                   // data: 是Vue实例中绑定的数据
+  var app = new Vue({         // 创建Vue对象。Vue的核心对象。
+    el: &#39;#app&#39;,               // el属性：把当前Vue对象挂载到 div标签上，#app是id选择器
+    data: {                   // data: 是Vue对象中绑定的数据
       msg: &#39;Hello Vue!&#39;   // message 自定义的数据
     }
   });
@@ -206,9 +204,9 @@
 <p>对于所有的数据绑定， Vue.js 都提供了完全的 JavaScript 表达式支持。</p>
 <pre><code class="lang-html">&lt;span&gt;Message: {{ msg + &#39; - &#39; + name }}&lt;/span&gt;
 &lt;script&gt;
-  var app = new Vue({         // 创建Vue实例。Vue的核心对象。
-    el: &#39;#app&#39;,               // el属性：把当前Vue实例挂载到 div标签上，#app是id选择器
-    data: {                   // data: 是Vue实例中绑定的数据
+  var app = new Vue({         // 创建Vue对象。Vue的核心对象。
+    el: &#39;#app&#39;,               // el属性：把当前Vue对象挂载到 div标签上，#app是id选择器
+    data: {                   // data: 是Vue对象中绑定的数据
       msg: &#39;Hi&#39;,              // message 自定义的数据
       name: &#39;flydragon&#39;       // name自定义的属性，vue可以多个自定义属性，属性类型也可是复杂类型
     }
@@ -235,9 +233,9 @@
   &lt;/div&gt;
 
   &lt;script&gt;
-  var app = new Vue({         // 创建Vue实例。Vue的核心对象。
-    el: &#39;#app&#39;,               // el属性：把当前Vue实例挂载到 div标签上，#app是id选择器
-    data: {                   // data: 是Vue实例中绑定的数据
+  var app = new Vue({         // 创建Vue对象。Vue的核心对象。
+    el: &#39;#app&#39;,               // el属性：把当前Vue对象挂载到 div标签上，#app是id选择器
+    data: {                   // data: 是Vue对象中绑定的数据
       msg: &#39;Hi&#39;,              // message 自定义的数据
       name: &#39;flydragon&#39;,
       isOk: true,
@@ -251,7 +249,7 @@
 <h2 id="vue-">Vue属性绑定</h2>
 <p>Vue中不能直接使用<code>{{ expression }}</code> 语法进行绑定html的标签，而是用它特有的v-bind指令（就是一种写法，先按照格式走，具体指令是什么可以后续再了解）。   </p>
 <p>绑定的语法结构：</p>
-<pre><code>&lt;标签 v-bind:属性名=&quot;要绑定的Vue实例的data里的属性名&quot;&gt;&lt;/标签&gt;
+<pre><code>&lt;标签 v-bind:属性名=&quot;要绑定的Vue对象的data里的属性名&quot;&gt;&lt;/标签&gt;
 例如:
 &lt;span v-bind:id=&quot;menuId&quot;&gt;{{ menuName }}&lt;/span&gt;
 </code></pre><p>参考如下代码案例：</p>
@@ -275,7 +273,7 @@
   &lt;script&gt;
     var app = new Vue({         
       el: &#39;#app&#39;,               
-      data: {                   // data: 是Vue实例中绑定的数据
+      data: {                   // data: 是Vue对象中绑定的数据
         MenuClass: &#39;top-menu&#39;,
         MenuContaineId: &#39;sitemenu&#39;
       }
@@ -300,7 +298,7 @@
 &lt;script&gt;
   var app = new Vue({         
     el: &#39;#app&#39;,               
-    data: {                   // data: 是Vue实例中绑定的数据
+    data: {                   // data: 是Vue对象中绑定的数据
       MenuContaineId: &#39;menu&#39;,
       MenuBody: &#39;&lt;p&gt;这里是菜单的内容&lt;/p&gt;&#39;
     }
@@ -344,7 +342,7 @@
   &lt;script&gt;
     var app = new Vue({         
       el: &#39;#app&#39;,               
-      data: {                   // data: 是Vue实例中绑定的数据
+      data: {                   // data: 是Vue对象中绑定的数据
         MenuContaineId: &#39;menu&#39;,
         isActive: true
       }
@@ -363,7 +361,7 @@
 &lt;script&gt;
   var app = new Vue({         
     el: &#39;#app&#39;,               
-    data: {                   // data: 是Vue实例中绑定的数据
+    data: {                   // data: 是Vue对象中绑定的数据
       isActive: true,
       hasError: false
     }
@@ -448,7 +446,7 @@ data: {
 <p>自动添加前缀<br>当 v-bind:style 使用需要特定前缀的 CSS 属性时，如 transform ，Vue.js 会自动侦测并添加相应的前缀。</p>
 <h2 id="-">计算属性</h2>
 <p>在做数据的绑定的时候,数据要进行处理之后才能展示到html页面上，虽然vue提供了非常好的表达式绑定的方法，但是只能应对低强度的需求。比如： 把一个日期按照规定格式进行输出，可能就需要我们对日期对象做一些格式化的出来，表达式可能就捉襟见肘了。</p>
-<p>Vue实例提供的computed属性，可以让我们开发者在里面可以放置一些方法，协助我们绑定数据操作，这些方法可以跟data中的属性一样用，注意这些方法用的时候不要加<code>()</code>。
+<p>Vue对象提供的computed属性，可以让我们开发者在里面可以放置一些方法，协助我们绑定数据操作，这些方法可以跟data中的属性一样用，注意这些方法用的时候不要加<code>()</code>。
 例子来了：</p>
 <pre><code class="lang-html">&lt;!DOCTYPE html&gt; 
 &lt;html lang=&quot;en&quot;&gt;
@@ -750,9 +748,9 @@ var example1 = new Vue({
 })
 &lt;/script&gt;
 </code></pre>
-<h2 id="-vue-">事件处理方法集成到Vue实例</h2>
+<h2 id="-vue-">事件处理方法集成到Vue对象</h2>
 <p>内联的方式绑定的事件，只能处理简单的事件的处理逻辑。复杂的情况还是封装到js中最方便，也不容易出错。
-Vue实例中可以添加methods属性，开发者可以把事件处理函数的逻辑放到methods中。</p>
+Vue对象中可以添加methods属性，开发者可以把事件处理函数的逻辑放到methods中。</p>
 <pre><code class="lang-html">&lt;!DOCTYPE html&gt; 
 &lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
@@ -843,7 +841,412 @@ Vue实例中可以添加methods属性，开发者可以把事件处理函数的�
 &lt;a @click=&quot;doSomething&quot;&gt;&lt;/a&gt;
 </code></pre>
 <h2 id="-">事件绑定总结</h2>
-<p>Vue为了方便大家进行开发，提供了事件的相关的封装，可以让我们方便我们用Vue对事件进行开发，尤其是v-on指令的非常方便的跟Vue实例中methods进行配合进行复杂的事件处理，非常方便。另外事件的事件修饰符和按键修饰符也可以让Vue事件这块锦上添花。</p>
+<p>Vue为了方便大家进行开发，提供了事件的相关的封装，可以让我们方便我们用Vue对事件进行开发，尤其是v-on指令的非常方便的跟Vue对象中methods进行配合进行复杂的事件处理，非常方便。另外事件的事件修饰符和按键修饰符也可以让Vue事件这块锦上添花。</p>
+<h1 id="vue-">Vue实例详解与生命周期</h1>
+<p>Vue的实例是Vue框架的入口，其实也就是前端的ViewModel，它包含了页面中的业务逻辑处理、数据模型等，当然它也有自己的一系列的生命周期的事件钩子，辅助我们进行对整个Vue实例生成、编译、挂着、销毁等过程进行js控制。</p>
+<h2 id="vue-">Vue实例初始化的选项配置对象详解</h2>
+<p>前面我们已经用了很多次 <code>new Vue({...})</code>的代码，而且Vue初始化的选项都已经用了<code>data</code>、<code>methods</code>、<code>el</code>、<code>computedd</code>等,估计您看到这里时，应该已经都明白了他们的作用，我们就详细讲解一下他们的使用情况。更详细的请参考<a href="https://cn.vuejs.org/v2/api/#data">官网内容</a></p>
+<h3 id="vue-data-">Vue实例的的data对象</h3>
+<ul>
+<li>介绍</li>
+</ul>
+<p>Vue的实例的数据对象data 我们已经用了很多了，数据绑定离不开data里面的数据。也是Vue的核心属性。
+它是Vue绑定数据到HTML标签的数据源泉，另外Vue框架会自动监视data里面的数据变化，自动更新数据到HTML标签上去。本质原理是：Vue会自动将data里面的数据进行递归抓换成getter和setter，然后就可以自动更新HTML标签了，当然用getter和setter所以老的浏览器Vue支持的不够好。</p>
+<ul>
+<li><p>data对象的类型：</p>
+<ul>
+<li>类型是Object或者Function。</li>
+<li>如果是组件对象中，data必须是Function类型。【后面学了组件后就明白了，暂时对组件先放放。】</li>
+</ul>
+</li>
+<li><p>实例：</p>
+</li>
+</ul>
+<pre><code class="lang-js">// 创建普通的Vue实例
+var vm = new Vue({
+  data: data
+})
+
+// 组件定义【后面会详细讲的】
+// Vue.extend() 中 data 必须是函数
+var Component = Vue.extend({
+  data: function () {   //这里必须是函数！！！！
+    return { a: 1 }
+  }
+})
+</code></pre>
+<h3 id="vue-computed">Vue实例的computed</h3>
+<ul>
+<li>介绍</li>
+</ul>
+<p>Vue的计算属性（computed)的属性会自动混入Vue的实例中。所有 getter 和 setter 的 this 上下文自动地绑定为 Vue 实例。这就很强大了，再计算属性中定义的函数里面可以直接使用指向了vue实例的this，异常方便的啊。</p>
+<ul>
+<li>类型</li>
+</ul>
+<p><code>{ 键：函数}</code>
+<code>{ [key: string]: Function | { get: Function, set: Function } }</code>
+当然，可以省略setter,如果省略了setter，那么值就可以是普通函数，但是必须有返回值。</p>
+<ul>
+<li>官方的实例<pre><code class="lang-html">var vm = new Vue({
+data: { a: 1 },
+computed: {
+  // 仅读取，值只须为函数
+  aDouble: function () {
+    return this.a * 2
+  },
+  // 读取和设置
+  aPlus: {
+    get: function () {
+      return this.a + 1
+    },
+    set: function (v) {
+      this.a = v - 1
+    }
+  }
+}
+})
+vm.aPlus   // -&gt; 2
+vm.aPlus = 3
+vm.a       // -&gt; 2
+vm.aDouble // -&gt; 4
+</code></pre>
+</li>
+</ul>
+<h3 id="methods">methods</h3>
+<ul>
+<li><p>类型: { [key: string]: Function }</p>
+</li>
+<li><p>详细:</p>
+</li>
+</ul>
+<p>methods 将被混入到 Vue 实例中。可以直接通过 VM 实例访问这些方法，或者在指令表达式中使用。方法中的 this 自动绑定为 Vue 实例。</p>
+<p>注意，不应该使用箭头函数来定义 method 函数 (例如 plus: () =&gt; this.a++)。理由是箭头函数绑定了父级作用域的上下文，所以 this 将不会按照期望指向 Vue 实例，this.a 将是 undefined。</p>
+<ul>
+<li>示例:</li>
+</ul>
+<pre><code class="lang-js">var vm = new Vue({
+  data: { a: 1 },
+  methods: {
+    plus: function () {
+      this.a++
+    }
+  }
+})
+vm.plus()
+vm.a // 2
+</code></pre>
+<h3 id="watch">watch</h3>
+<ul>
+<li>类型</li>
+</ul>
+<p><code>{ [key: string]: string | Function | Object }</code></p>
+<ul>
+<li>详细:</li>
+</ul>
+<p>一个对象，键是需要观察的表达式，值是对应回调函数。值也可以是方法名，或者包含选项的对象。Vue 实例将会在实例化时调用 $watch()，遍历 watch 对象的每一个属性。</p>
+<ul>
+<li>示例:</li>
+</ul>
+<pre><code class="lang-js">var vm = new Vue({
+  data: {
+    a: 1,
+    b: 2,
+    c: 3
+  },
+  watch: {
+    // 监控a变量变化的时候，自动执行此函数
+    a: function (val, oldVal) {
+      console.log(&#39;new: %s, old: %s&#39;, val, oldVal)
+    },
+    // 深度 watcher
+    c: {
+      handler: function (val, oldVal) { /* ... */ },
+      deep: true
+    }
+  }
+})
+vm.a = 2 // -&gt; new: 2, old: 1
+//注意，不应该使用箭头函数来定义 watcher 函数 (例如 searchQuery: newValue =&gt; this.updateAutocomplete(newValue))。理由是箭头函数绑定了父级作用域的上下文，所以 this 将不会按照期望指向 Vue 实例，this.updateAutocomplete 将是 undefined。
+</code></pre>
+<p>参考综合案例：</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt; 
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之数据监控&lt;/title&gt;
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;p&gt;{{ number }}&lt;/p&gt;
+    &lt;input type=&quot;button&quot; name=&quot;btnGetNumber&quot; value=&quot;增加&quot; v-on:click=&quot;getNumber()&quot;&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    var app = new Vue({         
+      el: &#39;#app&#39;,               
+      data: {                   
+        number: 1
+      },
+      methods: {
+        // 事件响应方法的逻辑代码
+        getNumber: function (e) {
+          this.number += 1;   // 不管是内联方法调用，还是绑定事件处理器两种方式执行事件响应方法的时候 this都是指向 app
+        }
+      },
+      watch: {
+        // 监控number的变化，并自动执行下面的函数
+        number: function (val, oldVal) {
+          console.log(&#39;val:&#39; + val + &#39; - oldVal: &#39; + oldVal);
+        }
+      }
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3 id="-el-">设置el的详解</h3>
+<ul>
+<li>类型</li>
+</ul>
+<p><code>string | HTMLElement</code></p>
+<p>限制： 只在由 new 创建的实例中遵守。</p>
+<ul>
+<li>详细：</li>
+</ul>
+<p>提供一个在页面上已存在的 DOM 元素作为 Vue 实例的挂载目标,也就是说Vue绑定数据到哪里去找。可以是<code>CSS 选择器</code>，也可以是一个 <code>HTMLElement实例</code>。</p>
+<p>在实例挂载之后(生命周期的内容后面会详细讲的奥)， 元素可以用 vm.$el 访问。</p>
+<p>如果这个选项在实例化时有作用，实例将立即进入编译过程，否则，需要显式调用 vm.$mount() 手动开启编译。</p>
+<pre><code class="lang-js">// 几乎所有例子都用到这个，所以就不再赘述
+var app = new Vue({         
+  el: &#39;#app&#39;,
+  ...
+});
+</code></pre>
+<h2 id="vue-">Vue实例的生命周期</h2>
+<p>Vue实例有一个完整的生命周期，也就是从开始创建、初始化数据、编译模板、挂载Dom、渲染→更新→渲染、卸载等一系列过程，我们称这是Vue的生命周期。通俗说就是Vue实例从创建到销毁的过程，就是生命周期。</p>
+<p>在Vue的整个生命周期中，它提供了一系列的事件，可以让我们注册js方法，可以让我们达到控制整个过程的目的地，哇赛，如果你搞过Asp.Net WebForm的话，你会发现整个就是WebForm的翻版嘛哈哈。值得注意的是，在这些事件响应方法中的this直接指向的是vue的实例。</p>
+<p>首先看看下面官网的一张生命周期的图，我做一下标注，看看整体的流程，后面我们上代码做一下效果。</p>
+<p><img src="imgs/lifecycle-标注版本.png" alt="生命周期图"></p>
+<p>Vue提供的可以注册的钩子都在上图片的红色框标注。
+他们是：</p>
+<ul>
+<li><code>beforeCreate</code></li>
+</ul>
+<p>在实例初始化之后，数据观测(data observer) 和 event/watcher 事件配置之前被调用。</p>
+<ul>
+<li><code>created</code></li>
+</ul>
+<p>实例已经创建完成之后被调用。在这一步，实例已完成以下的配置：数据观测(data observer)，属性和方法的运算， watch/event 事件回调。然而，挂载阶段还没开始，$el 属性目前不可见。</p>
+<ul>
+<li><code>beforeMount</code></li>
+</ul>
+<p>在挂载开始之前被调用：相关的 render 函数首次被调用。</p>
+<ul>
+<li><code>mounted</code></li>
+</ul>
+<p>el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子。如果 root 实例挂载了一个文档内元素，当 mounted 被调用时 vm.$el 也在文档内。</p>
+<ul>
+<li><code>beforeUpdate</code></li>
+</ul>
+<p>数据更新时调用，发生在虚拟 DOM 重新渲染和打补丁之前。
+你可以在这个钩子中进一步地更改状态，这不会触发附加的重渲染过程。</p>
+<ul>
+<li><code>updated</code></li>
+</ul>
+<p>由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子。</p>
+<p>当这个钩子被调用时，组件 DOM 已经更新，所以你现在可以执行依赖于 DOM 的操作。然而在大多数情况下，你应该避免在此期间更改状态，因为这可能会导致更新无限循环。</p>
+<p>该钩子在服务器端渲染期间不被调用。</p>
+<ul>
+<li><code>beforeDestroy</code></li>
+</ul>
+<p>实例销毁之前调用。在这一步，实例仍然完全可用。</p>
+<ul>
+<li><code>destroyed</code></li>
+</ul>
+<p>Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁。
+该钩子在服务器端渲染期间不被调用。</p>
+<p>接下来我们做一个例子，看一下Vue中所有的生命周期怎么用的。</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt; 
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之生命周期&lt;/title&gt;
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;p&gt;{{ number }}&lt;/p&gt;
+    &lt;input type=&quot;text&quot; name=&quot;btnSetNumber&quot; v-model=&quot;number&quot;&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    var app = new Vue({         
+      el: &#39;#app&#39;,               
+      data: {                   
+        number: 1
+      },
+      beforeCreate: function () {
+        console.log(&#39;beforeCreate 钩子执行...&#39;);
+        console.log(this.number)
+      },
+      cteated: function () {
+        console.log(&#39;cteated 钩子执行...&#39;);
+        console.log(this.number)
+      },
+      beforeMount: function () {
+        console.log(&#39;beforeMount 钩子执行...&#39;);
+        console.log(this.number)
+      },
+      mounted: function () {
+        console.log(&#39;mounted 钩子执行...&#39;);
+        console.log(this.number)
+      },
+      beforeUpdate: function () {
+        console.log(&#39;beforeUpdate 钩子执行...&#39;);
+        console.log(this.number)
+      },
+      updated: function () {
+        console.log(&#39;updated 钩子执行...&#39;);
+        console.log(this.number)
+      },
+      beforeDestroy: function () {
+        console.log(&#39;beforeDestroy 钩子执行...&#39;);
+        console.log(this.number)
+      },
+      destroyed: function () {
+        console.log(&#39;destroyed 钩子执行...&#39;);
+        console.log(this.number)
+      },
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>再看一个综合的实战的例子，可能涉及到ajax和组件，不过先看一下vue的生命周期的例子的用法：</p>
+<pre><code class="lang-js">import Axios from &#39;axios&#39;       // 这是一个轻量级的ajax库，import是es6模块导入的语法。
+export default {                // 这是一个vue的模块，后面讲奥。
+  name: &#39;app&#39;,
+  components: {
+  },
+  data: function () {
+    return {
+      list: []
+    }
+  },
+  mounted: function () {          // 挂在完成后的生命周期钩子注册。
+    this.$nextTick(function () {  // 等待下一次更新完成后执行业务处理代码。
+      Axios.get(&#39;/api/menulist&#39;, {// 将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新
+        params: {
+        }
+      }).then(function (res) {
+        this.list = res.data
+      }.bind(this))
+    })
+  }
+}
+</code></pre>
+<h2 id="vue-">Vue实例的全局配置</h2>
+<p>这一块都是一些小的知识点，我就不赘述了，直接copy <a href="https://cn.vuejs.org/v2/api/#silent">官网</a> 
+Vue.config 是一个对象，包含 Vue 的全局配置。可以在启动应用之前修改下列属性：</p>
+<ul>
+<li><p>silent</p>
+<ul>
+<li><p>类型： boolean</p>
+</li>
+<li><p>默认值： false</p>
+</li>
+<li><p>用法：</p>
+<pre><code class="lang-js">Vue.config.silent = true
+//取消 Vue 所有的日志与警告。
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>optionMergeStrategies</p>
+<ul>
+<li><p>类型： { [key: string]: Function }</p>
+</li>
+<li><p>默认值： {}</p>
+</li>
+<li><p>用法：</p>
+<pre><code class="lang-js">Vue.config.optionMergeStrategies._my_option = function (parent, child, vm) {
+return child + 1
+}
+const Profile = Vue.extend({
+_my_option: 1
+})
+// Profile.options._my_option = 2
+//自定义合并策略的选项。
+//合并策略选项分别接受第一个参数作为父实例，第二个参数为子实例，Vue实例上下文被作为第三个参数传入。
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>devtools</p>
+<ul>
+<li><p>类型： boolean</p>
+</li>
+<li><p>默认值： true (生产版为 false)</p>
+</li>
+<li><p>用法：</p>
+<pre><code class="lang-js">// 务必在加载 Vue 之后，立即同步设置以下内容
+Vue.config.devtools = true
+//配置是否允许 vue-devtools 检查代码。开发版本默认为 true，生产版本默认为 false。生产版本设为 true 可以启用检查。
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>errorHandler</p>
+<ul>
+<li><p>类型： Function</p>
+</li>
+<li><p>默认值： 默认抛出错误</p>
+</li>
+<li><p>用法：</p>
+<pre><code class="lang-js">Vue.config.errorHandler = function (err, vm) {
+// handle error
+}
+//指定组件的渲染和观察期间未捕获错误的处理函数。这个处理函数被调用时，可获取错误信息和 Vue 实例。
+//Sentry, an error tracking service, provides official integration using this option.
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>ignoredElements</p>
+<ul>
+<li><p>类型: Array<string></p>
+</li>
+<li><p>默认值: []</p>
+</li>
+<li><p>用法:</p>
+<pre><code class="lang-js">Vue.config.ignoredElements = [
+&#39;my-custom-web-component&#39;, &#39;another-web-component&#39;
+]
+须使 Vue 忽略在 Vue 之外的自定义元素 (e.g., 使用了 Web Components APIs)。否则，它会假设你忘记注册全局组件或者拼错了组件名称，从而抛出一个关于 Unknown custom element 的警告。
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>keyCodes</p>
+<ul>
+<li><p>类型： { [key: string]: number | Array<number> }</p>
+</li>
+<li><p>默认值： {}</p>
+</li>
+<li><p>用法：</p>
+<pre><code class="lang-js">Vue.config.keyCodes = {
+v: 86,
+f1: 112,
+mediaPlayPause: 179,
+up: [38, 87]
+}
+//给 v-on 自定义键位别名。
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="vue-api">Vue的全局API</h2>
+<p>Vue的全局API提供大量的功能，我这里就给大家罗列几个常用的结果，其他的还是参考<a href="https://cn.vuejs.org/v2/api/#全局-API">官网</a>.</p>
 
 			</article>
 		</div>
