@@ -1,0 +1,165 @@
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>itcastmark:README</title>
+	<link href="toc/style/github-bf51422f4bb36427d391e4b75a1daa083c2d840e.css" media="all" rel="stylesheet" type="text/css" />
+	<link href="toc/style/github2-d731afd4f624c99a4b19ad69f3083cd6d02b81d5.css" media="all" rel="stylesheet" type="text/css"
+	/>
+	<link href="toc/css/zTreeStyle/zTreeStyle.css" media="all" rel="stylesheet" type="text/css" />
+	<style>
+		pre {
+			counter-reset: line-numbering;
+			border: solid 1px #d9d9d9;
+			border-radius: 0;
+			background: #fff;
+			padding: 0;
+			line-height: 23px;
+			margin-bottom: 30px;
+			white-space: pre;
+			overflow-x: auto;
+			word-break: inherit;
+			word-wrap: inherit;
+		}
+		
+		pre a::before {
+			content: counter(line-numbering);
+			counter-increment: line-numbering;
+			padding-right: 1em;
+			/* space after numbers */
+			width: 25px;
+			text-align: right;
+			opacity: 0.7;
+			display: inline-block;
+			color: #aaa;
+			background: #eee;
+			margin-right: 16px;
+			padding: 2px 10px;
+			font-size: 13px;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		
+		pre a:first-of-type::before {
+			padding-top: 10px;
+		}
+		
+		pre a:last-of-type::before {
+			padding-bottom: 10px;
+		}
+		
+		pre a:only-of-type::before {
+			padding: 10px;
+		}
+		
+		.highlight {
+			background-color: #ffffcc
+		}
+		/* RIGHT */
+		
+		.top-menu {
+			border-bottom: 1px solid #ccc;
+			overflow: hidden;
+			height: 49px;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			z-index: 2147483647;
+			background-color: #909090;
+			color: #f6f6f6;
+		}
+		
+		.top-menu ul,
+		.top-menu li {
+			list-style: none;
+		}
+		
+		.top-menu a {
+			font-size: 16px;
+			display: block;
+			float: left;
+			width: 100px;
+			height: 49px;
+			line-height: 49px;
+			border-radius: 3px;
+			text-align: center;
+			cursor: pointer;
+			color: #f6f6f6;
+		}
+		
+		.top-menu-title {
+			float: left;
+			margin-left: 100px;
+			height: 40px;
+			overflow: hidden;
+		}
+		body {
+			padding-top: 50px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="top-menu">
+		<ul>
+			<li>
+				<a href="http://www.cnblogs.com/fly_dragon/">老马博客</a>
+				<a href="http://www.aicoder.com">老马独立博客</a>
+			</li>
+		</ul>
+		<div class="top-menu-title">
+			<h3>生命在于分享，技术源于生命</h3>
+			<p>学无止境，谦虚慎行，三人行必有我师.</p>
+		</div>
+	</div>
+
+	<div>
+		<div style='width:25%;'>
+			<ul id="tree" class="ztree" style='width:100%'>
+
+			</ul>
+		</div>
+		<div id='readme' style='width:70%;margin-left:20%;'>
+			<article class='markdown-body'>
+				<h1 id="-vue-js-">老马的Vue.js入门教程</h1>
+<p>此教程为Vue的基础入门教程，当然你必须要有一定的js、css、html的基础，最好有ES6的基础，没有ES6基础的童鞋可以参考<a href="http://es6.ruanyifeng.com/">阮一峰老师的ES6教程</a>，最好有一点前端工作流的概念，对Webpack有所了解。 本教程大部分参考官网的相信文档，当然也有很大坑会详细介绍，也作为我自己学习Vue过程中的一些心得记录。如有错误之处请多多指教。</p>
+<h2 id="-">目录</h2>
+<ul>
+<li><a href="01-Vue入门之概念及Helloworld.md">01-Vue入门之概念及Helloworld</a></li>
+<li><a href="">02-Vue入门之数据绑定</a></li>
+<li><a href="">03-Vue入门之模板语法详解</a></li>
+<li><a href="">04-Vue入门之列表数组绑定处理</a></li>
+<li><a href="">05-Vue入门之事件处理</a></li>
+<li><a href="">06-Vue入门之路由</a></li>
+<li><a href="">07-Vue入门之组件化及单文件组件</a></li>
+<li><a href="">08-Vue入门之组件开发热更新配置填坑记</a></li>
+<li><a href="">09-Vue入门之综合项目实战篇</a></li>
+</ul>
+
+			</article>
+		</div>
+	</div>
+</body>
+
+</html>
+<script type="text/javascript" src="toc/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="toc/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="toc/js/ztree_toc.js"></script>
+<script type="text/javascript" src="toc_conf.js"></script>
+
+<SCRIPT type="text/javascript">
+<!--
+$(document).ready(function(){
+    var css_conf = eval(markdown_panel_style);
+    $('#readme').css(css_conf)
+    
+    var conf = eval(jquery_ztree_toc_opts);
+		$('#tree').ztree_toc(conf);
+});
+//-->
+</SCRIPT>

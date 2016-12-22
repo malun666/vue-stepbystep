@@ -1,0 +1,568 @@
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>itcastmark:02-Vue入门之数据绑定</title>
+	<link href="toc/style/github-bf51422f4bb36427d391e4b75a1daa083c2d840e.css" media="all" rel="stylesheet" type="text/css" />
+	<link href="toc/style/github2-d731afd4f624c99a4b19ad69f3083cd6d02b81d5.css" media="all" rel="stylesheet" type="text/css"
+	/>
+	<link href="toc/css/zTreeStyle/zTreeStyle.css" media="all" rel="stylesheet" type="text/css" />
+	<style>
+		pre {
+			counter-reset: line-numbering;
+			border: solid 1px #d9d9d9;
+			border-radius: 0;
+			background: #fff;
+			padding: 0;
+			line-height: 23px;
+			margin-bottom: 30px;
+			white-space: pre;
+			overflow-x: auto;
+			word-break: inherit;
+			word-wrap: inherit;
+		}
+		
+		pre a::before {
+			content: counter(line-numbering);
+			counter-increment: line-numbering;
+			padding-right: 1em;
+			/* space after numbers */
+			width: 25px;
+			text-align: right;
+			opacity: 0.7;
+			display: inline-block;
+			color: #aaa;
+			background: #eee;
+			margin-right: 16px;
+			padding: 2px 10px;
+			font-size: 13px;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		
+		pre a:first-of-type::before {
+			padding-top: 10px;
+		}
+		
+		pre a:last-of-type::before {
+			padding-bottom: 10px;
+		}
+		
+		pre a:only-of-type::before {
+			padding: 10px;
+		}
+		
+		.highlight {
+			background-color: #ffffcc
+		}
+		/* RIGHT */
+		
+		.top-menu {
+			border-bottom: 1px solid #ccc;
+			overflow: hidden;
+			height: 49px;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			z-index: 2147483647;
+			background-color: #909090;
+			color: #f6f6f6;
+		}
+		
+		.top-menu ul,
+		.top-menu li {
+			list-style: none;
+		}
+		
+		.top-menu a {
+			font-size: 16px;
+			display: block;
+			float: left;
+			width: 100px;
+			height: 49px;
+			line-height: 49px;
+			border-radius: 3px;
+			text-align: center;
+			cursor: pointer;
+			color: #f6f6f6;
+		}
+		
+		.top-menu-title {
+			float: left;
+			margin-left: 100px;
+			height: 40px;
+			overflow: hidden;
+		}
+		body {
+			padding-top: 50px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="top-menu">
+		<ul>
+			<li>
+				<a href="http://www.cnblogs.com/fly_dragon/">老马博客</a>
+				<a href="http://www.aicoder.com">老马独立博客</a>
+			</li>
+		</ul>
+		<div class="top-menu-title">
+			<h3>生命在于分享，技术源于生命</h3>
+			<p>学无止境，谦虚慎行，三人行必有我师.</p>
+		</div>
+	</div>
+
+	<div>
+		<div style='width:25%;'>
+			<ul id="tree" class="ztree" style='width:100%'>
+
+			</ul>
+		</div>
+		<div id='readme' style='width:70%;margin-left:20%;'>
+			<article class='markdown-body'>
+				<h1 id="vue-">Vue入门之数据绑定</h1>
+<h2 id="-">什么是双向绑定？</h2>
+<p>Vue框架很核心的功能就是双向的数据绑定。
+双向是指：HTML标签数据 绑定到 Vue对象，另外反方向数据也是绑定的。通俗点说就是，Vue对象的改变会直接影响到HTML的标签的变化，而且标签的变化也会反过来影响Vue对象的属性的变化。<br>这样以来，就彻底变革了之前Dom的开发方式，之前Dom驱动的开发方式尤其是以jQuery为主的开发时代，都是dom变化后，触发js事件，然后在事件中通过js代码取得标签的变化，再跟后台进行交互，然后根据后台返回的结果再更新HTML标签，异常的繁琐。有了Vue这种双向绑定，让开发人员只需要关心json数据的变化即可，Vue自动映射到HTML上，而且HTML的变化也会映射回js对象上，开发方式直接变革成了前端由数据驱动的
+开发时代，远远抛弃了Dom开发主导的时代了。</p>
+<p><img src="imgs/02vue双向绑定.jpg" alt="vue 双向绑定"></p>
+<h2 id="vue-">Vue绑定文本</h2>
+<p>数据绑定最常见的形式就是使用 “Mustache” 语法（双大括号）的文本插值，比如模板引擎：handlebars中就是用的<code>{{}}</code>.<br>创建的Vue对象中的data属性就是用来绑定数据到HTML的。参考如下代码：</p>
+<pre><code class="lang-html">&lt;span&gt;Message: {{ msg }}&lt;/span&gt;
+&lt;script&gt;
+  var app = new Vue({         // 创建Vue对象。Vue的核心对象。
+    el: &#39;#app&#39;,               // el属性：把当前Vue对象挂载到 div标签上，#app是id选择器
+    data: {                   // data: 是Vue对象中绑定的数据
+      msg: &#39;Hello Vue!&#39;   // message 自定义的数据
+    }
+  });
+&lt;/script&gt;
+</code></pre>
+<h2 id="-javascript-">绑定数据中使用JavaScript表达式</h2>
+<p>对于所有的数据绑定， Vue.js 都提供了完全的 JavaScript 表达式支持。</p>
+<pre><code class="lang-html">&lt;span&gt;Message: {{ msg + &#39; - &#39; + name }}&lt;/span&gt;
+&lt;script&gt;
+  var app = new Vue({         // 创建Vue对象。Vue的核心对象。
+    el: &#39;#app&#39;,               // el属性：把当前Vue对象挂载到 div标签上，#app是id选择器
+    data: {                   // data: 是Vue对象中绑定的数据
+      msg: &#39;Hi&#39;,              // message 自定义的数据
+      name: &#39;flydragon&#39;       // name自定义的属性，vue可以多个自定义属性，属性类型也可是复杂类型
+    }
+  });
+&lt;/script&gt;
+</code></pre>
+<p>结果：</p>
+<pre><code>Hi - flydragon
+</code></pre><p>当然Vue还可以支持表达中的任何计算、函数处理等。参考下面的综合点的案例。</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt; 
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之数据绑定-表达式运算&lt;/title&gt;
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    {{ msg + &#39; - &#39; + name }}
+    &lt;p&gt;
+      {{ isOk ? &#39;123&#39; : &#39;456&#39; }}
+    &lt;/p&gt;
+    &lt;p&gt;我的年龄是： {{ age *2 }}&lt;/p&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+  var app = new Vue({         // 创建Vue对象。Vue的核心对象。
+    el: &#39;#app&#39;,               // el属性：把当前Vue对象挂载到 div标签上，#app是id选择器
+    data: {                   // data: 是Vue对象中绑定的数据
+      msg: &#39;Hi&#39;,              // message 自定义的数据
+      name: &#39;flydragon&#39;,
+      isOk: true,
+      age: 18
+    }
+  });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="vue-">Vue属性绑定</h2>
+<p>Vue中不能直接使用<code>{{ expression }}</code> 语法进行绑定html的标签，而是用它特有的v-bind指令（就是一种写法，先按照格式走，具体指令是什么可以后续再了解）。   </p>
+<p>绑定的语法结构：</p>
+<pre><code>&lt;标签 v-bind:属性名=&quot;要绑定的Vue对象的data里的属性名&quot;&gt;&lt;/标签&gt;
+例如:
+&lt;span v-bind:id=&quot;menuId&quot;&gt;{{ menuName }}&lt;/span&gt;
+</code></pre><p>参考如下代码案例：</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt; 
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之数据绑定--属性绑定&lt;/title&gt;
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;div v-bind:id=&quot;MenuContaineId&quot;&gt;
+      &lt;a href=&quot;#&quot; v-bind:class=&quot;MenuClass&quot;&gt;首页&lt;/a&gt;
+      &lt;a href=&quot;#&quot; v-bind:class=&quot;MenuClass&quot;&gt;产品&lt;/a&gt;
+      &lt;a href=&quot;#&quot; v-bind:class=&quot;MenuClass&quot;&gt;服务&lt;/a&gt;
+      &lt;a href=&quot;#&quot; v-bind:class=&quot;MenuClass&quot;&gt;关于&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    var app = new Vue({         
+      el: &#39;#app&#39;,               
+      data: {                   // data: 是Vue对象中绑定的数据
+        MenuClass: &#39;top-menu&#39;,
+        MenuContaineId: &#39;sitemenu&#39;
+      }
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="-">属性绑定简写</h2>
+<p>由于<code>v-bind</code> 使用非常频繁，所以Vue提供了简单的写法，可以去掉v-bind直接使用<code>:</code>即可。</p>
+<pre><code class="lang-html">例如：
+&lt;div :id=&quot;MenuContaineId&quot;&gt;
+等价于
+&lt;div v-bind:id=&quot;MenuContaineId&quot;&gt;
+</code></pre>
+<h2 id="-html">输出纯HTML</h2>
+<p>由于Vue对于输出绑定的内容做了提前encode，保障在绑定到页面上显示的时候不至于被xss攻击。但某些场景下，我们确保后台数据是安全的，那么我们就要在网页中显示原生的HTML标签。Vue提供了<code>v-html</code>指令。</p>
+<pre><code class="lang-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;div v-bind:id=&quot;MenuContaineId&quot; v-html=&quot;MenuBody&quot;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  var app = new Vue({         
+    el: &#39;#app&#39;,               
+    data: {                   // data: 是Vue对象中绑定的数据
+      MenuContaineId: &#39;menu&#39;,
+      MenuBody: &#39;&lt;p&gt;这里是菜单的内容&lt;/p&gt;&#39;
+    }
+  });
+&lt;/script&gt;
+</code></pre>
+<p>结果：</p>
+<pre><code class="lang-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;div id=&quot;menu&quot;&gt;
+    &lt;p&gt;这里是菜单的内容&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<h2 id="-">样式绑定</h2>
+<p>对于普通的属性的绑定，只能用上面的讲的绑定属性的方式。而Vue专门加强了class和style的属性的绑定。可以有复杂的对象绑定、数组绑定样式和类。</p>
+<h3 id="-">绑定样式对象</h3>
+<p>经常我们需要对样式进行切换，比如：div的显示和隐藏，某些标签active等。Vue提供的对象绑定样式的方式就很容做这些事情。</p>
+<pre><code class="lang-html">代码：
+&lt;div v-bind:class=&quot;{ active: isActive }&quot;&gt;&lt;/div&gt;
+解释：
+当 isActive为 true时， div就会具有了active样式类，如果 isActive为false，那么div就去掉active样式类。
+</code></pre>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt; 
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之绑定样式类&lt;/title&gt;
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+  &lt;style&gt;
+  .active {
+    background-color: #ccc;
+  }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;div v-bind:id=&quot;MenuContaineId&quot; v-bind:class=&quot;{ active: isActive }&quot;&gt;
+      绑定颜色类
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    var app = new Vue({         
+      el: &#39;#app&#39;,               
+      data: {                   // data: 是Vue对象中绑定的数据
+        MenuContaineId: &#39;menu&#39;,
+        isActive: true
+      }
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h3 id="-html-">混合普通的HTML标签样式类及绑定样式对象</h3>
+<p>v-bind:class 指令可以与普通的 class 属性共存。</p>
+<pre><code class="lang-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;div class=&quot;static&quot;
+     v-bind:class=&quot;{ active: isActive, &#39;text-danger&#39;: hasError }&quot;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  var app = new Vue({         
+    el: &#39;#app&#39;,               
+    data: {                   // data: 是Vue对象中绑定的数据
+      isActive: true,
+      hasError: false
+    }
+  });
+&lt;/script&gt;
+</code></pre>
+<p>结果：</p>
+<pre><code class="lang-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;div class=&quot;static active&quot;&gt;
+  &lt;/div&gt;  
+&lt;/div&gt;
+</code></pre>
+<h3 id="-data-">绑定data中的样式对象</h3>
+<p>直接在html属性中的双引号内写对象，还是很不爽，也没有智能提示，很容易写错。
+Vue可以让我们直接把绑定的class字符串指向data的一个对象，这样就非常方便了，既可以有智能提示，又可以很复杂进行编辑，不用担心烦人的<code>&quot;&quot;</code>了。</p>
+<pre><code class="lang-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;div class=&quot;static&quot;
+     v-bind:class=&quot;classObject&quot;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  var app = new Vue({         
+    el: &#39;#app&#39;,               
+    data: {
+      classObject: {
+        active: true,
+        &#39;text-danger&#39;: false
+      }
+    }
+  });
+&lt;/script&gt;
+</code></pre>
+<p>结果：</p>
+<pre><code class="lang-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;div class=&quot;static active&quot;&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<h3 id="-">绑定样式数组</h3>
+<p>其实绑定数组，就是绑定样式对象的延续，看官网的例子代码吧。</p>
+<pre><code class="lang-html">&lt;div v-bind:class=&quot;[activeClass, errorClass]&quot;&gt;
+
+data: {
+  activeClass: &#39;active&#39;,
+  errorClass: &#39;text-danger&#39;
+}
+</code></pre>
+<p>当然还有很多其他很有趣的支持，就不赘述了。</p>
+<pre><code class="lang-html">例如:
+&lt;div v-bind:class=&quot;[isActive ? activeClass : &#39;&#39;, errorClass]&quot;&gt;
+&lt;div v-bind:class=&quot;[{ active: isActive }, errorClass]&quot;&gt;
+</code></pre>
+<h3 id="-">内联样式绑定</h3>
+<p>内联样式的绑定，非常类似于样式类的操作。v-bind:style 的对象语法十分直观——看着非常像 CSS ，其实它是一个 JavaScript 对象。 CSS属性名可以用驼峰式（camelCase）或短横分隔命名（kebab-case）。</p>
+<p>看个例子：</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt; 
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之htmlraw&lt;/title&gt;
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;div v-bind:style=&quot;{fontSize: size + &#39;px&#39;, backgroundColor: bgcolor, width: width}&quot;&gt;
+      vue 入门系列教程
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    var app = new Vue({         
+      el: &#39;#app&#39;,               
+      data: {                   
+        size: 19,
+        width: 200,
+        bgcolor: &#39;red&#39;
+      }
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>自动添加前缀<br>当 v-bind:style 使用需要特定前缀的 CSS 属性时，如 transform ，Vue.js 会自动侦测并添加相应的前缀。</p>
+<h2 id="-">计算属性</h2>
+<p>在做数据的绑定的时候,数据要进行处理之后才能展示到html页面上，虽然vue提供了非常好的表达式绑定的方法，但是只能应对低强度的需求。比如： 把一个日期按照规定格式进行输出，可能就需要我们对日期对象做一些格式化的出来，表达式可能就捉襟见肘了。</p>
+<p>Vue对象提供的computed属性，可以让我们开发者在里面可以放置一些方法，协助我们绑定数据操作，这些方法可以跟data中的属性一样用，注意这些方法用的时候不要加<code>()</code>。
+例子来了：</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt; 
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之htmlraw&lt;/title&gt;
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;table&gt;
+      &lt;tr&gt;
+        &lt;!-- computed里面的函数可以直接当成data里面的属性用，非常方便，注意没有括号！！！--&gt;
+        &lt;td&gt;生日&lt;/td&gt;&lt;td&gt;{{ getBirthday }}&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;年龄&lt;/td&gt;&lt;td&gt;{{ age }}&lt;/td&gt;
+      &lt;/tr&gt;      
+      &lt;tr&gt;
+        &lt;td&gt;地址&lt;/td&gt;&lt;td&gt;{{ address }}&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    var app = new Vue({         
+      el: &#39;#app&#39;,               
+      data: {                   
+        birthday: 914228510514,     // 这是一个日期对象的值：1998年11月1日
+        age: 19,
+        address: &#39;北京昌平区龙泽飞龙&#39;
+      },
+      computed: {
+        // 把日期换成 常见规格格式的字符串。
+        getBirthday: function () {
+          var m = new Date(this.birthday);
+          return m.getFullYear() + &#39;年&#39; + m.getMonth() +&#39;月&#39;+ m.getDay()+&#39;日&#39;;
+        }
+      }
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="-">绑定的数据过滤器</h2>
+<p>过滤器本质就是数据在呈现之前先进行过滤和筛选。官网上写的不错，我就不再赘述，下面是官网的描述。</p>
+<p>Vue.js 允许你自定义过滤器，被用作一些常见的文本格式化。过滤器应该被添加在 mustache 插值的尾部，由“管道符”指示：</p>
+<pre><code>{{ message | capitalize }}
+&lt;!-- in mustaches --&gt;
+{{ message | capitalize }}
+&lt;!-- in v-bind --&gt;
+&lt;div v-bind:id=&quot;rawId | formatId&quot;&gt;&lt;/div&gt;
+Vue 2.x 中，过滤器只能在 mustache 绑定和 v-bind 表达式（从 2.1.0 开始支持）中使用，因为过滤器设计目的就是用于文本转换。为了在其他指令中实现更复杂的数据变换，你应该使用计算属性。
+
+过滤器函数总接受表达式的值作为第一个参数。
+new Vue({
+  // ...
+  filters: {
+    capitalize: function (value) {
+      if (!value) return &#39;&#39;
+      value = value.toString()
+      return value.charAt(0).toUpperCase() + value.slice(1)
+    }
+  }
+})
+过滤器可以串联：
+{{ message | filterA | filterB }}
+过滤器是 JavaScript 函数，因此可以接受参数：
+{{ message | filterA(&#39;arg1&#39;, arg2) }}
+这里，字符串 &#39;arg1&#39; 将传给过滤器作为第二个参数， arg2 表达式的值将被求值然后传给过滤器作为第三个参数。
+</code></pre><h2 id="-html-">核心：自动响应对象的变化到HTML标签</h2>
+<p>上面的例子都是 数据对象是写死在创建的Vue对像上，那如果数据（data）发生改变时会怎样呢？
+让我们用chrome把上面例子的页面打开，并打开发者工具控制台,输入：<code>app.age = 20</code> 会有什么情况发生呢？</p>
+<hr>
+<p><img src="imgs/03vue响应.png" alt="响应"></p>
+<p>在页面中添加一个按钮，动态的增加年龄：</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt; 
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之htmlraw&lt;/title&gt;
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;table&gt;
+      &lt;tr&gt;
+        &lt;!-- computed里面的函数可以直接当成data里面的属性用，非常方便，注意没有括号！！！--&gt;
+        &lt;td&gt;生日&lt;/td&gt;&lt;td&gt;{{ getBirthday }}&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;年龄&lt;/td&gt;&lt;td&gt;{{ age }}&lt;/td&gt;
+      &lt;/tr&gt;      
+      &lt;tr&gt;
+        &lt;td&gt;地址&lt;/td&gt;&lt;td&gt;{{ address }}&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+
+  &lt;!-- 添加下面这行代码，动态增加 年龄，页面会有怎样的变化呢？？ --&gt;
+  &lt;button type=&quot;button&quot; onclick=&quot;app.age+=1;&quot; &gt;加加&lt;/button&gt;
+  &lt;script&gt;
+    var app = new Vue({         
+      el: &#39;#app&#39;,               
+      data: {                   
+        birthday: 914228510514,     // 这是一个日期对象的值：1998年11月1日
+        age: 19,
+        address: &#39;北京昌平区龙泽飞龙&#39;
+      },
+      computed: {
+        // 把日期换成 常见规格格式的字符串。
+        getBirthday: function () {
+          var m = new Date(this.birthday);
+          return m.getFullYear() + &#39;年&#39; + m.getMonth() +&#39;月&#39;+ m.getDay()+&#39;日&#39;;
+        }
+      }
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="-">双向数据绑定</h2>
+<p>上面的例子我们大多讲的是单向的 js对象向 HTML数据进行绑定，那HTML怎样向js进行反馈数据呢？
+HTML中只有表达能接受用户的输入，最简单的演示双向绑定的就是文本框了。</p>
+<p>Vue提供了一个新的指令：v-model进行双向数据的绑定，注意不是v-bind。</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt; 
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之htmlraw&lt;/title&gt;
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;!-- v-model可以直接指向data中的属性，双向绑定就建立了 --&gt;
+    &lt;input type=&quot;text&quot; name=&quot;txt&quot; v-model=&quot;msg&quot;&gt;
+    &lt;p&gt;您输入的信息是：{{ msg }}&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    var app = new Vue({         
+      el: &#39;#app&#39;,               
+      data: {                   
+        msg: &#39;双向数据绑定的例子&#39;
+      }
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>最终的结果就是：你改变input文本框的内容的时候，p标签中的内容会跟着进行改变，哇是不是很神奇呢...</p>
+<p>关于其他表单的绑定的语法我就不赘述了，还是参考官网吧，我这里大部分例子也是来自<a href="https://cn.vuejs.org/v2/guide/forms.html#基础用法">官网</a>。</p>
+<h2 id="-">数据绑定总结</h2>
+<p>vue提供了大量的绑定的语法和方法，非常方便我们进行数据的绑定，尤其它是双向的数据绑定，极大的减少了我们dom操作的麻烦程度。可能你越来越喜欢它了吧...</p>
+
+			</article>
+		</div>
+	</div>
+</body>
+
+</html>
+<script type="text/javascript" src="toc/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="toc/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="toc/js/ztree_toc.js"></script>
+<script type="text/javascript" src="toc_conf.js"></script>
+
+<SCRIPT type="text/javascript">
+<!--
+$(document).ready(function(){
+    var css_conf = eval(markdown_panel_style);
+    $('#readme').css(css_conf)
+    
+    var conf = eval(jquery_ztree_toc_opts);
+		$('#tree').ztree_toc(conf);
+});
+//-->
+</SCRIPT>

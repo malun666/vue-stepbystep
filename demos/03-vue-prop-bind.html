@@ -1,0 +1,28 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue入门之属性绑定</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div v-bind:id="MenuContaineId">
+      <a href="#" v-bind:class="MenuClass">首页</a>
+      <a href="#" v-bind:class="MenuClass">产品</a>
+      <a href="#" v-bind:class="MenuClass">服务</a>
+      <a href="#" v-bind:class="MenuClass">关于</a>
+    </div>
+  </div>
+
+  <script>
+    var app = new Vue({         
+      el: '#app',               
+      data: {                   // data: 是Vue对象中绑定的数据
+        MenuClass: 'top-menu',
+        MenuContaineId: 'sitemenu'
+      }
+    });
+  </script>
+</body>
+</html>

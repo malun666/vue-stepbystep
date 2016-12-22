@@ -1,0 +1,26 @@
+<!DOCTYPE html> <!--第一步：创建文件夹及html文件-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue入门之Helloworld</title>
+  <!--第二步：引入Vue库-->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+  <!--第三步:创建一个Div-->
+  <div id="app">
+    <!--Vue的模板的绑定数据的方法， 类似于很多其他前端的模板，可以用两对花括号进行绑定Vue中的数据对象的属性 -->
+    {{ message }}
+  </div>
+
+  <!--第四步：创建Vue的对象，并把数据绑定到上面创建好的div上去。-->
+  <script>
+    var app = new Vue({         // 创建Vue对象。Vue的核心对象。
+      el: '#app',               // el属性：把当前Vue对象挂载到 div标签上，#app是id选择器
+      data: {                   // data: 是Vue对象中绑定的数据
+        message: 'Hello Vue!'   // message 自定义的数据
+      }
+    });
+  </script>
+</body>
+</html>

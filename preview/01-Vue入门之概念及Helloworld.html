@@ -1,0 +1,207 @@
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>itcastmark:01-Vue入门之概念及Helloworld</title>
+	<link href="toc/style/github-bf51422f4bb36427d391e4b75a1daa083c2d840e.css" media="all" rel="stylesheet" type="text/css" />
+	<link href="toc/style/github2-d731afd4f624c99a4b19ad69f3083cd6d02b81d5.css" media="all" rel="stylesheet" type="text/css"
+	/>
+	<link href="toc/css/zTreeStyle/zTreeStyle.css" media="all" rel="stylesheet" type="text/css" />
+	<style>
+		pre {
+			counter-reset: line-numbering;
+			border: solid 1px #d9d9d9;
+			border-radius: 0;
+			background: #fff;
+			padding: 0;
+			line-height: 23px;
+			margin-bottom: 30px;
+			white-space: pre;
+			overflow-x: auto;
+			word-break: inherit;
+			word-wrap: inherit;
+		}
+		
+		pre a::before {
+			content: counter(line-numbering);
+			counter-increment: line-numbering;
+			padding-right: 1em;
+			/* space after numbers */
+			width: 25px;
+			text-align: right;
+			opacity: 0.7;
+			display: inline-block;
+			color: #aaa;
+			background: #eee;
+			margin-right: 16px;
+			padding: 2px 10px;
+			font-size: 13px;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		
+		pre a:first-of-type::before {
+			padding-top: 10px;
+		}
+		
+		pre a:last-of-type::before {
+			padding-bottom: 10px;
+		}
+		
+		pre a:only-of-type::before {
+			padding: 10px;
+		}
+		
+		.highlight {
+			background-color: #ffffcc
+		}
+		/* RIGHT */
+		
+		.top-menu {
+			border-bottom: 1px solid #ccc;
+			overflow: hidden;
+			height: 49px;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			z-index: 2147483647;
+			background-color: #909090;
+			color: #f6f6f6;
+		}
+		
+		.top-menu ul,
+		.top-menu li {
+			list-style: none;
+		}
+		
+		.top-menu a {
+			font-size: 16px;
+			display: block;
+			float: left;
+			width: 100px;
+			height: 49px;
+			line-height: 49px;
+			border-radius: 3px;
+			text-align: center;
+			cursor: pointer;
+			color: #f6f6f6;
+		}
+		
+		.top-menu-title {
+			float: left;
+			margin-left: 100px;
+			height: 40px;
+			overflow: hidden;
+		}
+		body {
+			padding-top: 50px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="top-menu">
+		<ul>
+			<li>
+				<a href="http://www.cnblogs.com/fly_dragon/">老马博客</a>
+				<a href="http://www.aicoder.com">老马独立博客</a>
+			</li>
+		</ul>
+		<div class="top-menu-title">
+			<h3>生命在于分享，技术源于生命</h3>
+			<p>学无止境，谦虚慎行，三人行必有我师.</p>
+		</div>
+	</div>
+
+	<div>
+		<div style='width:25%;'>
+			<ul id="tree" class="ztree" style='width:100%'>
+
+			</ul>
+		</div>
+		<div id='readme' style='width:70%;margin-left:20%;'>
+			<article class='markdown-body'>
+				<h1 id="vue-helloworld">Vue入门之概念及Helloworld</h1>
+<h2 id="vue-">Vue简介</h2>
+<p><code>Vue</code>是一个前端的双向绑定类的框架，发音[读音 /vjuː/, 类似于 view]。新的Vue版本参考了React的部分设计，当然也有自己独特的地方，比如Vue的单文件组件开发方式都很有创新，另外Vue自身的一些绑定的语法、用法等都非常精炼，很容易上手，而且第三方的插件都非常丰富，社区非常活跃，最新的文档都有中文版本。而且Vue配合官方的和第三方的库可以实现单文件的组件化开发、SPA等现代化前端开发。<br>详情请参考<a href="https://cn.vuejs.org/">Vue官网</a></p>
+<h2 id="vue-demo">Vue的入门demo</h2>
+<p><code>Vue</code> 可以直接把它当做一个js库使用，所以它可以很容易的接入到你的项目或者单个页面中。甚至你可以只使用它的双向绑定功能。所以它很容易上手。</p>
+<p>比如：我们有一个需求，一个网页上一个Div标签，我们有一个json对象存储数据，把json对象上的数据放到Div上去。   </p>
+<p>接下来是步骤：</p>
+<pre><code>第一步： 创建一个文件夹并创建一个html文件 比如：index.html.
+当如你可以选择你自己的编辑器，我就用VSCode。
+
+第二步：引入Vue库
+&lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+当然了你可以直接下载Vue的js文件，推荐你直接用上面的cdn即可。
+
+第三步：创建一个Div，给它一个id，比如：app
+
+第四步：创建Vue的对象，并把数据绑定到上面创建好的div上去。
+</code></pre><p>最终的代码如下：</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt; &lt;!--第一步：创建文件夹及html文件--&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之Helloworld&lt;/title&gt;
+  &lt;!--第二步：引入Vue库--&gt;
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!--第三步:创建一个Div--&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;!--Vue的模板的绑定数据的方法， 类似于很多其他前端的模板，可以用两对花括号进行绑定Vue中的数据对象的属性 --&gt;
+    {{ message }}
+  &lt;/div&gt;
+
+  &lt;!--第四步：创建Vue的对象，并把数据绑定到上面创建好的div上去。--&gt;
+  &lt;script&gt;
+    var app = new Vue({         // 创建Vue对象。Vue的核心对象。
+      el: &#39;#app&#39;,               // el属性：把当前Vue对象挂载到 div标签上，#app是id选择器
+      data: {                   // data: 是Vue对象中绑定的数据
+        message: &#39;Hello Vue!&#39;   // message 自定义的数据
+      }
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>最终的结果就是：</p>
+<pre><code>Hello Vue!
+</code></pre><hr>
+<h2 id="vue-helloworld-">Vue的Helloworld总结</h2>
+<ul>
+<li>Vue的el属性，就是element缩写，当前Vue对象挂载到哪个标签上的语法，一般用id选择器选择当前页面的标签。</li>
+<li>Vue的data属性是自定义数据。这里我们只是演示了一个message属性，其实可以跟Ajax配合从后台获取数据，那就可以....想象空间很丰富了吧..</li>
+<li>Vue 数据绑定的方式就是用 <code>{{}}</code>，类似于handlebars.</li>
+<li>上面这个demo就是演示了Vue的绑定数据的基本模型。注意点，标签先创建好了之后，再创建Vue对象，具体你应该懂吧。</li>
+</ul>
+<p><img src="imgs/01vue-helloworld.png" alt="helloworld"></p>
+
+			</article>
+		</div>
+	</div>
+</body>
+
+</html>
+<script type="text/javascript" src="toc/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="toc/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="toc/js/ztree_toc.js"></script>
+<script type="text/javascript" src="toc_conf.js"></script>
+
+<SCRIPT type="text/javascript">
+<!--
+$(document).ready(function(){
+    var css_conf = eval(markdown_panel_style);
+    $('#readme').css(css_conf)
+    
+    var conf = eval(jquery_ztree_toc_opts);
+		$('#tree').ztree_toc(conf);
+});
+//-->
+</SCRIPT>

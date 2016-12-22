@@ -1,0 +1,29 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue入门之绑定样式类</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <style>
+  .active {
+    background-color: #ccc;
+  }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div v-bind:id="MenuContaineId" v-bind:class="{ active: isActive }">
+      绑定颜色类
+    </div>
+  </div>
+  <script>
+    var app = new Vue({         
+      el: '#app',               
+      data: {                   // data: 是Vue对象中绑定的数据
+        MenuContaineId: 'menu',
+        isActive: true
+      }
+    });
+  </script>
+</body>
+</html>

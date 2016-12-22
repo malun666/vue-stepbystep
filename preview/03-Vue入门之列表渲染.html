@@ -1,0 +1,281 @@
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>itcastmark:03-Vue入门之列表渲染</title>
+	<link href="toc/style/github-bf51422f4bb36427d391e4b75a1daa083c2d840e.css" media="all" rel="stylesheet" type="text/css" />
+	<link href="toc/style/github2-d731afd4f624c99a4b19ad69f3083cd6d02b81d5.css" media="all" rel="stylesheet" type="text/css"
+	/>
+	<link href="toc/css/zTreeStyle/zTreeStyle.css" media="all" rel="stylesheet" type="text/css" />
+	<style>
+		pre {
+			counter-reset: line-numbering;
+			border: solid 1px #d9d9d9;
+			border-radius: 0;
+			background: #fff;
+			padding: 0;
+			line-height: 23px;
+			margin-bottom: 30px;
+			white-space: pre;
+			overflow-x: auto;
+			word-break: inherit;
+			word-wrap: inherit;
+		}
+		
+		pre a::before {
+			content: counter(line-numbering);
+			counter-increment: line-numbering;
+			padding-right: 1em;
+			/* space after numbers */
+			width: 25px;
+			text-align: right;
+			opacity: 0.7;
+			display: inline-block;
+			color: #aaa;
+			background: #eee;
+			margin-right: 16px;
+			padding: 2px 10px;
+			font-size: 13px;
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			-khtml-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+		}
+		
+		pre a:first-of-type::before {
+			padding-top: 10px;
+		}
+		
+		pre a:last-of-type::before {
+			padding-bottom: 10px;
+		}
+		
+		pre a:only-of-type::before {
+			padding: 10px;
+		}
+		
+		.highlight {
+			background-color: #ffffcc
+		}
+		/* RIGHT */
+		
+		.top-menu {
+			border-bottom: 1px solid #ccc;
+			overflow: hidden;
+			height: 49px;
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			z-index: 2147483647;
+			background-color: #909090;
+			color: #f6f6f6;
+		}
+		
+		.top-menu ul,
+		.top-menu li {
+			list-style: none;
+		}
+		
+		.top-menu a {
+			font-size: 16px;
+			display: block;
+			float: left;
+			width: 100px;
+			height: 49px;
+			line-height: 49px;
+			border-radius: 3px;
+			text-align: center;
+			cursor: pointer;
+			color: #f6f6f6;
+		}
+		
+		.top-menu-title {
+			float: left;
+			margin-left: 100px;
+			height: 40px;
+			overflow: hidden;
+		}
+		body {
+			padding-top: 50px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="top-menu">
+		<ul>
+			<li>
+				<a href="http://www.cnblogs.com/fly_dragon/">老马博客</a>
+				<a href="http://www.aicoder.com">老马独立博客</a>
+			</li>
+		</ul>
+		<div class="top-menu-title">
+			<h3>生命在于分享，技术源于生命</h3>
+			<p>学无止境，谦虚慎行，三人行必有我师.</p>
+		</div>
+	</div>
+
+	<div>
+		<div style='width:25%;'>
+			<ul id="tree" class="ztree" style='width:100%'>
+
+			</ul>
+		</div>
+		<div id='readme' style='width:70%;margin-left:20%;'>
+			<article class='markdown-body'>
+				<h1 id="vue-">Vue列表渲染及条件渲染实战</h1>
+<h2 id="-">条件渲染</h2>
+<p>有时候我们要根据数据的情况，决定标签是否进行显示或者有其他动作。最常见的就是，表格渲染的时候，如果表格没有数据，就显示无数据。如果有数据就显示表格数据。
+Vue帮我们提供了一个<code>v-if</code>的指令，帮助我们完成判断的模板处理。</p>
+<pre><code class="lang-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;h1 v-if=&quot;ok&quot;&gt;Yes&lt;/h1&gt;
+  &lt;h1 v-else&gt;No&lt;/h1&gt;  
+&lt;/div&gt;
+&lt;!-- 当ok为true的时候，输出： Yes， 否则输出： No --&gt;
+
+&lt;script&gt;
+  var app = new Vue({         
+    el: &#39;#app&#39;,               
+    data: {    
+      ok: true      // true,返回：Yes，   false=&gt; No               
+    }
+  });
+&lt;/script&gt;
+</code></pre>
+<p><code>v-if</code>指令可以根据数据绑定的情况进行插入标签或者移除标签。
+当然，如果熟悉js的都清楚，有if，肯定会有else。 Vue提供的是 <code>v-else</code>指令。</p>
+<h2 id="-">列表渲染</h2>
+<h3 id="-v-for-">基本v-for循环渲染标签</h3>
+<p>模板引擎都会提供循环的支持。Vue也不例外，Vue是提供了一个<code>v-for</code>指令。基本的用法类似于foreach的用法。还是看例子最直接，上代码：</p>
+<pre><code class="lang-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;table&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;
+        &lt;th&gt;姓名&lt;/th&gt;
+        &lt;th&gt;年龄&lt;/th&gt;
+        &lt;th&gt;地址&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt; 
+      &lt;!-- 每次for循环，都会创建一个tr标签。item是遍历的元素。 --&gt;
+      &lt;tr v-for=&quot;item in UserList&quot; &gt;
+        &lt;td&gt;{{ item.name }}&lt;/td&gt;
+        &lt;td&gt;{{ item.age }}&lt;/td&gt;
+        &lt;td&gt;{{ item.address }}&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  var app = new Vue({         
+    el: &#39;#app&#39;,               
+    data: {                   
+     UserList: [
+      {&#39;name&#39;: &#39;malun&#39;, &#39;age&#39;: 18, &#39;address&#39;: &#39;北京黑地下室&#39;},
+      {&#39;name&#39;: &#39;flydragon&#39;, &#39;age&#39;: 22, &#39;address&#39;: &#39;厦门的很多热的地方&#39;},
+      {&#39;name&#39;: &#39;temp&#39;, &#39;age&#39;: 25, &#39;address&#39;: &#39;东北松花江上&#39;}
+     ]
+    }
+  });
+&lt;/script&gt;
+</code></pre>
+<h3 id="template-">Template循环渲染多标签</h3>
+<p>上面的例子，我们演示的是 每次循环输出一个tr标签。如果我们希望每次循环生成两个tr标签呢？如果还有生成其他的标签呢？</p>
+<p>Vue给我们提供了template标签，供我们用于v-for循环中进行处理。</p>
+<p>上代码喽：</p>
+<pre><code class="lang-html">&lt;ul&gt;
+  &lt;!-- 通过template标签，可以一次循环，输出两个li标签 --&gt;
+  &lt;template v-for=&quot;item in items&quot;&gt;
+    &lt;li&gt;{{ item.msg }}&lt;/li&gt;
+    &lt;li class=&quot;divider&quot;&gt;&lt;/li&gt;
+  &lt;/template&gt;
+&lt;/ul&gt;
+</code></pre>
+<h3 id="-v-for-">关于v-for对应的数组的更新</h3>
+<p>由于Vue的机制就是检测数据的变化，自动跟新HTML。数组的变化，Vue之检测部分函数，检测的函数执行时才会触发视图更新。这些方法如下：</p>
+<ul>
+<li>push()</li>
+<li>pop()</li>
+<li>shift()</li>
+<li>unshift()</li>
+<li>splice()</li>
+<li>sort()</li>
+<li>reverse()</li>
+</ul>
+<h2 id="-">表格显示的综合案例</h2>
+<p>下面是一个综合的案例，每秒钟往表格中添加一条数据。
+本案例综合使用了v-if 和 v-for循环综合案例。</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt; 
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之动态显示表格&lt;/title&gt;
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;table&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;姓名&lt;/th&gt;
+          &lt;th&gt;年龄&lt;/th&gt;
+          &lt;th&gt;地址&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;!-- 如果列表有数据，直接输出表格数据，没有数据提示用户没有数据 --&gt;
+      &lt;tbody v-if=&quot;UserList.length &gt; 0&quot;&gt; 
+        &lt;tr v-for=&quot;item in UserList&quot; &gt;
+          &lt;td&gt;{{ item.name }}&lt;/td&gt;
+          &lt;td&gt;{{ item.age }}&lt;/td&gt;
+          &lt;td&gt;{{ item.address }}&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+      &lt;tbody v-else&gt;
+        &lt;tr&gt;&lt;td colspan=&quot;3&quot;&gt;没有数据奥！&lt;/td&gt;&lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    var app = new Vue({         
+      el: &#39;#app&#39;,               
+      data: {                   
+       UserList: []
+      }
+    });
+
+    // 每秒钟插入一条数据。
+    setInterval(function () {
+      app.UserList.push({&#39;name&#39;: &#39;malun&#39;, &#39;age&#39;: 18, &#39;address&#39;: &#39;北京黑地下室&#39;});
+    }, 1000);
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="-">总结列表和条件绑定</h2>
+<p>列表的使用其实本质还是js的衍生使用，对于有js开发基础的没有什么难度。关键是多写几个案例就会详细通了。</p>
+
+			</article>
+		</div>
+	</div>
+</body>
+
+</html>
+<script type="text/javascript" src="toc/js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="toc/js/jquery.ztree.all-3.5.min.js"></script>
+<script type="text/javascript" src="toc/js/ztree_toc.js"></script>
+<script type="text/javascript" src="toc_conf.js"></script>
+
+<SCRIPT type="text/javascript">
+<!--
+$(document).ready(function(){
+    var css_conf = eval(markdown_panel_style);
+    $('#readme').css(css_conf)
+    
+    var conf = eval(jquery_ztree_toc_opts);
+		$('#tree').ztree_toc(conf);
+});
+//-->
+</SCRIPT>

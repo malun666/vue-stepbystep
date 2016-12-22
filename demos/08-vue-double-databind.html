@@ -1,0 +1,22 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue入门之htmlraw</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <input type="text" name="txt" v-model="msg">
+    <p>您输入的信息是：{{ msg }}</p>
+  </div>
+  <script>
+    var app = new Vue({         
+      el: '#app',               
+      data: {                   
+        msg: '双向数据绑定的例子'
+      }
+    });
+  </script>
+</body>
+</html>
