@@ -8,8 +8,7 @@
 <body>
   <div id="app">
     <p>{{ number }}</p>
-    <input type="button" name="btnGetNumber" value="增加[绑定事件处理器]" v-on:click="getNumber">
-    <input type="button" name="btnGetNumber" value="增加[内联方法调用]" v-on:click="getNumber()">
+    <input type="button" name="btnGetNumber" value="增加" v-on:click="getNumber()">
   </div>
   <script>
     var app = new Vue({         
@@ -21,6 +20,12 @@
         // 事件响应方法的逻辑代码
         getNumber: function (e) {
           this.number += 1;   // 不管是内联方法调用，还是绑定事件处理器两种方式执行事件响应方法的时候 this都是指向 app
+        }
+      },
+      watch: {
+        // 监控number的变化，并自动执行下面的函数
+        number: function (val, oldVal) {
+          console.log('val:' + val + ' - oldVal: ' + oldVal);
         }
       }
     });

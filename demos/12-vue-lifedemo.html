@@ -1,0 +1,54 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue入门之生命周期</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <p>{{ number }}</p>
+    <input type="text" name="btnSetNumber" v-model="number">
+  </div>
+  <script>
+    var app = new Vue({         
+      el: '#app',               
+      data: {                   
+        number: 1
+      },
+      beforeCreate: function () {
+        console.log('beforeCreate 钩子执行...');
+        console.log(this.number)
+      },
+      cteated: function () {
+        console.log('cteated 钩子执行...');
+        console.log(this.number)
+      },
+      beforeMount: function () {
+        console.log('beforeMount 钩子执行...');
+        console.log(this.number)
+      },
+      mounted: function () {
+        console.log('mounted 钩子执行...');
+        console.log(this.number)
+      },
+      beforeUpdate: function () {
+        console.log('beforeUpdate 钩子执行...');
+        console.log(this.number)
+      },
+      updated: function () {
+        console.log('updated 钩子执行...');
+        console.log(this.number)
+      },
+      beforeDestroy: function () {
+        console.log('beforeDestroy 钩子执行...');
+        console.log(this.number)
+      },
+      destroyed: function () {
+        console.log('destroyed 钩子执行...');
+        console.log(this.number)
+      },
+    });
+  </script>
+</body>
+</html>

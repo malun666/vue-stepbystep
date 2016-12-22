@@ -67,8 +67,3 @@ Hello Vue!
 - 上面这个demo就是演示了Vue的绑定数据的基本模型。注意点，标签先创建好了之后，再创建Vue对象，具体你应该懂吧。
 
 ![helloworld](imgs/01vue-helloworld.png)
-
-
-
-
-
