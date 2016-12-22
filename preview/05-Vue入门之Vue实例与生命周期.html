@@ -555,11 +555,19 @@ Vue.nextTick(function () {
 </code></pre><p>用法：<br>设置对象的属性。如果对象是响应式的，确保属性被创建后也是响应式的，同时触发视图更新。这个方法主要用于避开 Vue 不能检测属性被添加的限制。
 注意对象不能是 Vue 实例，或者 Vue 实例的根数据对象。</p>
 <h3 id="vue-compile">Vue.compile</h3>
-<p>Vue.compile( template )</p>
-<p>参数：</p>
-<p>{string} template
-用法：</p>
-<p>在render函数中编译模板字符串。只在独立构建时有效</p>
+<ul>
+<li><p>语法：
+<code>Vue.compile( template )</code></p>
+</li>
+<li><p>参数：</p>
+</li>
+</ul>
+<p><code>{string} template</code></p>
+<ul>
+<li>用法：
+```js
+//在render函数中编译模板字符串。只在独立构建时有效</li>
+</ul>
 <p>var res = Vue.compile(&#39;<div><span>{{ msg }}</span></div>&#39;)
 new Vue({
   data: {
@@ -567,7 +575,8 @@ new Vue({
   },
   render: res.render,
   staticRenderFns: res.staticRenderFns
-})</p>
+})
+```</p>
 <h3 id="-api-">全局API总结</h3>
 <p>其实还有几个其他的全局API，不打算在这里讲了，比如扩展组件Vue.extend 的用法、Vue.use加载插件、Vue.filter加载过滤器、Vue.directive自定义指令等
 后面再讲其他Vue的知识点的时候，再加上这些，全局API其实就是Vue类型的静态方法，全局范围内都可以使用的，某些实例的方法本质也是调用了这些全局的，后面用到时候再说。</p>

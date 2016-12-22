@@ -460,14 +460,17 @@ Vue.nextTick(function () {
 注意对象不能是 Vue 实例，或者 Vue 实例的根数据对象。
 
 ### Vue.compile
-Vue.compile( template )
 
-参数：
+- 语法：
+  `Vue.compile( template )`
 
-{string} template
-用法：
+- 参数：
 
-在render函数中编译模板字符串。只在独立构建时有效
+`{string} template`
+
+- 用法：
+```js
+//在render函数中编译模板字符串。只在独立构建时有效
 
 var res = Vue.compile('<div><span>{{ msg }}</span></div>')
 new Vue({
@@ -477,7 +480,7 @@ new Vue({
   render: res.render,
   staticRenderFns: res.staticRenderFns
 })
-
+```
 
 ### 全局API总结
 其实还有几个其他的全局API，不打算在这里讲了，比如扩展组件Vue.extend 的用法、Vue.use加载插件、Vue.filter加载过滤器、Vue.directive自定义指令等

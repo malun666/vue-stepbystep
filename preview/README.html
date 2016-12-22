@@ -1238,7 +1238,7 @@ v: 86,
 f1: 112,
 mediaPlayPause: 179,
 up: [38, 87]
-}
+}api
 //给 v-on 自定义键位别名。
 </code></pre>
 </li>
@@ -1271,19 +1271,27 @@ Vue.nextTick(function () {
 </code></pre><p>用法：<br>设置对象的属性。如果对象是响应式的，确保属性被创建后也是响应式的，同时触发视图更新。这个方法主要用于避开 Vue 不能检测属性被添加的限制。
 注意对象不能是 Vue 实例，或者 Vue 实例的根数据对象。</p>
 <h3 id="vue-compile">Vue.compile</h3>
-<p>Vue.compile( template )</p>
-<p>参数：</p>
-<p>{string} template
-用法：</p>
-<p>在render函数中编译模板字符串。只在独立构建时有效</p>
-<p>var res = Vue.compile(&#39;<div><span>{{ msg }}</span></div>&#39;)
+<ul>
+<li>语法：    </li>
+</ul>
+<p><code>Vue.compile( template )</code></p>
+<ul>
+<li>参数：</li>
+</ul>
+<p><code>{string} template</code></p>
+<ul>
+<li>用法：</li>
+</ul>
+<pre><code class="lang-js">//在render函数中编译模板字符串。只在独立构建时有效
+var res = Vue.compile(&#39;&lt;div&gt;&lt;span&gt;{{ msg }}&lt;/span&gt;&lt;/div&gt;&#39;)
 new Vue({
   data: {
     msg: &#39;hello&#39;
   },
   render: res.render,
   staticRenderFns: res.staticRenderFns
-})</p>
+})
+</code></pre>
 <h3 id="-api-">全局API总结</h3>
 <p>其实还有几个其他的全局API，不打算在这里讲了，比如扩展组件Vue.extend 的用法、Vue.use加载插件、Vue.filter加载过滤器、Vue.directive自定义指令等
 后面再讲其他Vue的知识点的时候，再加上这些，全局API其实就是Vue类型的静态方法，全局范围内都可以使用的，某些实例的方法本质也是调用了这些全局的，后面用到时候再说。</p>
