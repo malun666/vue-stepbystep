@@ -1,0 +1,42 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue入门之extend全局方法</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!--父容器输入标签-->
+    <my-slot>
+      <h3>这里是父容器写入的</h3>
+    </my-slot>
+
+    <!--父容器绑定数据到子容器的slot,这里的作用域是父容器的啊。-->
+    <my-slot>{{ email }}</my-slot>
+
+    <!--父容器什么都不传内容-->
+    <my-slot></my-slot>
+  </div>
+  <script>
+    // 反引号：可以定义多行字符串。
+    var temp = `
+      <div>
+        <h1>这里是子组件</h1>
+        <hr>
+        <slot>slot标签会被父容器写的额外的内容替换掉，如果父容器没有写入任何东西，此标签将保留！</slot>
+      </div>
+    `;
+    Vue.component('MySlot', {          // 如果定义的组件为MySlot，那么用组件的时候：<my-slot></my-slot>
+      template: temp,   
+    });                    
+    // 初始化一个Vue实例
+    var app = new Vue({         
+      el: '#app',               
+      data: {                   
+       email: 'flydragon@gmail.com'
+      }
+    });
+  </script>
+</body>
+</html>

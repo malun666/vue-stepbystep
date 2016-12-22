@@ -531,6 +531,48 @@ up: [38, 87]
 </ul>
 <h2 id="vue-api">Vue的全局API</h2>
 <p>Vue的全局API提供大量的功能，我这里就给大家罗列几个常用的结果，其他的还是参考<a href="https://cn.vuejs.org/v2/api/#全局-API">官网</a>.</p>
+<h3 id="vue-nexttick">Vue.nextTick</h3>
+<p><code>语法： Vue.nextTick( [callback, context] )</code></p>
+<pre><code>参数：    
+{Function} [callback]
+{Object} [context]
+</code></pre><p>用法：
+在下次 DOM 更新循环结束之后执行延迟回调。在修改数据之后立即使用这个方法，获取更新后的 DOM。</p>
+<pre><code class="lang-js">// 修改数据
+vm.msg = &#39;Hello&#39;
+// DOM 还没有更新
+Vue.nextTick(function () {
+  // DOM 更新了
+})
+</code></pre>
+<h3 id="vue-set">Vue.set</h3>
+<p><code>语法： Vue.set( object, key, value )</code></p>
+<pre><code>参数：
+{Object} object
+{string} key
+{any} value
+返回值： 设置的值.
+</code></pre><p>用法：<br>设置对象的属性。如果对象是响应式的，确保属性被创建后也是响应式的，同时触发视图更新。这个方法主要用于避开 Vue 不能检测属性被添加的限制。
+注意对象不能是 Vue 实例，或者 Vue 实例的根数据对象。</p>
+<h3 id="vue-compile">Vue.compile</h3>
+<p>Vue.compile( template )</p>
+<p>参数：</p>
+<p>{string} template
+用法：</p>
+<p>在render函数中编译模板字符串。只在独立构建时有效</p>
+<p>var res = Vue.compile(&#39;<div><span>{{ msg }}</span></div>&#39;)
+new Vue({
+  data: {
+    msg: &#39;hello&#39;
+  },
+  render: res.render,
+  staticRenderFns: res.staticRenderFns
+})</p>
+<h3 id="-api-">全局API总结</h3>
+<p>其实还有几个其他的全局API，不打算在这里讲了，比如扩展组件Vue.extend 的用法、Vue.use加载插件、Vue.filter加载过滤器、Vue.directive自定义指令等
+后面再讲其他Vue的知识点的时候，再加上这些，全局API其实就是Vue类型的静态方法，全局范围内都可以使用的，某些实例的方法本质也是调用了这些全局的，后面用到时候再说。</p>
+<h2 id="vue-">Vue实例与生命周期总结</h2>
+<p>Vue的实例封装的还是挺有艺术性的，很符合开发者的思维规范，它的生命周期也非常清晰，使用起来也非常方便。Vue确实一个好框架。</p>
 
 			</article>
 		</div>

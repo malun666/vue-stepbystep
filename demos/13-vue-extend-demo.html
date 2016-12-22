@@ -1,0 +1,29 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue入门之extend全局方法</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+  </div>
+  <script>
+    var myVue = Vue.extend({
+      template: '<div>{{ name }} - {{ age }} - {{ mail }}</div>',
+      data: function () {
+        return {
+          name: 'malun',
+          age: '19',
+          mail: 'flydragonml@gmail.com'
+        };
+      }
+    });
+    var app = new myVue({         
+      el: '#app',               
+      data: {                   
+      }
+    });
+  </script>
+</body>
+</html>

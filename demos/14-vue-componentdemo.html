@@ -1,0 +1,36 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue入门之extend全局方法</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!--组件名直接可以当标签使用。-->
+    <radio-tag rid="rBas" txt="篮球" val="1"></radio-tag>
+
+    <!--组件的属性也可以使用Vue的绑定的语法，下面是动态绑定数据给子组件-->
+    <radio-tag :rid="demoId" :txt="demoText" :val="demoVal"></radio-tag>
+  </div>
+  <script>
+    // 定义组件模板，模板必须有且只有一个根元素。
+    var temp = '<div><label v-bind:for="rid">{{ txt }}</label><input :id="rid" type="radio" v-bind:value="val"></div>';
+    // 注册一个全局的组件
+    Vue.component('radio-tag', {       // 组件的名字不能有大写字母，跟React的曲别啊。另外组件名最好是小写字母加横线组合。
+      template: temp,   
+      props: ['rid', 'txt', 'val']     // 设置组件的属性有哪些，定义标签的属性一致。
+    });                                // 注意属性名都得是小写，不然会不认的。
+
+    // 初始化一个Vue实例
+    var app = new Vue({         
+      el: '#app',               
+      data: {                   
+        demoId: 'ft',
+        demoText: '足球',
+        demoVal: 2
+      }
+    });
+  </script>
+</body>
+</html>

@@ -127,8 +127,332 @@
 		<div id='readme' style='width:70%;margin-left:20%;'>
 			<article class='markdown-body'>
 				<h1 id="vue-">Vue入门之组件化开发</h1>
-<p>前端组件化确实让大的前端团队更高效的开发前端项目。而作为前端比较流行的框架之一，Vue的组件和也做的非常彻底，而且有自己的特色。尤其是她单文件组件开发的方式更是非常方便，而且第三方工具支持也非常丰富，社区也非常活跃，第三方组件也呈井喷之势。当然学习和使用Vue的组件也是我们的最重要的目标。</p>
+<p>组件其实就是一个拥有样式、动画、js逻辑、HTML结构的综合块。前端组件化确实让大的前端团队更高效的开发前端项目。而作为前端比较流行的框架之一，Vue的组件和也做的非常彻底，而且有自己的特色。尤其是她单文件组件开发的方式更是非常方便，而且第三方工具支持也非常丰富，社区也非常活跃，第三方组件也呈井喷之势。当然学习和使用Vue的组件也是我们的最重要的目标。</p>
+<h2 id="-vue-extend-">全局扩展方法<code>Vue.extend</code></h2>
+<p>Vue提供了一个全局的API，<code>Vue.extend</code>可以帮助我们对Vue实例进行扩展，扩展完了之后，就可以用此扩展对象创建新的Vue实例了。
+类似于继承的方式。</p>
+<pre><code>语法：Vue.extend( options )
+
+参数：
+
+{Object} options
+用法：
+
+使用基础 Vue 构造器，创建一个“子类”。参数是一个包含组件选项的对象[后面会细讲]。
+
+data 选项是特例，需要注意 - 在 Vue.extend() 中它必须是函数
+</code></pre><p>下面是一个官网demo：</p>
+<pre><code class="lang-html">&lt;div id=&quot;mount-point&quot;&gt;&lt;/div&gt;
+&lt;script&gt;
+// 创建构造器
+var Profile = Vue.extend({
+  // 新的对象的模板，所有子实例都会拥有此模板
+  template: &#39;&lt;p&gt;{{firstName}} {{lastName}} aka {{alias}}&lt;/p&gt;&#39;,
+  data: function () {   // 创建的Vue实例时，data可以是Object 也可以是Function，但是在扩展
+    return {            // 的时候，data必须是一个函数，而且要返回值奥。
+      firstName: &#39;Walter&#39;,
+      lastName: &#39;White&#39;,
+      alias: &#39;Heisenberg&#39;
+    }
+  }
+})
+&lt;/script&gt;
+
+
+// 创建 Profile 实例，并挂载到一个元素上。
+new Profile().$mount(&#39;#mount-point&#39;)
+// .$mount() 方法跟设置 el属性效果是一致的。
+
+结果如下：
+
+&lt;p&gt;Walter White aka Heisenberg&lt;/p&gt;
+</code></pre>
+<p>综合案例代码：</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt; 
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之extend全局方法&lt;/title&gt;
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    var myVue = Vue.extend({
+      template: &#39;&lt;div&gt;{{ name }} - {{ age }} - {{ mail }}&lt;/div&gt;&#39;,
+      data: function () {
+        return {
+          name: &#39;malun&#39;,
+          age: &#39;19&#39;,
+          mail: &#39;flydragonml@gmail.com&#39;
+        };
+      }
+    });
+    var app = new myVue({         
+      el: &#39;#app&#39;             
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
 <h2 id="-">创建组件和注册组件</h2>
+<p>当然上面的方式只是能让我们继承Vue实例做一些扩展的动作。看Vue中如何创建一个组件并注册使用。</p>
+<p>Vue提供了一个全局注册组件的方法：Vue.component。</p>
+<pre><code>语法： Vue.component( id, [definition] )
+
+参数：
+  {string} id    组件的名字，可以当HTML标签用，注意组件的名字都是小写，而且最好有横线和字母组合。
+  {Function | Object} [definition]   组件的设置
+
+用法：
+注册或获取全局组件。注册还会自动使用给定的id设置组件的名称
+
+// 注册组件，传入一个扩展过的构造器
+Vue.component(&#39;my-component&#39;, Vue.extend({ /* ... */ }))
+// 注册组件，传入一个选项对象（自动调用 Vue.extend）
+Vue.component(&#39;my-component&#39;, { /* ... */ })
+// 获取注册的组件（始终返回构造器）
+var MyComponent = Vue.component(&#39;my-component&#39;)
+</code></pre><p>简单demo：</p>
+<pre><code class="lang-html">&lt;div id=&quot;example&quot;&gt;
+  &lt;!--组件直接跟普通的标签一样的使用。--&gt;
+  &lt;my-component&gt;&lt;/my-component&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="lang-js">// 注册一个组件
+Vue.component(&#39;my-component&#39;, {
+  // 模板选项设置当前组件，最终输出的html模板。注意：有且只有一个根元素。
+  template: &#39;&lt;div&gt;A custom component!&lt;/div&gt;&#39;
+})
+// 创建根实例
+new Vue({
+  el: &#39;#example&#39;
+})
+</code></pre>
+<p>那么我们注册一个组件自动帮我生成 label和radiobutton组合。</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt; 
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之extend全局方法&lt;/title&gt;
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;!--组件名直接可以当标签使用。--&gt;
+    &lt;radio-tag rid=&quot;rBas&quot; txt=&quot;篮球&quot; val=&quot;1&quot;&gt;&lt;/radio-tag&gt;
+
+    &lt;!--组件的属性也可以使用Vue的绑定的语法，下面是动态绑定数据给子组件--&gt;
+    &lt;radio-tag :rid=&quot;demoId&quot; :txt=&quot;demoText&quot; :val=&quot;demoVal&quot;&gt;&lt;/radio-tag&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    // 定义组件模板，模板必须有且只有一个根元素。
+    var temp = &#39;&lt;div&gt;&lt;label v-bind:for=&quot;rid&quot;&gt;{{ txt }}&lt;/label&gt;&lt;input :id=&quot;rid&quot; type=&quot;radio&quot; v-bind:value=&quot;val&quot;&gt;&lt;/div&gt;&#39;;
+    // 注册一个全局的组件
+    Vue.component(&#39;radio-tag&#39;, {       // 组件的名字不能有大写字母，跟React的曲别啊。另外组件名最好是小写字母加横线组合。
+      template: temp,   
+      props: [&#39;rid&#39;, &#39;txt&#39;, &#39;val&#39;],   // 设置组件的属性有哪些，定义标签的属性一致。
+      data: function () {             // 注意属性名都得是小写，不然会不认的。
+        return {                      // 在组件的定义中data必须是函数，而且必须有返回值。
+          age: 19,                    // 此地方的 age 和 emial都是演示，并么有有到。
+          email: &#39;flydragonml@gmail.com&#39;
+        }
+      } 
+    });                                
+
+    // 初始化一个Vue实例
+    var app = new Vue({         
+      el: &#39;#app&#39;,               
+      data: {                   
+        demoId: &#39;ft&#39;,
+        demoText: &#39;足球&#39;,
+        demoVal: 2
+      }
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>注意结果点</p>
+<ul>
+<li>组件的名字都必须是小写【<a href="https://cn.vuejs.org/v2/guide/components.html#组件命名约定">其实是非必须，但是为了不麻烦就强制吧</a>】！！！而且建议是小写字母和横线的组合比如： my-radiobtn</li>
+<li>注册组件的时候，可以传入一个选项对象进行配置。其中<code>props</code>是设置当前组件的属性，属性也都必须小写。属性是连接父容器和子组件的桥梁。</li>
+<li>注意：属性名和组件的名字都要小写啊，不然vue不会认的。</li>
+<li>编写组件代码最好配合Vue的chrome插件：<a href="https://github.com/vuejs/vue-devtools">vue-devtool</a></li>
+<li>组件可以返还自己的数据，但是必须是函数。data必须是Function</li>
+</ul>
+<h2 id="-">局部注册组件</h2>
+<p>全局注册组件就是使用全局API <code>Vue.componet(id, {....})</code>就行了，当然我们有时候需要注册一个局部模块的自己用的组件。那么就可以用下面的方式了。</p>
+<pre><code class="lang-js">var Child = {
+  template: &#39;&lt;div&gt;A custom component!&lt;/div&gt;&#39;
+}
+new Vue({
+  // ...
+  components: {
+    // &lt;my-component&gt; 将只在父模板可用
+    &#39;my-component&#39;: Child
+  }
+})
+</code></pre>
+<h2 id="-slot">组件的slot</h2>
+<p>使用组件的时候，经常需要在父组件中为子组件中插入一些标签等。当然其实可以通过属性等操作，但是比较麻烦，直接写标签还是方便很多。
+那么Vue提供了slot协助子组件对父容器写入的标签进行管理。</p>
+<p>当父容器写了额外的内容时， 如果子组件恰好有一个slot标签，那边子容器的slot标签会被父容器写入的内容替换掉。</p>
+<p>比如下面的例子：</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt; 
+&lt;&lt;!DOCTYPE html&gt; 
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之extend全局方法&lt;/title&gt;
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;!--父容器输入标签--&gt;
+    &lt;my-slot&gt;
+      &lt;h3&gt;这里是父容器写入的&lt;/h3&gt;
+    &lt;/my-slot&gt;
+
+    &lt;!--父容器绑定数据到子容器的slot,这里的作用域是父容器的啊。--&gt;
+    &lt;my-slot&gt;{{ email }}&lt;/my-slot&gt;
+
+    &lt;!--父容器什么都不传内容--&gt;
+    &lt;my-slot&gt;&lt;/my-slot&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    // 反引号：可以定义多行字符串。
+    var temp = `
+      &lt;div&gt;
+        &lt;h1&gt;这里是子组件&lt;/h1&gt;
+        &lt;hr&gt;
+        &lt;slot&gt;slot标签会被父容器写的额外的内容替换掉，如果父容器没有写入任何东西，此标签将保留！&lt;/slot&gt;
+      &lt;/div&gt;
+    `;
+    Vue.component(&#39;MySlot&#39;, {          // 如果定义的组件为MySlot，那么用组件的时候：&lt;my-slot&gt;&lt;/my-slot&gt;
+      template: temp,   
+    });                    
+    // 初始化一个Vue实例
+    var app = new Vue({         
+      el: &#39;#app&#39;,               
+      data: {                   
+       email: &#39;flydragon@gmail.com&#39;
+      }
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>最终结果：</p>
+<pre><code class="lang-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;div&gt;
+    &lt;h1&gt;这里是子组件&lt;/h1&gt;
+    &lt;hr&gt;
+    &lt;h3&gt;这里是父容器写入的&lt;/h3&gt;
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;h1&gt;这里是子组件&lt;/h1&gt;
+    &lt;hr&gt; flydragon@gmail.com
+  &lt;/div&gt;
+
+  &lt;div&gt;
+    &lt;h1&gt;这里是子组件&lt;/h1&gt;
+    &lt;hr&gt; slot标签会被父容器写的额外的内容替换掉，如果父容器没有写入任何东西，此标签将删除！
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<h2 id="-">单文件组件的使用方式介绍</h2>
+<p>通过上面我们定义组件的方式，就已经感觉很不爽了，尤其是模板的定义，而且样式怎么处理也没有很好的进行规整。
+Vue可以通过Webpack等第三方工具实现单文件的开发的方式。当然这里会牵扯到很多es6的语法、第三方工具实现前端模块化等很多知识，
+我们大概看一眼指导Vue的组件可以直接写一个文件中，其他地方就可以直接导入这个模块了。后面做项目的时候我还会再讲一下怎么用。</p>
+<pre><code class="lang-html">&lt;template&gt;
+  &lt;div&gt;
+    &lt;nav class=&quot;navbar navbar-dark navbar-fixed-top&quot;&gt;
+    &lt;/nav&gt;
+     &lt;div class=&quot;col-md-3 sidebar&quot;&gt;
+      &lt;ul&gt;
+        &lt;li v-for=&quot;item in list&quot; &gt;
+          &lt;router-link :to=&quot;{ path: item.url }&quot;&gt;{{ item.name }}&lt;/router-link&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;container-fluid content&quot;&gt;
+      &lt;router-view&gt;&lt;/router-view&gt;
+    &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+// 这里怎么回事
+import Axios from &#39;axios&#39;
+export default {
+  name: &#39;app&#39;,
+  components: {
+  },
+  data: function () {
+    return {
+      list: []
+    }
+  },
+  mounted: function () {          // 挂在完成后
+    this.$nextTick(function () {
+      Axios.get(&#39;/api/menulist&#39;, {
+        params: {
+        }
+      }).then(function (res) {
+        this.list = res.data
+      }.bind(this))
+    })
+  }
+}
+&lt;/script&gt;
+
+&lt;style&gt;
+ul, li {
+  list-style: none;
+}
+.router-link-active {
+  background-color: #f6f6f6;
+}
+
+.navbar {
+  height: 50px;
+  background-color: #303030;
+}
+.content {
+  margin-top: 50px;
+  padding-left: 210px;
+}
+
+.sidebar {
+  background-color: #f5f5f5;
+  border-right: 1px solid #eee;
+  width: 200px;
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+  }
+}
+&lt;/style&gt;
+</code></pre>
+<h2 id="-">组件总结</h2>
+<p>Vue的组件化还是做的比较彻底的。不像Angular1.0中的模块那么鸡肋。组件化确实让前端模块化开发更加容易实现，
+Vue的单文件开发组件的方式也是Vue的一大创新，也发非常好用。</p>
 
 			</article>
 		</div>
