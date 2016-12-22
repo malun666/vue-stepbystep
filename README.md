@@ -46,9 +46,9 @@
 
   <!--第四步：创建Vue的对象，并把数据绑定到上面创建好的div上去。-->
   <script>
-    var app = new Vue({         // 创建Vue对象。Vue的核心对象。
-      el: '#app',               // el属性：把当前Vue对象挂载到 div标签上，#app是id选择器
-      data: {                   // data: 是Vue对象中绑定的数据
+    var app = new Vue({         // 创建Vue实例。Vue的核心对象。
+      el: '#app',               // el属性：把当前Vue实例挂载到 div标签上，#app是id选择器
+      data: {                   // data: 是Vue实例中绑定的数据
         message: 'Hello Vue!'   // message 自定义的数据
       }
     });
@@ -65,10 +65,10 @@ Hello Vue!
 ----
 
 ## Vue的Helloworld总结
-- Vue的el属性，就是element缩写，当前Vue对象挂载到哪个标签上的语法，一般用id选择器选择当前页面的标签。
+- Vue的el属性，就是element缩写，当前Vue实例挂载到哪个标签上的语法，一般用id选择器选择当前页面的标签。
 - Vue的data属性是自定义数据。这里我们只是演示了一个message属性，其实可以跟Ajax配合从后台获取数据，那就可以....想象空间很丰富了吧..
 - Vue 数据绑定的方式就是用 `{{}}`，类似于handlebars.
-- 上面这个demo就是演示了Vue的绑定数据的基本模型。注意点，标签先创建好了之后，再创建Vue对象，具体你应该懂吧。
+- 上面这个demo就是演示了Vue的绑定数据的基本模型。注意点，标签先创建好了之后，再创建Vue实例，具体你应该懂吧。
 
 ![helloworld](imgs/01vue-helloworld.png)
 
@@ -76,7 +76,7 @@ Hello Vue!
 
 ## 什么是双向绑定？
 Vue框架很核心的功能就是双向的数据绑定。
-双向是指：HTML标签数据 绑定到 Vue对象，另外反方向数据也是绑定的。通俗点说就是，Vue对象的改变会直接影响到HTML的标签的变化，而且标签的变化也会反过来影响Vue对象的属性的变化。   
+双向是指：HTML标签数据 绑定到 Vue实例，另外反方向数据也是绑定的。通俗点说就是，Vue实例的改变会直接影响到HTML的标签的变化，而且标签的变化也会反过来影响Vue实例的属性的变化。   
 这样以来，就彻底变革了之前Dom的开发方式，之前Dom驱动的开发方式尤其是以jQuery为主的开发时代，都是dom变化后，触发js事件，然后在事件中通过js代码取得标签的变化，再跟后台进行交互，然后根据后台返回的结果再更新HTML标签，异常的繁琐。有了Vue这种双向绑定，让开发人员只需要关心json数据的变化即可，Vue自动映射到HTML上，而且HTML的变化也会映射回js对象上，开发方式直接变革成了前端由数据驱动的
 开发时代，远远抛弃了Dom开发主导的时代了。
 
@@ -85,13 +85,13 @@ Vue框架很核心的功能就是双向的数据绑定。
 ## Vue绑定文本
 
 数据绑定最常见的形式就是使用 “Mustache” 语法（双大括号）的文本插值，比如模板引擎：handlebars中就是用的`{{}}`.   
-创建的Vue对象中的data属性就是用来绑定数据到HTML的。参考如下代码：
+创建的Vue实例中的data属性就是用来绑定数据到HTML的。参考如下代码：
 ```html
 <span>Message: {{ msg }}</span>
 <script>
-  var app = new Vue({         // 创建Vue对象。Vue的核心对象。
-    el: '#app',               // el属性：把当前Vue对象挂载到 div标签上，#app是id选择器
-    data: {                   // data: 是Vue对象中绑定的数据
+  var app = new Vue({         // 创建Vue实例。Vue的核心对象。
+    el: '#app',               // el属性：把当前Vue实例挂载到 div标签上，#app是id选择器
+    data: {                   // data: 是Vue实例中绑定的数据
       msg: 'Hello Vue!'   // message 自定义的数据
     }
   });
@@ -104,9 +104,9 @@ Vue框架很核心的功能就是双向的数据绑定。
 ```html
 <span>Message: {{ msg + ' - ' + name }}</span>
 <script>
-  var app = new Vue({         // 创建Vue对象。Vue的核心对象。
-    el: '#app',               // el属性：把当前Vue对象挂载到 div标签上，#app是id选择器
-    data: {                   // data: 是Vue对象中绑定的数据
+  var app = new Vue({         // 创建Vue实例。Vue的核心对象。
+    el: '#app',               // el属性：把当前Vue实例挂载到 div标签上，#app是id选择器
+    data: {                   // data: 是Vue实例中绑定的数据
       msg: 'Hi',              // message 自定义的数据
       name: 'flydragon'       // name自定义的属性，vue可以多个自定义属性，属性类型也可是复杂类型
     }
@@ -138,9 +138,9 @@ Hi - flydragon
   </div>
 
   <script>
-  var app = new Vue({         // 创建Vue对象。Vue的核心对象。
-    el: '#app',               // el属性：把当前Vue对象挂载到 div标签上，#app是id选择器
-    data: {                   // data: 是Vue对象中绑定的数据
+  var app = new Vue({         // 创建Vue实例。Vue的核心对象。
+    el: '#app',               // el属性：把当前Vue实例挂载到 div标签上，#app是id选择器
+    data: {                   // data: 是Vue实例中绑定的数据
       msg: 'Hi',              // message 自定义的数据
       name: 'flydragon',
       isOk: true,
@@ -157,7 +157,7 @@ Vue中不能直接使用`{{ expression }}` 语法进行绑定html的标签，而
 
 绑定的语法结构：
 ```
-<标签 v-bind:属性名="要绑定的Vue对象的data里的属性名"></标签>
+<标签 v-bind:属性名="要绑定的Vue实例的data里的属性名"></标签>
 例如:
 <span v-bind:id="menuId">{{ menuName }}</span>
 ```
@@ -183,7 +183,7 @@ Vue中不能直接使用`{{ expression }}` 语法进行绑定html的标签，而
   <script>
     var app = new Vue({         
       el: '#app',               
-      data: {                   // data: 是Vue对象中绑定的数据
+      data: {                   // data: 是Vue实例中绑定的数据
         MenuClass: 'top-menu',
         MenuContaineId: 'sitemenu'
       }
@@ -212,7 +212,7 @@ Vue中不能直接使用`{{ expression }}` 语法进行绑定html的标签，而
 <script>
   var app = new Vue({         
     el: '#app',               
-    data: {                   // data: 是Vue对象中绑定的数据
+    data: {                   // data: 是Vue实例中绑定的数据
       MenuContaineId: 'menu',
       MenuBody: '<p>这里是菜单的内容</p>'
     }
@@ -262,7 +262,7 @@ Vue中不能直接使用`{{ expression }}` 语法进行绑定html的标签，而
   <script>
     var app = new Vue({         
       el: '#app',               
-      data: {                   // data: 是Vue对象中绑定的数据
+      data: {                   // data: 是Vue实例中绑定的数据
         MenuContaineId: 'menu',
         isActive: true
       }
@@ -284,7 +284,7 @@ v-bind:class 指令可以与普通的 class 属性共存。
 <script>
   var app = new Vue({         
     el: '#app',               
-    data: {                   // data: 是Vue对象中绑定的数据
+    data: {                   // data: 是Vue实例中绑定的数据
       isActive: true,
       hasError: false
     }
@@ -387,7 +387,7 @@ data: {
 ## 计算属性
 在做数据的绑定的时候,数据要进行处理之后才能展示到html页面上，虽然vue提供了非常好的表达式绑定的方法，但是只能应对低强度的需求。比如： 把一个日期按照规定格式进行输出，可能就需要我们对日期对象做一些格式化的出来，表达式可能就捉襟见肘了。
 
-Vue对象提供的computed属性，可以让我们开发者在里面可以放置一些方法，协助我们绑定数据操作，这些方法可以跟data中的属性一样用，注意这些方法用的时候不要加`()`。
+Vue实例提供的computed属性，可以让我们开发者在里面可以放置一些方法，协助我们绑定数据操作，这些方法可以跟data中的属性一样用，注意这些方法用的时候不要加`()`。
 例子来了：
 ```html
 <!DOCTYPE html> 
@@ -730,9 +730,9 @@ var example1 = new Vue({
 </script>
 ```
 
-## 事件处理方法集成到Vue对象
+## 事件处理方法集成到Vue实例
 内联的方式绑定的事件，只能处理简单的事件的处理逻辑。复杂的情况还是封装到js中最方便，也不容易出错。
-Vue对象中可以添加methods属性，开发者可以把事件处理函数的逻辑放到methods中。
+Vue实例中可以添加methods属性，开发者可以把事件处理函数的逻辑放到methods中。
 
 ```html
 <!DOCTYPE html> 
@@ -832,6 +832,6 @@ Vue中属性的绑定的简写直接是`:` === 'v-bind:'
 
 ## 事件绑定总结
 
-Vue为了方便大家进行开发，提供了事件的相关的封装，可以让我们方便我们用Vue对事件进行开发，尤其是v-on指令的非常方便的跟Vue对象中methods进行配合进行复杂的事件处理，非常方便。另外事件的事件修饰符和按键修饰符也可以让Vue事件这块锦上添花。
+Vue为了方便大家进行开发，提供了事件的相关的封装，可以让我们方便我们用Vue对事件进行开发，尤其是v-on指令的非常方便的跟Vue实例中methods进行配合进行复杂的事件处理，非常方便。另外事件的事件修饰符和按键修饰符也可以让Vue事件这块锦上添花。
 
 
