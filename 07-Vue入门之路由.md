@@ -135,4 +135,100 @@ const app = new Vue({
 </script>
 ```
 
+下面是一个综合的例子, 页面上有几个导航的按钮，然后通过点击不同的按钮，可以在当前页面切换不同的组件。
 
+```html
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue入门之extend全局方法</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <style>
+  ul, li { list-style: none; }
+  ul { overflow: hidden; }
+  li { float: left; width: 100px; }
+  h2 { background-color: #903;}
+  </style>
+</head>
+<body>
+  <div id="app">
+    <top-bar> </top-bar>
+    <hr>
+      <p>email to: {{ email }}</p> 
+    <hr>
+    <router-view class="view one"></router-view>
+    <footer-bar></footer-bar>
+  </div>
+  <script>
+    var topbarTemp = `
+      <nav>
+        <ul>
+          <li v-for="item in NavList">
+            <router-link :to="item.url">{{ item.name }}</router-link>
+          </li>
+        </ul>
+      </nav>        
+    `;
+    // 定义组件：topbar
+    Vue.component('top-bar', {          
+      template: topbarTemp,
+      data: function () {
+        return {
+          NavList: [
+            { name: '首页', url: '/home'},
+            { name: '产品', url: '/product'},
+            { name: '服务', url: '/service'},
+            { name: '关于', url: '/about'}
+          ]
+        }
+      }
+    });             
+
+    Vue.component('footer-bar', {  // 定义组件 footerbar
+      template: `
+        <footer>
+          <hr/>
+          <p>版权所有@flydragon<p>
+        </footer>
+      `
+    });
+
+    // 创建home模块
+    var home = {
+      template: `<div> <h2>{{ msg }}<h2></div>`,
+      data: function () {
+        return { msg: 'this is home view' }
+      }
+    };
+
+    // 创建product 模块
+    var product = {
+      template: `<div> {{ msg }}</div>`,
+      data: function () {
+        return { msg: 'this is product view' }
+      }
+    }
+
+    // 定义路由对象
+    var router = new VueRouter({
+      routes: [
+        { path: '/home', component: home },
+        { path: '/product', component: product }
+      ]
+    });
+
+    // 初始化一个Vue实例
+    var app = new Vue({         
+      el: '#app',               
+      data: {                   
+       email: 'flydragon@gmail.com'
+      },
+      router: router
+    });
+  </script>
+</body>
+</html>
+
+```

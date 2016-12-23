@@ -58,8 +58,6 @@
 Hello Vue!
 ```
 
-----
-
 ## Vue的Helloworld总结
 - Vue构造函数的：选项el属性，就是element缩写，当前Vue对象挂载到哪个标签上的语法，支持CSS选择器或者dom对象，一般用id选择器选择当前页面的标签。
 - Vue的选项：data属性是自定义数据。这里我们只是演示了一个message属性，vue会把自定义的数据可以与html的模板数据进行绑定。
@@ -69,6 +67,7 @@ Hello Vue!
 
 ![helloworld](imgs/01vue-helloworld.png)
 
+----
 
 # Vue入门之数据绑定
 
@@ -558,6 +557,7 @@ Vue提供了一个新的指令：v-model进行双向数据的绑定，注意不�
 
 vue提供了大量的绑定的语法和方法，非常方便我们进行数据的绑定，尤其它是双向的数据绑定，极大的减少了我们dom操作的麻烦程度。可能你越来越喜欢它了吧...
 
+------
 
 # Vue列表渲染及条件渲染实战
 
@@ -705,6 +705,7 @@ Vue给我们提供了template标签，供我们用于v-for循环中进行处理�
 ## 总结列表和条件绑定
 列表的使用其实本质还是js的衍生使用，对于有js开发基础的没有什么难度。关键是多写几个案例就会详细通了。
 
+-----------
 
 # Vue事件处理
 
@@ -833,6 +834,8 @@ Vue中属性的绑定的简写直接是`:` === 'v-bind:'
 ## 事件绑定总结
 
 Vue为了方便大家进行开发，提供了事件的相关的封装，可以让我们方便我们用Vue对事件进行开发，尤其是v-on指令的非常方便的跟Vue对象中methods进行配合进行复杂的事件处理，非常方便。另外事件的事件修饰符和按键修饰符也可以让Vue事件这块锦上添花。
+
+---------
 
 # Vue实例详解与生命周期
 
@@ -1327,6 +1330,8 @@ new Vue({
 ## Vue实例与生命周期总结
 Vue的实例封装的还是挺有艺术性的，很符合开发者的思维规范，它的生命周期也非常清晰，使用起来也非常方便。Vue确实一个好框架。
 
+------------------
+
 # Vue入门之组件化开发
 
 组件其实就是一个拥有样式、动画、js逻辑、HTML结构的综合块。前端组件化确实让大的前端团队更高效的开发前端项目。而作为前端比较流行的框架之一，Vue的组件和也做的非常彻底，而且有自己的特色。尤其是她单文件组件开发的方式更是非常方便，而且第三方工具支持也非常丰富，社区也非常活跃，第三方组件也呈井喷之势。当然学习和使用Vue的组件也是我们的最重要的目标。
@@ -1680,7 +1685,246 @@ ul, li {
 </style>
 ```
 
+单文件书写组件的方式必须要配合webpack之类的工具才行，所以这里暂时不讲解如何做，后面到项目阶段的时候再详细讲解。
+不过你可以参考：[Vue官网单文件组件](https://cn.vuejs.org/v2/guide/single-file-components.html)
+
 ## 组件总结
 Vue的组件化还是做的比较彻底的。不像Angular1.0中的模块那么鸡肋。组件化确实让前端模块化开发更加容易实现，
 Vue的单文件开发组件的方式也是Vue的一大创新，也发非常好用。
 
+--------
+
+# Vue路由详解
+
+> 对于前端来说，其实浏览器配合超级连接就很好的实现了路由功能。但是对于单页面应用来说，浏览器和超级连接的跳转方式已经不能适用，
+所以各大框架纷纷给出了单页面应用的解决路由跳转的方案。 
+
+> Vue框架的兼容性非常好，可以很好的跟其他第三方的路由框架进行结合。当然官方也给出了路由的方案： `vue-router`;
+建议还是用官方的最好，使用量也是最大，相对来说Vue框架的升级路由组件升级也会及时跟上，所以为了以后的维护和升级方便还是使用Vue自家的东西最好。
+
+## Vue-router的版本对应
+> 注意: vue-router@2.x 只适用于 Vue 2.x 版本。
+> vue-router@1.x 对应于Vue1.x版本。
+
+- 的Github地址：[vue-router](https://github.com/vuejs/vue-router)   
+- [文档地址](https://router.vuejs.org/zh-cn/)
+
+## vue-router的安装使用
+
+- CDN连接方式
+
+`https://unpkg.com/vue-router/dist/vue-router.js`
+
+- npm 安装
+
+```shell
+npm install vue-router
+```
+
+## vue-router 入门demo
+
+vue-router开发的步骤：
+
+- 第一步： 引入vue和vue-router包。
+> 可以使用cdn的方式或者npm的方式。如果配合npm和webpack的话可以直接作为一个模块导入即可。但是作为初学入门的话建议还是
+> 直接使用cdn包的形式，先学会怎么用路由。
+
+```html
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+```
+
+- 第二步： 定义路由跳转的组件
+```js
+// 1. 定义（路由）组件。
+const Foo = { template: '<div>foo</div>' }
+const Bar = { template: '<div>bar</div>' }
+```
+- 第三步： 定义路由规则对象
+
+```js
+// 每个路由path应该映射一个组件。 其中"component" 可以是
+// 通过 Vue.extend() 创建的组件构造器，
+// 或者，只是一个组件配置对象。
+const routes = [
+  { path: '/foo', component: Foo },
+  { path: '/bar', component: Bar }
+]
+
+// 创建路由对象
+const router = new VueRouter({
+  routes // （缩写）相当于 routes: routes，es6的新语法
+})
+```
+
+- 第四步： 创建Vue对象，并加重上面创建的路由对象
+
+```js
+// 记得要通过 router 配置参数注入路由，
+// 从而让整个应用都有路由功能
+const app = new Vue({
+  router
+}).$mount('#app')
+```
+
+- 第五步： 在模板中编写路由跳转链接
+
+```html
+<div id="app">
+  <h1>Hello App!</h1>
+  <p>
+    <!-- 使用 router-link 组件来导航. -->
+    <!-- 通过传入 `to` 属性指定链接. -->
+    <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+    <router-link to="/foo">Go to Foo</router-link>
+    <router-link to="/bar">Go to Bar</router-link>
+  </p>
+  <!-- 路由出口 -->
+  <!-- 路由匹配到的组件将渲染在这里 -->
+  <router-view></router-view>
+</div>
+```
+
+最终的代码：
+
+```html
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+<div id="app">
+  <h1>Hello App!</h1>
+  <p>
+    <!-- 使用 router-link 组件来导航. -->
+    <!-- 通过传入 `to` 属性指定链接. -->
+    <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+    <router-link to="/foo">Go to Foo</router-link>
+    <router-link to="/bar">Go to Bar</router-link>
+  </p>
+  <!-- 路由出口 -->
+  <!-- 路由匹配到的组件将渲染在这里 -->
+  <router-view></router-view>
+</div>
+<script>
+// 1. 定义（路由）组件。
+// 可以从其他文件 import 进来
+const Foo = { template: '<div>foo</div>' }
+const Bar = { template: '<div>bar</div>' }
+
+// 2. 定义路由
+const routes = [
+  { path: '/foo', component: Foo },
+  { path: '/bar', component: Bar }
+]
+
+// 3. 创建 router 实例，然后传 `routes` 配置
+// 你还可以传别的配置参数, 不过先这么简单着吧。
+const router = new VueRouter({
+  routes // （缩写）相当于 routes: routes
+})
+
+// 4. 创建和挂载根实例。
+// 记得要通过 router 配置参数注入路由，
+// 从而让整个应用都有路由功能
+const app = new Vue({
+  router
+}).$mount('#app')
+</script>
+```
+
+下面是一个综合的例子, 页面上有几个导航的按钮，然后通过点击不同的按钮，可以在当前页面切换不同的组件。
+
+```html
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue入门之extend全局方法</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <style>
+  ul, li { list-style: none; }
+  ul { overflow: hidden; }
+  li { float: left; width: 100px; }
+  h2 { background-color: #903;}
+  </style>
+</head>
+<body>
+  <div id="app">
+    <top-bar> </top-bar>
+    <hr>
+      <p>email to: {{ email }}</p> 
+    <hr>
+    <router-view class="view one"></router-view>
+    <footer-bar></footer-bar>
+  </div>
+  <script>
+    var topbarTemp = `
+      <nav>
+        <ul>
+          <li v-for="item in NavList">
+            <router-link :to="item.url">{{ item.name }}</router-link>
+          </li>
+        </ul>
+      </nav>        
+    `;
+    // 定义组件：topbar
+    Vue.component('top-bar', {          
+      template: topbarTemp,
+      data: function () {
+        return {
+          NavList: [
+            { name: '首页', url: '/home'},
+            { name: '产品', url: '/product'},
+            { name: '服务', url: '/service'},
+            { name: '关于', url: '/about'}
+          ]
+        }
+      }
+    });             
+
+    Vue.component('footer-bar', {  // 定义组件 footerbar
+      template: `
+        <footer>
+          <hr/>
+          <p>版权所有@flydragon<p>
+        </footer>
+      `
+    });
+
+    // 创建home模块
+    var home = {
+      template: `<div> <h2>{{ msg }}<h2></div>`,
+      data: function () {
+        return { msg: 'this is home view' }
+      }
+    };
+
+    // 创建product 模块
+    var product = {
+      template: `<div> {{ msg }}</div>`,
+      data: function () {
+        return { msg: 'this is product view' }
+      }
+    }
+
+    // 定义路由对象
+    var router = new VueRouter({
+      routes: [
+        { path: '/home', component: home },
+        { path: '/product', component: product }
+      ]
+    });
+
+    // 初始化一个Vue实例
+    var app = new Vue({         
+      el: '#app',               
+      data: {                   
+       email: 'flydragon@gmail.com'
+      },
+      router: router
+    });
+  </script>
+</body>
+</html>
+
+```
