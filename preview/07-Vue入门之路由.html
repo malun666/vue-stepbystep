@@ -254,6 +254,101 @@ const app = new Vue({
 }).$mount(&#39;#app&#39;)
 &lt;/script&gt;
 </code></pre>
+<h2 id="-vue-router-">使用vue-router的综合实例</h2>
+<p>下面是一个综合的例子, 页面上有几个导航的按钮，然后通过点击不同的按钮，可以在当前页面切换不同的组件。</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt; 
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之extend全局方法&lt;/title&gt;
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;
+  &lt;style&gt;
+  ul, li { list-style: none; }
+  ul { overflow: hidden; }
+  li { float: left; width: 100px; }
+  h2 { background-color: #903;}
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;top-bar&gt; &lt;/top-bar&gt;
+    &lt;hr&gt;
+      &lt;p&gt;email to: {{ email }}&lt;/p&gt; 
+    &lt;hr&gt;
+    &lt;router-view class=&quot;view one&quot;&gt;&lt;/router-view&gt;
+    &lt;footer-bar&gt;&lt;/footer-bar&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    var topbarTemp = `
+      &lt;nav&gt;
+        &lt;ul&gt;
+          &lt;li v-for=&quot;item in NavList&quot;&gt;
+            &lt;router-link :to=&quot;item.url&quot;&gt;{{ item.name }}&lt;/router-link&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/nav&gt;        
+    `;
+    // 定义组件：topbar
+    Vue.component(&#39;top-bar&#39;, {          
+      template: topbarTemp,
+      data: function () {
+        return {
+          NavList: [
+            { name: &#39;首页&#39;, url: &#39;/home&#39;},
+            { name: &#39;产品&#39;, url: &#39;/product&#39;},
+            { name: &#39;服务&#39;, url: &#39;/service&#39;},
+            { name: &#39;关于&#39;, url: &#39;/about&#39;}
+          ]
+        }
+      }
+    });             
+
+    Vue.component(&#39;footer-bar&#39;, {  // 定义组件 footerbar
+      template: `
+        &lt;footer&gt;
+          &lt;hr/&gt;
+          &lt;p&gt;版权所有@flydragon&lt;p&gt;
+        &lt;/footer&gt;
+      `
+    });
+
+    // 创建home模块
+    var home = {
+      template: `&lt;div&gt; &lt;h2&gt;{{ msg }}&lt;h2&gt;&lt;/div&gt;`,
+      data: function () {
+        return { msg: &#39;this is home view&#39; }
+      }
+    };
+
+    // 创建product 模块
+    var product = {
+      template: `&lt;div&gt; {{ msg }}&lt;/div&gt;`,
+      data: function () {
+        return { msg: &#39;this is product view&#39; }
+      }
+    }
+
+    // 定义路由对象
+    var router = new VueRouter({
+      routes: [
+        { path: &#39;/home&#39;, component: home },
+        { path: &#39;/product&#39;, component: product }
+      ]
+    });
+
+    // 初始化一个Vue实例
+    var app = new Vue({         
+      el: &#39;#app&#39;,               
+      data: {                   
+       email: &#39;flydragon@gmail.com&#39;
+      },
+      router: router
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
 
 			</article>
 		</div>

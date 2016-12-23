@@ -1625,9 +1625,385 @@ ul, li {
 }
 &lt;/style&gt;
 </code></pre>
+<p>单文件书写组件的方式必须要配合webpack之类的工具才行，所以这里暂时不讲解如何做，后面到项目阶段的时候再详细讲解。
+不过你可以参考：<a href="https://cn.vuejs.org/v2/guide/single-file-components.html">Vue官网单文件组件</a></p>
 <h2 id="-">组件总结</h2>
 <p>Vue的组件化还是做的比较彻底的。不像Angular1.0中的模块那么鸡肋。组件化确实让前端模块化开发更加容易实现，
 Vue的单文件开发组件的方式也是Vue的一大创新，也发非常好用。</p>
+<hr>
+<h1 id="vue-">Vue路由详解</h1>
+<blockquote>
+<p>对于前端来说，其实浏览器配合超级连接就很好的实现了路由功能。但是对于单页面应用来说，浏览器和超级连接的跳转方式已经不能适用，
+所以各大框架纷纷给出了单页面应用的解决路由跳转的方案。 </p>
+<p>Vue框架的兼容性非常好，可以很好的跟其他第三方的路由框架进行结合。当然官方也给出了路由的方案： <code>vue-router</code>;
+建议还是用官方的最好，使用量也是最大，相对来说Vue框架的升级路由组件升级也会及时跟上，所以为了以后的维护和升级方便还是使用Vue自家的东西最好。</p>
+</blockquote>
+<h2 id="vue-router-">Vue-router的版本对应</h2>
+<blockquote>
+<p>注意: vue-router@2.x 只适用于 Vue 2.x 版本。
+vue-router@1.x 对应于Vue1.x版本。</p>
+</blockquote>
+<ul>
+<li>的Github地址：<a href="https://github.com/vuejs/vue-router">vue-router</a>   </li>
+<li><a href="https://router.vuejs.org/zh-cn/">文档地址</a></li>
+</ul>
+<h2 id="vue-router-">vue-router的安装使用</h2>
+<ul>
+<li>CDN连接方式</li>
+</ul>
+<p><code>https://unpkg.com/vue-router/dist/vue-router.js</code></p>
+<ul>
+<li>npm 安装</li>
+</ul>
+<pre><code class="lang-shell">npm install vue-router
+</code></pre>
+<h2 id="vue-router-demo">vue-router 入门demo</h2>
+<p>vue-router开发的步骤：</p>
+<ul>
+<li>第一步： 引入vue和vue-router包。<blockquote>
+<p>可以使用cdn的方式或者npm的方式。如果配合npm和webpack的话可以直接作为一个模块导入即可。但是作为初学入门的话建议还是
+直接使用cdn包的形式，先学会怎么用路由。</p>
+</blockquote>
+</li>
+</ul>
+<pre><code class="lang-html">&lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<ul>
+<li>第二步： 定义路由跳转的组件<pre><code class="lang-js">// 1. 定义（路由）组件。
+const Foo = { template: &#39;&lt;div&gt;foo&lt;/div&gt;&#39; }
+const Bar = { template: &#39;&lt;div&gt;bar&lt;/div&gt;&#39; }
+</code></pre>
+</li>
+<li>第三步： 定义路由规则对象</li>
+</ul>
+<pre><code class="lang-js">// 每个路由path应该映射一个组件。 其中&quot;component&quot; 可以是
+// 通过 Vue.extend() 创建的组件构造器，
+// 或者，只是一个组件配置对象。
+const routes = [
+  { path: &#39;/foo&#39;, component: Foo },
+  { path: &#39;/bar&#39;, component: Bar }
+]
+
+// 创建路由对象
+const router = new VueRouter({
+  routes // （缩写）相当于 routes: routes，es6的新语法
+})
+</code></pre>
+<ul>
+<li>第四步： 创建Vue对象，并加重上面创建的路由对象</li>
+</ul>
+<pre><code class="lang-js">// 记得要通过 router 配置参数注入路由，
+// 从而让整个应用都有路由功能
+const app = new Vue({
+  router
+}).$mount(&#39;#app&#39;)
+</code></pre>
+<ul>
+<li>第五步： 在模板中编写路由跳转链接</li>
+</ul>
+<pre><code class="lang-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;h1&gt;Hello App!&lt;/h1&gt;
+  &lt;p&gt;
+    &lt;!-- 使用 router-link 组件来导航. --&gt;
+    &lt;!-- 通过传入 `to` 属性指定链接. --&gt;
+    &lt;!-- &lt;router-link&gt; 默认会被渲染成一个 `&lt;a&gt;` 标签 --&gt;
+    &lt;router-link to=&quot;/foo&quot;&gt;Go to Foo&lt;/router-link&gt;
+    &lt;router-link to=&quot;/bar&quot;&gt;Go to Bar&lt;/router-link&gt;
+  &lt;/p&gt;
+  &lt;!-- 路由出口 --&gt;
+  &lt;!-- 路由匹配到的组件将渲染在这里 --&gt;
+  &lt;router-view&gt;&lt;/router-view&gt;
+&lt;/div&gt;
+</code></pre>
+<p>最终的代码：</p>
+<pre><code class="lang-html">&lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;
+
+&lt;div id=&quot;app&quot;&gt;
+  &lt;h1&gt;Hello App!&lt;/h1&gt;
+  &lt;p&gt;
+    &lt;!-- 使用 router-link 组件来导航. --&gt;
+    &lt;!-- 通过传入 `to` 属性指定链接. --&gt;
+    &lt;!-- &lt;router-link&gt; 默认会被渲染成一个 `&lt;a&gt;` 标签 --&gt;
+    &lt;router-link to=&quot;/foo&quot;&gt;Go to Foo&lt;/router-link&gt;
+    &lt;router-link to=&quot;/bar&quot;&gt;Go to Bar&lt;/router-link&gt;
+  &lt;/p&gt;
+  &lt;!-- 路由出口 --&gt;
+  &lt;!-- 路由匹配到的组件将渲染在这里 --&gt;
+  &lt;router-view&gt;&lt;/router-view&gt;
+&lt;/div&gt;
+&lt;script&gt;
+// 1. 定义（路由）组件。
+// 可以从其他文件 import 进来
+const Foo = { template: &#39;&lt;div&gt;foo&lt;/div&gt;&#39; }
+const Bar = { template: &#39;&lt;div&gt;bar&lt;/div&gt;&#39; }
+
+// 2. 定义路由
+const routes = [
+  { path: &#39;/foo&#39;, component: Foo },
+  { path: &#39;/bar&#39;, component: Bar }
+]
+
+// 3. 创建 router 实例，然后传 `routes` 配置
+// 你还可以传别的配置参数, 不过先这么简单着吧。
+const router = new VueRouter({
+  routes // （缩写）相当于 routes: routes
+})
+
+// 4. 创建和挂载根实例。
+// 记得要通过 router 配置参数注入路由，
+// 从而让整个应用都有路由功能
+const app = new Vue({
+  router
+}).$mount(&#39;#app&#39;)
+&lt;/script&gt;
+</code></pre>
+<h2 id="-vue-router-">使用vue-router的综合实例</h2>
+<p>下面是一个综合的例子, 页面上有几个导航的按钮，然后通过点击不同的按钮，可以在当前页面切换不同的组件。</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt; 
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之extend全局方法&lt;/title&gt;
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;
+  &lt;style&gt;
+  ul, li { list-style: none; }
+  ul { overflow: hidden; }
+  li { float: left; width: 100px; }
+  h2 { background-color: #903;}
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;top-bar&gt; &lt;/top-bar&gt;
+    &lt;hr&gt;
+      &lt;p&gt;email to: {{ email }}&lt;/p&gt; 
+    &lt;hr&gt;
+    &lt;router-view class=&quot;view one&quot;&gt;&lt;/router-view&gt;
+    &lt;footer-bar&gt;&lt;/footer-bar&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    var topbarTemp = `
+      &lt;nav&gt;
+        &lt;ul&gt;
+          &lt;li v-for=&quot;item in NavList&quot;&gt;
+            &lt;router-link :to=&quot;item.url&quot;&gt;{{ item.name }}&lt;/router-link&gt;
+          &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/nav&gt;        
+    `;
+    // 定义组件：topbar
+    Vue.component(&#39;top-bar&#39;, {          
+      template: topbarTemp,
+      data: function () {
+        return {
+          NavList: [
+            { name: &#39;首页&#39;, url: &#39;/home&#39;},
+            { name: &#39;产品&#39;, url: &#39;/product&#39;},
+            { name: &#39;服务&#39;, url: &#39;/service&#39;},
+            { name: &#39;关于&#39;, url: &#39;/about&#39;}
+          ]
+        }
+      }
+    });             
+
+    Vue.component(&#39;footer-bar&#39;, {  // 定义组件 footerbar
+      template: `
+        &lt;footer&gt;
+          &lt;hr/&gt;
+          &lt;p&gt;版权所有@flydragon&lt;p&gt;
+        &lt;/footer&gt;
+      `
+    });
+
+    // 创建home模块
+    var home = {
+      template: `&lt;div&gt; &lt;h2&gt;{{ msg }}&lt;h2&gt;&lt;/div&gt;`,
+      data: function () {
+        return { msg: &#39;this is home view&#39; }
+      }
+    };
+
+    // 创建product 模块
+    var product = {
+      template: `&lt;div&gt; {{ msg }}&lt;/div&gt;`,
+      data: function () {
+        return { msg: &#39;this is product view&#39; }
+      }
+    }
+
+    // 定义路由对象
+    var router = new VueRouter({
+      routes: [
+        { path: &#39;/home&#39;, component: home },
+        { path: &#39;/product&#39;, component: product }
+      ]
+    });
+
+    // 初始化一个Vue实例
+    var app = new Vue({         
+      el: &#39;#app&#39;,               
+      data: {                   
+       email: &#39;flydragon@gmail.com&#39;
+      },
+      router: router
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<hr>
+<h1 id="vue-">Vue综合实战项目</h1>
+<h2 id="-">前置知识学习</h2>
+<ul>
+<li>npm 学习<ul>
+<li><a href="https://docs.npmjs.com/">官方文档</a></li>
+<li>推荐资料<ul>
+<li><a href="http://www.cnblogs.com/kelsen/p/4947859.html">npm入门</a></li>
+<li><a href="http://www.nodeclass.com/articles/810142">npm介绍</a></li>
+</ul>
+</li>
+<li>需要了解的知识点<ul>
+<li><code>package.json</code> 文件相关配置选项</li>
+<li>npm 本地安装、全局安装、本地开发安装等区别及相关命令</li>
+<li>npm script脚步的基本编写能力</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>有时间专门写一个这样的专题，如果需要可以邮件我。malun666@126.com</p>
+</blockquote>
+<ul>
+<li><p>webpack基础学习</p>
+<ul>
+<li><a href="https://webpack.js.org/">官方文档</a></li>
+<li>Webpack了解的知识点： <ul>
+<li>webpack的基本配置</li>
+<li>了解webpack常用的loader： less-loader、sass-loader、 vue-loader、style-loader、css-loader、eslint-loader、babel-loader等</li>
+<li>熟悉Webpack的webpack-dev-server的基本配置和使用，会配置热更新</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>es6语法学习</p>
+<ul>
+<li>阮一峰老师的大作<a href="http://es6.ruanyifeng.com/">《ECMAScript 6 入门》</a></li>
+<li>需要学习的知识点<ul>
+<li>es6的模块机制</li>
+<li>各种最新语法糖，简写、geter、setter、箭头函数</li>
+<li>类、继承的心机制
+...</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>nodejs基础知识</p>
+<ul>
+<li>知识点学习：<ul>
+<li>文件操作</li>
+<li>http服务</li>
+<li>express</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>组件化开发思想</p>
+</li>
+</ul>
+<h2 id="vue-vue-cli-">Vue脚手架工具：<code>vue-cli</code>构建实战项目</h2>
+<p>其实如果编写Vue的前端项目，直接使用vue的官方vue-cli构建工具最好用，一个命令就可以直接生成项目的结构和目录。
+而且官方需要依赖的包也可以自动配置好，只需要npm instal一下，然后就可以开发测试了。</p>
+<h3 id="-vue-cli-"><code>vue-cli</code>安装</h3>
+<pre><code class="lang-shell"># 安装vue-cli。  安装之前首先确保你已经安装好了nodejs 而且打开命令行
+$ npm install -g vue-cli
+
+# 校验一下是否安装成功
+$ vue -V
+
+#=&gt;  2.5.1  我当前的版本是这个，你的可能比这个新
+</code></pre>
+<h3 id="-vue-cli-">使用<code>vue-cli</code>初始化项目</h3>
+<p>通过以下命令的方式可以创建一个项目文件夹，并初始化对应的文件。</p>
+<pre><code class="lang-shell">$ vue init &lt;template-name&gt; &lt;project-name&gt;
+</code></pre>
+<p>其中template-name可以取以下值，每个值对应不同的项目构建的模板。</p>
+<ul>
+<li><a href="https://github.com/vuejs-templates/webpack">webpack</a>--全功能的Webpack + vueify，包括热加载，静态检测，单元测试</li>
+<li><a href="https://github.com/vuejs-templates/webpack-simple">webpack</a>-simple--一个简易的Webpack + vueify，以便于快速开始。</li>
+<li><a href="https://github.com/vuejs-templates/browserify">browserify</a>--全功能的Browserify + vueify，包括热加载，静态检测，单元测试</li>
+<li><a href="https://github.com/vuejs-templates/browserify-simple">browserify</a>-simple--一个简易的Browserify + vueify，以便于快速开始。</li>
+</ul>
+<p>例如：</p>
+<pre><code class="lang-shell"># 如果已经安装，请省略
+$ npm install -g vue-cli
+
+# 初始化一个webpack全功能包的vue项目，请您把my-project换成你自己的项目名。
+$ vue init webpack my-project
+
+# 用命令行进入当前项目目录
+$ cd my-project
+
+# npm安装所有的依赖的包
+$ npm install
+
+# 运行测试的首页
+$ npm run dev
+</code></pre>
+<p>安装过程，控制台会问你项目名称是什么？项目描述？项目作者，是否使用eslint校验，是否使用单元测试等....
+我的安装过程如下请参考：</p>
+<pre><code class="lang-shell">$ vue init webpack ttl                        # =&gt; 安装webpack模板的项目 ttl（项目名可以随便取）
+
+  A newer version of vue-cli is available.
+
+  latest:    2.6.0
+  installed: 2.5.1
+
+  This will install Vue 2.x version of template.
+
+  For Vue 1.x use: vue init webpack#1.0 ttl
+
+? Project name mydemovue                        # =&gt; 项目名称
+? Project description A Vue.js project          # =&gt; 项目描述
+? Author malun &lt;malun666@126.com&gt;               # =&gt; 作者
+? Vue build standalone                          # =&gt; 是否支持单文件组件
+? Use ESLint to lint your code? Yes             # =&gt; 是否支持ESLint代码校验
+? Pick an ESLint preset Standard                # =&gt; 校验的标准是什么？
+? Setup unit tests with Karma + Mocha? Yes      # =&gt; 是否使用单元测试
+? Setup e2e tests with Nightwatch? Yes          # =&gt; 是否使用e2e测试
+
+   vue-cli · Generated &quot;ttl&quot;.
+
+   To get started:
+
+     cd ttl
+     npm install
+     npm run dev
+
+   Documentation can be found at https://vuejs-templates.github.io/webpack
+</code></pre>
+<p>通过上面一系列的命令后，我们就会创建一个webpack配置好的项目包。目录结构如下：</p>
+<pre><code class="lang-shell">ttl 
+|--.babelrc           #=&gt; babel的配置文件，主要用于转换es6等最新的js语法。
+|--.editorconfig      #=&gt; 编辑器配置 
+|--.eslintignore      #=&gt; eslint的忽略校验的配置文件
+|--.eslintrc.js       #=&gt; eslint的配置校验js是否规范的配置文件
+|--.gitignore         #=&gt; 设置git忽略的管理的文件
+|--README.md          #=&gt; readme说明文件
+|--build/             #=&gt; 自动构建存放的文件地方
+|--config/            #=&gt; 当前开发、测试等配置的文件，需要懂点nodejs了啊。
+|--index.html         #=&gt; 项目的主入口的模板
+|--package.json       #=&gt; npm的配置文件
+|--src/               #=&gt; 源码目录
+|--static/            #=&gt; 静态资源存放的目录
+|--test/              #=&gt; 测试相关目录
+</code></pre>
+<h3 id="-">综合实例</h3>
+<h2 id="-webpack-vue-">从无到有自己搭建Webpack配置Vue全项目构建过程</h2>
+<h2 id="vue-">Vue综合实战项目结构</h2>
 
 			</article>
 		</div>
