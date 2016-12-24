@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue入门之extend全局方法</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <nav>
+      <router-link to="/user/9">用户</router-link>
+      <router-link to="/stu/malun">学生</router-link>
+      <hr>
+    </nav>
+    <router-view></router-view>
+  </div>
+  <script>
+    var user = {
+      template: `
+        <div>user id is : {{ $route.params.id }}</div>
+      `
+    };
+
+    var stu = {
+      template: `
+        <div>
+          <h2>{{ getName }}</h2>
+        </div>
+      `,
+      computed: {
+        getName: function () {
+          return this.$route.params.name;
+        }
+      }
+    };
+    var router = new VueRouter({
+      routes: [
+        { path: '/user/:id', component: user },
+        { path: '/stu/:name', component: stu }
+      ]
+    });
+    var app = new Vue({
+      el: '#app',
+      router: router
+    });
+  </script>
+</body>
+
+</html>

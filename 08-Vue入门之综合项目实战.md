@@ -1,3 +1,4 @@
+
 # Vue综合实战项目
 
 ## 前置知识学习
@@ -65,7 +66,7 @@ $ vue init <template-name> <project-name>
 - [browserify](https://github.com/vuejs-templates/browserify)--全功能的Browserify + vueify，包括热加载，静态检测，单元测试
 - [browserify](https://github.com/vuejs-templates/browserify-simple)-simple--一个简易的Browserify + vueify，以便于快速开始。
 
-例如：
+安装和开发控制台的命令：
 
 ```shell
 # 如果已经安装，请省略
@@ -84,8 +85,12 @@ $ npm install
 $ npm run dev
 ```
 
+### 综合实例开发记录
 
-安装过程，控制台会问你项目名称是什么？项目描述？项目作者，是否使用eslint校验，是否使用单元测试等....
+1. 通过vue-cli构建工具初始化项目目录
+
+>安装过程，控制台会问你项目名称是什么？项目描述？项目作者，是否使用eslint校验，是否使用单元测试等....
+
 我的安装过程如下请参考：
 
 ```shell
@@ -139,10 +144,225 @@ ttl
 |--test/              #=> 测试相关目录
 ```
 
-### 综合实例
+2. 初始化依赖包
 
+```shell
+$ cd ttl              #=> 进入上面创建好的项目目录
+$ npm install         #=> 安装所有的依赖包。  安装过程可能非常长，网络也可能有问题，请耐心等待。
 
-## 从无到有自己搭建Webpack配置Vue全项目构建过程
+# 安装完成后，可以直接运行测试,如果自动打开浏览器，并跳转到http://localhost:8080/ 说明一切都ok了。
+$ npm run dev 
+```
 
-## Vue综合实战项目结构
+> npm 安装的时候经常网会断开，国内的网（哎，说多了都是泪）你懂的。最好能科学上网，或者是用淘宝的npm的镜像
+  
+3. 安装`vue-router`组件
 
+```shell
+$ npm i -S vue-router
+```
+
+4. 到项目的 `/src/components/` 目录下创建三个组件文件。
+
+分别是：
+
+  - 首页组件
+
+  ```html
+  <template>
+    <div class="home">
+      <h3>{{ msg }}</h3>
+    </div>
+  </template>
+
+  <script>
+  export default {
+    name: 'home',     // 组件可以有自己的名字。
+    data () {         // 组件的data必须是函数
+      return {
+        msg: '这里是Home视图'
+      }
+    }
+  }
+  </script>
+
+  <style scoped>
+  h3 {
+    background-color: #82c;
+  }
+  </style>
+  ```
+
+  - 用户首页组件
+
+  ```html
+  <template>
+    <div>
+      <h3>{{ msg }}</h3>
+    </div>
+  </template>
+
+  <script>
+  export default {    // es6的模块导出定义语法，此模块导出默认的对象
+    name: 'user',     // 组件可以有自己的名字。
+    data () {         // 组件的data必须是函数
+      return {
+        msg: '这里是User视图'
+      }
+    }
+  }
+  </script>
+
+  <style scoped>
+  h3 {
+    background-color: red;
+  }
+  </style>
+  ```
+
+  - 产品组件
+  
+  ```html
+  <template>
+    <div class="product">
+      <h3>{{ msg }}</h3>
+    </div>
+  </template>
+
+  <script>
+  export default {
+    name: 'product',     // 组件可以有自己的名字。
+    data () {         // 组件的data必须是函数
+      return {
+        msg: '这里是Home视图'
+      }
+    }
+  }
+  </script>
+
+  <style scoped>
+  h3 {
+    background-color: green;
+  }
+  </style>
+  ```
+
+项目的目录结构为：
+
+```
+ttl
+|-- src    
+|--|-- Hello.vue
+|--|-- Home.vue
+|--|-- Product.vue
+|--|-- User.vue
+```
+
+5. 创建router对象及配置路由
+
+在`src`目录下创建`approuter.js`文件。
+然后添加如下代码：
+
+```js
+import VueRouter from 'vue-router'              // 导入路由模块    
+import Home from './components/Home.vue'        // 导入Home组件
+import User from './components/User.vue'
+import Product from './components/Product.vue'
+
+export default new VueRouter({                  // 定义路由规则对象
+  routes: [
+    {path: '/home', component: Home},
+    {path: '/user/:id', component: User},
+    {path: '/product/:id', component: Product}
+  ]
+})
+``` 
+6. 修改main.js文件
+找到`src/`目录下的main.js文件，
+共修改4处，添加路由引用、添加路由规则对象导入、启用路由、将路由键入到Vue中。   
+修改此文件为：
+
+```js
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import App from './App'
+import VueRouter from 'vue-router'      // +++1、导入路由组件
+import router from './approuter'        // +++2、导入我们自己写的路由配置文件
+
+// +++ 3、使用路由组件
+Vue.use(VueRouter)
+
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  template: '<App/>',
+  components: { App },
+  router: router                        // +++4、添加路由对象
+})
+```
+
+7. 在app.vue中添加路由导航
+
+最终代码如下：
+
+```html
+<template>
+  <div id="app">
+    <nav class="top-menu">
+      <ul >
+        <li v-for="item in menuList">
+          <router-link :to="item.url">{{ item.name }}</router-link>
+        </li>
+      </ul>
+    </nav>
+    <hr>
+    <div>
+      <router-view></router-view>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'app',
+  data: function () {
+    return {
+      menuList: [
+        { name: '首页', url: '/home' },
+        { name: '用户', url: '/user/19' },
+        { name: '产品', url: '/product/20' }
+      ]
+    }
+  }
+}
+</script>
+
+<style>
+#app {
+ 
+}
+.top-menu ul, .top-menu li {
+  list-style: none;
+}
+.top-menu {
+  overflow: hidden;
+}
+.top-menu li {
+  float: left;
+  width: 100px;
+}
+</style>
+```
+
+刷新一下浏览器，你将会看到最终的运行结果。
+
+# 总结
+
+Vue的入门系列基本都写完了，大部分内容是参考了官网的文档。
+
+还有很多内容没有整理到这个系列中。比如：vue的过渡动画，vue的异步刷新队列，vue的过滤器等，我相信你通过本文档就能
+实现vue的入门了，那些琐碎的知识点只要看一下官方的文档应该很容入门。
+
+这一次整理过程，让我对Vue有了更深入的认识，之前不熟悉的东西，强迫自己把
+文档写一遍后，认识比以前更清晰了。Vue确实带来很多的惊喜。希望这个文档对你有用。

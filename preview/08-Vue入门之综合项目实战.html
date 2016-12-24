@@ -208,7 +208,7 @@ $ vue -V
 <li><a href="https://github.com/vuejs-templates/browserify">browserify</a>--全功能的Browserify + vueify，包括热加载，静态检测，单元测试</li>
 <li><a href="https://github.com/vuejs-templates/browserify-simple">browserify</a>-simple--一个简易的Browserify + vueify，以便于快速开始。</li>
 </ul>
-<p>例如：</p>
+<p>安装和开发控制台的命令：</p>
 <pre><code class="lang-shell"># 如果已经安装，请省略
 $ npm install -g vue-cli
 
@@ -224,8 +224,14 @@ $ npm install
 # 运行测试的首页
 $ npm run dev
 </code></pre>
-<p>安装过程，控制台会问你项目名称是什么？项目描述？项目作者，是否使用eslint校验，是否使用单元测试等....
-我的安装过程如下请参考：</p>
+<h3 id="-">综合实例开发记录</h3>
+<ol>
+<li>通过vue-cli构建工具初始化项目目录<blockquote>
+<p>安装过程，控制台会问你项目名称是什么？项目描述？项目作者，是否使用eslint校验，是否使用单元测试等....</p>
+</blockquote>
+</li>
+</ol>
+<p>我的安装过程如下请参考：</p>
 <pre><code class="lang-shell">$ vue init webpack ttl                        # =&gt; 安装webpack模板的项目 ttl（项目名可以随便取）
 
   A newer version of vue-cli is available.
@@ -272,9 +278,211 @@ $ npm run dev
 |--static/            #=&gt; 静态资源存放的目录
 |--test/              #=&gt; 测试相关目录
 </code></pre>
-<h3 id="-">综合实例</h3>
-<h2 id="-webpack-vue-">从无到有自己搭建Webpack配置Vue全项目构建过程</h2>
-<h2 id="vue-">Vue综合实战项目结构</h2>
+<ol>
+<li>初始化依赖包
+```shell
+$ cd ttl              #=&gt; 进入上面创建好的项目目录
+$ npm install         #=&gt; 安装所有的依赖包。  安装过程可能非常长，网络也可能有问题，请耐心等待。</li>
+</ol>
+<h1 id="-http-localhost-8080-ok-">安装完成后，可以直接运行测试,如果自动打开浏览器，并跳转到<a href="http://localhost:8080/">http://localhost:8080/</a> 说明一切都ok了。</h1>
+<p>$ npm run dev </p>
+<pre><code>
+&gt; npm 安装的时候经常网会断开，国内的网（哎，说多了都是泪）你懂的。最好能科学上网，或者是用淘宝的npm的镜像
+
+3. 安装`vue-router`组件
+
+```shell
+$ npm i -S vue-router
+</code></pre><ol>
+<li><p>到项目的 <code>/src/components/</code> 目录下创建三个组件文件。
+分别是：</p>
+<ul>
+<li>首页组件
+```html<template>
+<div class="home">
+ <h3>{{ msg }}</h3>
+</div>
+</template>
+
+</li>
+</ul>
+<script>
+export default {
+ name: 'home',     // 组件可以有自己的名字。
+ data () {         // 组件的data必须是函数
+   return {
+     msg: '这里是Home视图'
+   }
+ }
+}
+</script>
+
+<style scoped>
+h3 {
+ background-color: #82c;
+}
+</style>
+```
+
+- 用户首页组件
+```html
+<template>
+ <div>
+   <h3>{{ msg }}</h3>
+ </div>
+</template>
+
+<script>
+export default {    // es6的模块导出定义语法，此模块导出默认的对象
+ name: 'user',     // 组件可以有自己的名字。
+ data () {         // 组件的data必须是函数
+   return {
+     msg: '这里是User视图'
+   }
+ }
+}
+</script>
+
+<style scoped>
+h3 {
+ background-color: red;
+}
+</style>
+```
+
+- 产品组件
+
+```html
+<template>
+ <div class="product">
+   <h3>{{ msg }}</h3>
+ </div>
+</template>
+
+<script>
+export default {
+ name: 'product',     // 组件可以有自己的名字。
+ data () {         // 组件的data必须是函数
+   return {
+     msg: '这里是Home视图'
+   }
+ }
+}
+</script>
+
+<style scoped>
+h3 {
+ background-color: green;
+}
+</style>
+
+<pre><code>项目的目录结构为：
+</code></pre><p>ttl
+|-- src<br>|--|-- Hello.vue
+|--|-- Home.vue
+|--|-- Product.vue
+|--|-- User.vue
+```</p>
+</li>
+<li><p>创建router对象及配置路由</p>
+</li>
+</ol>
+<p>在<code>src</code>目录下创建<code>approuter.js</code>文件。
+然后添加如下代码：</p>
+<pre><code class="lang-js">import VueRouter from &#39;vue-router&#39;              // 导入路由模块    
+import Home from &#39;./components/Home.vue&#39;        // 导入Home组件
+import User from &#39;./components/User.vue&#39;
+import Product from &#39;./components/Product.vue&#39;
+
+export default new VueRouter({                  // 定义路由规则对象
+  routes: [
+    {path: &#39;/home&#39;, component: Home},
+    {path: &#39;/user/:id&#39;, component: User},
+    {path: &#39;/product/:id&#39;, component: Product}
+  ]
+})
+</code></pre>
+<ol>
+<li>修改main.js文件
+找到<code>src/</code>目录下的main.js文件，
+共修改4处，添加路由引用、添加路由规则对象导入、启用路由、将路由键入到Vue中。<br>修改此文件为：</li>
+</ol>
+<pre><code class="lang-js">// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from &#39;vue&#39;
+import App from &#39;./App&#39;
+import VueRouter from &#39;vue-router&#39;      // +++1、导入路由组件
+import router from &#39;./approuter&#39;        // +++2、导入我们自己写的路由配置文件
+
+// +++ 3、使用路由组件
+Vue.use(VueRouter)
+
+/* eslint-disable no-new */
+new Vue({
+  el: &#39;#app&#39;,
+  template: &#39;&lt;App/&gt;&#39;,
+  components: { App },
+  router: router                        // +++4、添加路由对象
+})
+</code></pre>
+<ol>
+<li>在app.vue中添加路由导航</li>
+</ol>
+<p>最终代码如下：</p>
+<pre><code class="lang-html">&lt;template&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;nav class=&quot;top-menu&quot;&gt;
+      &lt;ul &gt;
+        &lt;li v-for=&quot;item in menuList&quot;&gt;
+          &lt;router-link :to=&quot;item.url&quot;&gt;{{ item.name }}&lt;/router-link&gt;
+        &lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+    &lt;hr&gt;
+    &lt;div&gt;
+      &lt;router-view&gt;&lt;/router-view&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+  name: &#39;app&#39;,
+  data: function () {
+    return {
+      menuList: [
+        { name: &#39;首页&#39;, url: &#39;/home&#39; },
+        { name: &#39;用户&#39;, url: &#39;/user/19&#39; },
+        { name: &#39;产品&#39;, url: &#39;/product/20&#39; }
+      ]
+    }
+  }
+}
+&lt;/script&gt;
+
+&lt;style&gt;
+#app {
+
+}
+.top-menu ul, .top-menu li {
+  list-style: none;
+}
+.top-menu {
+  overflow: hidden;
+}
+.top-menu li {
+  float: left;
+  width: 100px;
+}
+&lt;/style&gt;
+</code></pre>
+<p>刷新一下浏览器，你将会看到最终的运行结果。</p>
+<h1 id="-">总结</h1>
+<p>Vue的入门系列基本都写完了，大部分内容是参考了官网的文档。</p>
+<p>还有很多内容没有整理到这个系列中。比如：vue的过渡动画，vue的异步刷新队列，vue的过滤器等，我相信你通过本文档就能
+实现vue的入门了，那些琐碎的知识点只要看一下官方的文档应该很容入门。</p>
+<p>这一次整理过程，让我对Vue有了更深入的认识，之前不熟悉的东西，强迫自己把
+文档写一遍后，认识比以前更清晰了。Vue确实带来很多的惊喜。希望这个文档对你有用。</p>
 
 			</article>
 		</div>

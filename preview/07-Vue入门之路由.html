@@ -349,6 +349,159 @@ const app = new Vue({
 &lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
+<h2 id="-">路由参数获取</h2>
+<p>定义路由路径的时候，可以指定参数。参数需要通过路径进行标识：<code>/user/:id</code>就是定义了一个规则，/user开头，然后后面的就是id参数的值。
+比如： </p>
+<pre><code>路由规则：  /user/:id
+/user/9   =&gt;  id = 9
+/user/8   =&gt;  id = 8
+/user/1   =&gt;  id = 1
+</code></pre><p>然后在跳转后的vue中可以通过<code>this.$route.params.参数名</code>获取对应的参数。
+比如代码：</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之extend全局方法&lt;/title&gt;
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;nav&gt;
+      &lt;router-link to=&quot;/user/9&quot;&gt;用户&lt;/router-link&gt;
+      &lt;router-link to=&quot;/stu/malun&quot;&gt;学生&lt;/router-link&gt;
+      &lt;hr&gt;
+    &lt;/nav&gt;
+    &lt;router-view&gt;&lt;/router-view&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    var user = {
+      template: `
+        &lt;div&gt;user id is : {{ $route.params.id }}&lt;/div&gt;
+      `
+    };
+
+    var stu = {
+      template: `
+        &lt;div&gt;
+          &lt;h2&gt;{{ getName }}&lt;/h2&gt;
+        &lt;/div&gt;
+      `,
+      computed: {
+        getName: function () {
+          return this.$route.params.name;
+        }
+      }
+    };
+    var router = new VueRouter({
+      routes: [
+        { path: &#39;/user/:id&#39;, component: user },
+        { path: &#39;/stu/:name&#39;, component: stu }
+      ]
+    });
+    var app = new Vue({
+      el: &#39;#app&#39;,
+      router: router
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="js-">js控制路由跳转</h2>
+<p>上面我们演示的都是通过router-link进行跳转。 其实我们还可以通过js编程的方式进行路由的跳转。</p>
+<pre><code class="lang-js">// 当前路由的view跳转到 /home
+router.push(&#39;home&#39;)
+
+// 对象,  跳转到/home
+router.push({ path: &#39;home&#39; })
+
+// 命名的路由   
+router.push({ name: &#39;user&#39;, params: { userId: 123 }})
+
+// 带查询参数，变成 /register?plan=private
+router.push({ path: &#39;register&#39;, query: { plan: &#39;private&#39; }})
+</code></pre>
+<h2 id="-">嵌套路由</h2>
+<p>嵌套路由跟普通路由基本没有什么区别。但是可以让vue开发变的非常灵活。
+官网这块写的也非常好，我就直接拷贝了（原谅我吧。）
+实际生活中的应用界面，通常由多层嵌套的组件组合而成。同样地，URL 中各段动态路径也按某种结构对应嵌套的各层组件，例如：</p>
+<pre><code>/user/foo/profile                     /user/foo/posts
++------------------+                  +-----------------+
+| User             |                  | User            |
+| +--------------+ |                  | +-------------+ |
+| | Profile      | |  +------------&gt;  | | Posts       | |
+| |              | |                  | |             | |
+| +--------------+ |                  | +-------------+ |
++------------------+                  +-----------------+
+借助 vue-router，使用嵌套路由配置，就可以很简单地表达这种关系。
+</code></pre><pre><code class="lang-html">&lt;div id=&quot;app&quot;&gt;
+  &lt;router-view&gt;&lt;/router-view&gt;
+&lt;/div&gt;
+const User = {
+  template: &#39;&lt;div&gt;User {{ $route.params.id }}&lt;/div&gt;&#39;
+}
+
+const router = new VueRouter({
+  routes: [
+    { path: &#39;/user/:id&#39;, component: User }
+  ]
+})
+这里的 &lt;router-view&gt; 是最顶层的出口，渲染最高级路由匹配到的组件。同样地，一个被渲染组件同样可以包含自己的嵌套 &lt;router-view&gt;。例如，在 User 组件的模板添加一个 &lt;router-view&gt;：
+
+const User = {
+  template: `
+    &lt;div class=&quot;user&quot;&gt;
+      &lt;h2&gt;User {{ $route.params.id }}&lt;/h2&gt;
+      &lt;router-view&gt;&lt;/router-view&gt;
+    &lt;/div&gt;
+  `
+}
+要在嵌套的出口中渲染组件，需要在 VueRouter 的参数中使用 children 配置：
+
+const router = new VueRouter({
+  routes: [
+    { path: &#39;/user/:id&#39;, component: User,
+      children: [
+        {
+          // 当 /user/:id/profile 匹配成功，
+          // UserProfile 会被渲染在 User 的 &lt;router-view&gt; 中
+          path: &#39;profile&#39;,
+          component: UserProfile
+        },
+        {
+          // 当 /user/:id/posts 匹配成功
+          // UserPosts 会被渲染在 User 的 &lt;router-view&gt; 中
+          path: &#39;posts&#39;,
+          component: UserPosts
+        }
+      ]
+    }
+  ]
+})
+</code></pre>
+<p>要注意，以 / 开头的嵌套路径会被当作根路径。 这让你充分的使用嵌套组件而无须设置嵌套的路径。
+你会发现，children 配置就是像 routes 配置一样的路由配置数组，所以呢，你可以嵌套多层路由。</p>
+<p>此时，基于上面的配置，当你访问 /user/foo 时，User 的出口是不会渲染任何东西，这是因为没有匹配到合适的子路由。如果你想要渲染点什么，可以提供一个 空的 子路由：</p>
+<pre><code class="lang-js">const router = new VueRouter({
+  routes: [
+    {
+      path: &#39;/user/:id&#39;, component: User,
+      children: [
+        // 当 /user/:id 匹配成功，
+        // UserHome 会被渲染在 User 的 &lt;router-view&gt; 中
+        { path: &#39;&#39;, component: UserHome },
+
+        // ...其他子路由
+      ]
+    }
+  ]
+})
+</code></pre>
+<h2 id="-">总结</h2>
+<p>其实作为入门的话，暂时先掌握这些知识，后续 </p>
 
 			</article>
 		</div>
