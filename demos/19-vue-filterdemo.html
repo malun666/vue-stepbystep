@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue入门之filter</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <p>{{ stu.birthday | dateYmDMSFilter }}</p>
+  </div>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+        stu: {
+          age: 19,
+          name: 'malun',
+          birthday: new Date(),
+          qq: '515154084',
+          mail: 'flydragonml@gmail.com'
+        }
+      },
+      filters: {
+        dateYYYYMMDDFilter: function (val) {
+          if (!val) return ''
+          var temp = new Date(val.toString())
+          return temp.getFullYear() + '年' + (temp.getMonth()+1) + '月' + temp.getDate() + '日'
+        },
+        dateYmDMSFilter: function (val) {
+          if (!val) return ''
+          var temp = new Date(val.toString())
+          return temp.getFullYear() + '年' + (temp.getMonth()+1) + '月' + temp.getDate() + '日' + temp.getHours() + '时' + temp.getMinutes() +'分' + temp.getSeconds() + '秒'
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
