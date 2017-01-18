@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue入门之event message</title>
+  <!-- 新 Bootstrap 核心 CSS 文件 -->
+  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+
+  <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
+
+  <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+  <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <p>推荐次数：{{ voteCount }}</p>
+    <hr>
+    <vote-btn v-on:vote="voteAction" v-on:sendmsg="sendMsgAction"></vote-btn>
+    <hr>
+    <ul class="list-group">
+      <li v-for="o in msg" class="list-group-item">{{o}}</li>
+    </ul>
+  </div>
+  <script>
+    var eventBus = new Vue()
+  
+    Vue.component('vote-btn', {
+      template: `
+        <div>
+          <button class="btn btn-success" v-on:click="voteArticle">推荐</button>
+          <hr/>
+          <input type="text" v-model="txtMsg" />
+          <button v-on:click="sendMsg" class="btn btn-success">发送消息</button>
+        </div>
+      `,
+      data: function () {
+        return {
+          txtMsg: ""
+        }
+      },
+      methods: {
+        voteArticle: function () {
+          this.$emit('vote')
+        },
+        sendMsg: function () {
+          this.$emit('sendmsg', this.txtMsg)
+        }
+      }
+    })
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        voteCount: 0,
+        msg: []
+      },
+      methods: {
+        voteAction: function() {
+          this.voteCount += 1
+        },
+        sendMsgAction: function (item) {
+          this.msg.push(item)
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

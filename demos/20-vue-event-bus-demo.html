@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue入门之event message</title>
+  <!-- 新 Bootstrap 核心 CSS 文件 -->
+  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+
+  <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+  <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap-theme.min.css">
+
+  <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+  <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+  <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+  <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <product-list :products="products" v-on:addpro="addToCarts"> </product-list>
+    <hr>  
+    <cart :cart-products="carts"> </cart>
+  </div>
+  <script>
+    var eventBus = new Vue()
+  
+    Vue.component('cart', {
+      template: `
+      <table class="table table-borderd table-striped table-hover">
+      <thead>
+        <tr>
+          <th>商品编号</th>
+          <th>商品名</th>
+          <th>数量</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in cartProducts">
+          
+          <td>{{ item.id }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.count }}</td>
+          <td>
+            <button type="button" @click="removeCarts(item)" class="btn btn-success">移除购物车</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+      `,
+      data: function () {
+        return {
+        }
+      },
+      methods: {
+        removeCarts: function (item) {
+          eventBus.$emit('remo', item)
+        }
+      },
+      props: ['cartProducts']
+    })
+
+    Vue.component('product-list', {
+      template: `
+      <table class="table table-borderd table-striped table-hover">
+      <thead>
+        <tr>
+          <th>商品编号</th>
+          <th>商品名</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in products">
+          <td>{{ item.id }}</td>
+          <td>{{ item.name }}</td>
+          <td>
+            <button type="button" v-on:click="addToCarts(item)" class="btn btn-success">添加到购物车</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+      `,
+      data: function () {
+        return {
+        }
+      },
+      methods: {
+        addToCarts: function (item) {
+          this.$emit('addpro', item)
+        }
+      },
+      props: ['products'],
+     
+    })
+
+    var app = new Vue({
+      el: '#app',
+      data: {
+        products: [
+          { id: '1', name: '鳄鱼' },
+          { id: '2', name: '蛇' },
+          { id: '3', name: '兔子' },
+          { id: '4', name: '驴' },
+          { id: '5', name: '孔雀' }
+        ],
+        carts: []
+      },
+      methods: {
+        addToCarts: function (item) {
+          var isExist = false
+          for(var i=0; i<this.carts.length; i++) {
+            if( item.id === this.carts[i].id ) {
+              item.count = this.carts[i].count + 1
+              Vue.set(this.carts, i, item)
+              isExist = true
+            }
+          }
+          !isExist && (item.count = 1, this.carts.push(item))
+        },
+        removeCarts: function (item) {
+          for(var i =0; i<this.carts.length; i++) {
+            if( item.id === this.carts[i].id) {
+              this.carts.splice(i,1)
+            }
+          }
+        }
+      },
+      mounted: function () {
+        self = this;
+        eventBus.$on('remo', function (item) {
+          self.removeCarts(item)
+        })
+      }
+    });
+  </script>
+</body>
+
+</html>

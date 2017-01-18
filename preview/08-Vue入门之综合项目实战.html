@@ -226,11 +226,11 @@ $ npm run dev
 </code></pre>
 <h3 id="-">综合实例开发记录</h3>
 <ol>
-<li>通过vue-cli构建工具初始化项目目录<blockquote>
+<li>通过vue-cli构建工具初始化项目目录</li>
+</ol>
+<blockquote>
 <p>安装过程，控制台会问你项目名称是什么？项目描述？项目作者，是否使用eslint校验，是否使用单元测试等....</p>
 </blockquote>
-</li>
-</ol>
 <p>我的安装过程如下请参考：</p>
 <pre><code class="lang-shell">$ vue init webpack ttl                        # =&gt; 安装webpack模板的项目 ttl（项目名可以随便取）
 
@@ -279,113 +279,112 @@ $ npm run dev
 |--test/              #=&gt; 测试相关目录
 </code></pre>
 <ol>
-<li>初始化依赖包
-```shell
-$ cd ttl              #=&gt; 进入上面创建好的项目目录
-$ npm install         #=&gt; 安装所有的依赖包。  安装过程可能非常长，网络也可能有问题，请耐心等待。</li>
+<li>初始化依赖包</li>
 </ol>
-<h1 id="-http-localhost-8080-ok-">安装完成后，可以直接运行测试,如果自动打开浏览器，并跳转到<a href="http://localhost:8080/">http://localhost:8080/</a> 说明一切都ok了。</h1>
-<p>$ npm run dev </p>
-<pre><code>
-&gt; npm 安装的时候经常网会断开，国内的网（哎，说多了都是泪）你懂的。最好能科学上网，或者是用淘宝的npm的镜像
+<pre><code class="lang-shell">$ cd ttl              #=&gt; 进入上面创建好的项目目录
+$ npm install         #=&gt; 安装所有的依赖包。  安装过程可能非常长，网络也可能有问题，请耐心等待。
 
-3. 安装`vue-router`组件
-
-```shell
-$ npm i -S vue-router
-</code></pre><ol>
-<li><p>到项目的 <code>/src/components/</code> 目录下创建三个组件文件。
-分别是：</p>
+# 安装完成后，可以直接运行测试,如果自动打开浏览器，并跳转到http://localhost:8080/ 说明一切都ok了。
+$ npm run dev
+</code></pre>
+<blockquote>
+<p>npm 安装的时候经常网会断开，国内的网（哎，说多了都是泪）你懂的。最好能科学上网，或者是用淘宝的npm的镜像</p>
+</blockquote>
+<ol>
+<li>安装<code>vue-router</code>组件</li>
+</ol>
+<pre><code class="lang-shell">$ npm i -S vue-router
+</code></pre>
+<ol>
+<li>到项目的 <code>/src/components/</code> 目录下创建三个组件文件。</li>
+</ol>
+<p>分别是：</p>
 <ul>
-<li>首页组件
-```html<template>
-<div class="home">
- <h3>{{ msg }}</h3>
-</div>
-</template>
+<li><p>首页组件</p>
+<pre><code class="lang-html">&lt;template&gt;
+&lt;div class=&quot;home&quot;&gt;
+  &lt;h3&gt;{{ msg }}&lt;/h3&gt;
+&lt;/div&gt;
+&lt;/template&gt;
 
+&lt;script&gt;
+export default {
+name: &#39;home&#39;,     // 组件可以有自己的名字。
+data () {         // 组件的data必须是函数
+  return {
+    msg: &#39;这里是Home视图&#39;
+  }
+}
+}
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+h3 {
+background-color: #82c;
+}
+&lt;/style&gt;
+</code></pre>
+</li>
+<li><p>用户首页组件</p>
+<pre><code class="lang-html">&lt;template&gt;
+&lt;div&gt;
+  &lt;h3&gt;{{ msg }}&lt;/h3&gt;
+&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {    // es6的模块导出定义语法，此模块导出默认的对象
+name: &#39;user&#39;,     // 组件可以有自己的名字。
+data () {         // 组件的data必须是函数
+  return {
+    msg: &#39;这里是User视图&#39;
+  }
+}
+}
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+h3 {
+background-color: red;
+}
+&lt;/style&gt;
+</code></pre>
+</li>
+<li><p>产品组件</p>
+<pre><code class="lang-html">&lt;template&gt;
+&lt;div class=&quot;product&quot;&gt;
+  &lt;h3&gt;{{ msg }}&lt;/h3&gt;
+&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+export default {
+name: &#39;product&#39;,     // 组件可以有自己的名字。
+data () {         // 组件的data必须是函数
+  return {
+    msg: &#39;这里是Home视图&#39;
+  }
+}
+}
+&lt;/script&gt;
+
+&lt;style scoped&gt;
+h3 {
+background-color: green;
+}
+&lt;/style&gt;
+</code></pre>
 </li>
 </ul>
-<script>
-export default {
- name: 'home',     // 组件可以有自己的名字。
- data () {         // 组件的data必须是函数
-   return {
-     msg: '这里是Home视图'
-   }
- }
-}
-</script>
-
-<style scoped>
-h3 {
- background-color: #82c;
-}
-</style>
-```
-
-- 用户首页组件
-```html
-<template>
- <div>
-   <h3>{{ msg }}</h3>
- </div>
-</template>
-
-<script>
-export default {    // es6的模块导出定义语法，此模块导出默认的对象
- name: 'user',     // 组件可以有自己的名字。
- data () {         // 组件的data必须是函数
-   return {
-     msg: '这里是User视图'
-   }
- }
-}
-</script>
-
-<style scoped>
-h3 {
- background-color: red;
-}
-</style>
-```
-
-- 产品组件
-
-```html
-<template>
- <div class="product">
-   <h3>{{ msg }}</h3>
- </div>
-</template>
-
-<script>
-export default {
- name: 'product',     // 组件可以有自己的名字。
- data () {         // 组件的data必须是函数
-   return {
-     msg: '这里是Home视图'
-   }
- }
-}
-</script>
-
-<style scoped>
-h3 {
- background-color: green;
-}
-</style>
-
-<pre><code>项目的目录结构为：
-</code></pre><p>ttl
-|-- src<br>|--|-- Hello.vue
+<p>项目的目录结构为：</p>
+<pre><code>ttl
+|-- src    
+|--|-- Hello.vue
 |--|-- Home.vue
 |--|-- Product.vue
 |--|-- User.vue
-```</p>
-</li>
-<li><p>创建router对象及配置路由</p>
-</li>
+</code></pre><ol>
+<li>创建router对象及配置路由</li>
 </ol>
 <p>在<code>src</code>目录下创建<code>approuter.js</code>文件。
 然后添加如下代码：</p>
