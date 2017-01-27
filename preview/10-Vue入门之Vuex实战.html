@@ -138,8 +138,260 @@
 <h2 id="-">子组件通知父组件数据更新：事件方式的实现</h2>
 <p>子组件可以在子组件内触发事件，然后在父容器中添加子组件时绑定父容器的方法为事件响应方法的方式.如下图所示：</p>
 <p><img src="imgs/06vue.png" alt="vue父子传递"></p>
-<p>参考代码案例：</p>
+<ul>
+<li>使用 v-on 绑定自定义事件</li>
+</ul>
+<pre><code>每个 Vue 实例都实现了事件接口(Events interface)，即：
+使用 $on(eventName) 监听事件
+使用 $emit(eventName) 触发事件
+</code></pre><p>参考代码案例：</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之event message&lt;/title&gt;
+  &lt;!-- 新 Bootstrap 核心 CSS 文件 --&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css&quot;&gt;
+
+  &lt;!-- 可选的Bootstrap主题文件（一般不用引入） --&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap-theme.min.css&quot;&gt;
+
+  &lt;!-- jQuery文件。务必在bootstrap.min.js 之前引入 --&gt;
+  &lt;script src=&quot;http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+
+  &lt;!-- 最新的 Bootstrap 核心 JavaScript 文件 --&gt;
+  &lt;script src=&quot;http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;p&gt;推荐次数：{{ voteCount }}&lt;/p&gt;
+    &lt;hr&gt;
+    &lt;!--绑定两个自定义事件，当组件内部触发了事件后，会自定调用父容器绑定的methods的方法，达到了子容器向父容器数据进行通信同步的方法--&gt;
+    &lt;vote-btn v-on:vote=&quot;voteAction&quot; v-on:sendmsg=&quot;sendMsgAction&quot;&gt;&lt;/vote-btn&gt;
+    &lt;hr&gt;
+    &lt;ul class=&quot;list-group&quot;&gt;
+      &lt;li v-for=&quot;o in msg&quot; class=&quot;list-group-item&quot;&gt;{{o}}&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    Vue.component(&#39;vote-btn&#39;, {
+      template: `
+        &lt;div&gt;
+          &lt;button class=&quot;btn btn-success&quot; v-on:click=&quot;voteArticle&quot;&gt;推荐&lt;/button&gt;
+          &lt;hr/&gt;
+          &lt;input type=&quot;text&quot; v-model=&quot;txtMsg&quot; /&gt;
+          &lt;button v-on:click=&quot;sendMsg&quot; class=&quot;btn btn-success&quot;&gt;发送消息&lt;/button&gt;
+        &lt;/div&gt;
+      `,
+      data: function () {
+        return {
+          txtMsg: &quot;&quot;
+        }
+      },
+      methods: {
+        voteArticle: function () {
+          // 触发事件，vote
+          this.$emit(&#39;vote&#39;)
+        },
+        sendMsg: function () {
+          // 触发事件，sendmsg，并
+          this.$emit(&#39;sendmsg&#39;, this.txtMsg)
+        }
+      }
+    })
+
+    var app = new Vue({
+      el: &#39;#app&#39;,
+      data: {
+        voteCount: 0,
+        msg: []
+      },
+      methods: {
+        voteAction: function() {  // 事件触发后，会直接执行此方法
+          this.voteCount += 1
+        },
+        sendMsgAction: function (item) {
+          this.msg.push(item)
+        }
+      }
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
 <h2 id="-">事件总线方式解决非父子组件数据同步</h2>
+<p>如果非父子组件怎么通过事件进行同步数据，或者同步消息呢？Vue中的事件触发和监听都是跟一个具体的Vue实例挂钩。
+所以在不同的Vue实例中想进行事件的统一跟踪和触发，那就需要一个公共的Vue实例，这个实例就是公共的事件对象。</p>
+<p><img src="imgs/07eventbus.png" alt=""></p>
+<p>参考下面做的一个购物车的案例的代码：</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Vue入门之event message&lt;/title&gt;
+  &lt;!-- 新 Bootstrap 核心 CSS 文件 --&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css&quot;&gt;
+
+  &lt;!-- 可选的Bootstrap主题文件（一般不用引入） --&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap-theme.min.css&quot;&gt;
+
+  &lt;!-- jQuery文件。务必在bootstrap.min.js 之前引入 --&gt;
+  &lt;script src=&quot;http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+
+  &lt;!-- 最新的 Bootstrap 核心 JavaScript 文件 --&gt;
+  &lt;script src=&quot;http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+
+  &lt;script src=&quot;https://unpkg.com/vue/dist/vue.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;https://unpkg.com/vue-router/dist/vue-router.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;div id=&quot;app&quot;&gt;
+    &lt;product-list :products=&quot;products&quot; v-on:addpro=&quot;addToCarts&quot;&gt; &lt;/product-list&gt;
+    &lt;hr&gt;  
+    &lt;cart :cart-products=&quot;carts&quot;&gt; &lt;/cart&gt;
+  &lt;/div&gt;
+  &lt;script&gt;
+    var eventBus = new Vue()
+
+    Vue.component(&#39;cart&#39;, {
+      template: `
+      &lt;table class=&quot;table table-borderd table-striped table-hover&quot;&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;商品编号&lt;/th&gt;
+          &lt;th&gt;商品名&lt;/th&gt;
+          &lt;th&gt;数量&lt;/th&gt;
+          &lt;th&gt;操作&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr v-for=&quot;item in cartProducts&quot;&gt;
+
+          &lt;td&gt;{{ item.id }}&lt;/td&gt;
+          &lt;td&gt;{{ item.name }}&lt;/td&gt;
+          &lt;td&gt;
+            {{ item.count }}
+          &lt;/td&gt;
+          &lt;td&gt;
+            &lt;button type=&quot;button&quot; @click=&quot;removeCarts(item)&quot; class=&quot;btn btn-success&quot;&gt;&lt;i class=&quot;glyphicon glyphicon-remove&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+      `,
+      data: function () {
+        return {
+        }
+      },
+      methods: {
+        removeCarts: function (item) {
+          eventBus.$emit(&#39;remo&#39;, item)
+        }
+      },
+      props: [&#39;cartProducts&#39;]
+    })
+
+    Vue.component(&#39;product-list&#39;, {
+      template: `
+      &lt;table class=&quot;table table-borderd table-striped table-hover&quot;&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;商品编号&lt;/th&gt;
+          &lt;th&gt;商品名&lt;/th&gt;
+          &lt;th&gt;操作&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr v-for=&quot;item in products&quot;&gt;
+          &lt;td&gt;{{ item.id }}&lt;/td&gt;
+          &lt;td&gt;{{ item.name }}&lt;/td&gt;
+          &lt;td&gt;
+            &lt;button type=&quot;button&quot; v-on:click=&quot;addToCarts(item)&quot; class=&quot;btn btn-success&quot;&gt;&lt;i class=&quot;glyphicon glyphicon-shopping-cart&quot;&gt;&lt;/i&gt;&lt;/button&gt;
+          &lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+      `,
+      data: function () {
+        return {
+        }
+      },
+      methods: {
+        addToCarts: function (item) {
+          this.$emit(&#39;addpro&#39;, item)
+        }
+      },
+      props: [&#39;products&#39;],
+
+    })
+
+    var app = new Vue({
+      el: &#39;#app&#39;,
+      data: {
+        products: [
+          { id: &#39;1&#39;, name: &#39;鳄鱼&#39; },
+          { id: &#39;2&#39;, name: &#39;蛇&#39; },
+          { id: &#39;3&#39;, name: &#39;兔子&#39; },
+          { id: &#39;4&#39;, name: &#39;驴&#39; },
+          { id: &#39;5&#39;, name: &#39;孔雀&#39; }
+        ],
+        carts: []
+      },
+      methods: {
+        addToCarts: function (item) {
+          var isExist = false
+          for(var i=0; i&lt;this.carts.length; i++) {
+            if( item.id === this.carts[i].id ) {
+              item.count = this.carts[i].count + 1
+              Vue.set(this.carts, i, item)
+              isExist = true
+            }
+          }
+          !isExist &amp;&amp; (item.count = 1, this.carts.push(item))
+        },
+        removeCarts: function (item) {
+          for(var i =0; i&lt;this.carts.length; i++) {
+            if( item.id === this.carts[i].id) {
+              this.carts.splice(i,1)
+            }
+          }
+        }
+      },
+      mounted: function () {
+        self = this;
+        eventBus.$on(&#39;remo&#39;, function (item) {
+          self.removeCarts(item)
+        })
+      }
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<h2 id="vuex-">Vuex解决复杂单页面应用</h2>
+<p>上面的方式只能解决一些简单的页面中的组件的通信问题，但是如果是复杂的单页面应用就需要使用更强大的Vuex来帮我们进行状态的统一管理和同步。</p>
+<p>当第一次接触Vuex的时候，眼前一亮，之前经过Redux之后，被它繁琐的使用令我痛苦不已，虽然思路很清晰，其实完全可以设计的更简单和高效。
+当我接触到Vuex之后，发现这就是我想要的。的确简洁就是一种艺术。</p>
+<p>其实本质上，Vuex就是一个大的EventBus对象的升级版本，相当于一个特定的仓库，所有数据都在统一的仓库中，进行统一的管理。</p>
+<p>几个核心的概念：</p>
+<ul>
+<li>State： Vuex仓库中的数据。</li>
+<li>Getter： 类似于Vue实例中的计算属性，Getter就是普通的获取state包装函数。</li>
+<li>Mutations: Vuex 的 store 中的状态的唯一方法是提交 mutation。Vuex 中的 mutations 非常类似于事件：每个 mutation 都有一个字符串的 事件类型 (type) 和 一个 回调函数 (handler)。</li>
+<li>Action: action可以触发Mutations，不能直接改变state。</li>
+</ul>
+<p>看下面一张图了解一下Vuex整体的数据流动：</p>
+<p><img src="imgs/04vuex模型.png" alt=""></p>
+<p>可能前面的图和概念都太多了，先看一个例子，简单了解一下Vuex中的仓库的数据 怎么整合到 Vue的实例中去。</p>
 
 			</article>
 		</div>

@@ -1,0 +1,61 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vue入门之extend全局方法</title>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vuex"></script>
+</head>
+<body>
+  <div id="app">
+    <p>推荐次数：{{ vote }}</p>
+    <button type="button" @click="btnVote">推荐</button>
+    
+    <hr>
+    <ul>
+      <li v-for="item in storeMsg">
+        {{ item }}
+      </li>
+    </ul>
+  </div>
+  <script>
+    var store = new Vuex.Store({
+      state: {
+        vote: 0,
+        msg: []
+      },
+      mutations: {
+        addMsg: function (state, txtMsg) {
+          state.msg.push(txtMsg)
+        },
+        vote: function (state) {
+          state.vote++
+        }
+      }
+    })
+
+    console.log(Vuex.mapState)
+
+    var app = new Vue({         
+      el: '#app',    
+      store: store,           
+      data: {   
+        isOk: true                
+      },
+      methods: {
+        btnVote: function () {
+          store.commit('vote')
+        }
+      },
+      computed: Vuex.mapState({
+        vote: function(state) {
+          return state.vote
+        },
+        storeMsg: function(state) {
+          return state.msg
+        }
+      })
+    })
+  </script>
+</body>
+</html>

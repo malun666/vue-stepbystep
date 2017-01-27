@@ -45,9 +45,11 @@
           
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
-          <td>{{ item.count }}</td>
           <td>
-            <button type="button" @click="removeCarts(item)" class="btn btn-success">移除购物车</button>
+            {{ item.count }}
+          </td>
+          <td>
+            <button type="button" @click="removeCarts(item)" class="btn btn-success"><i class="glyphicon glyphicon-remove"></i></button>
           </td>
         </tr>
       </tbody>
@@ -80,7 +82,7 @@
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>
-            <button type="button" v-on:click="addToCarts(item)" class="btn btn-success">添加到购物车</button>
+            <button type="button" v-on:click="addToCarts(item)" class="btn btn-success"><i class="glyphicon glyphicon-shopping-cart"></i></button>
           </td>
         </tr>
       </tbody>
