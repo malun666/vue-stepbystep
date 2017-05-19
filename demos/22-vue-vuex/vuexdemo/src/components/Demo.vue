@@ -5,7 +5,7 @@
     <button @click="removeApple(1)">减少苹果</button>
     <hr>
     <input type="text" v-model="appleNum">
-    <button @click="myAddApple">减少苹果</button>
+    <button @click="myAddApple">运算苹果</button>
   </div>
 </template>
 

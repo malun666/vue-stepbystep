@@ -391,7 +391,22 @@
 </ul>
 <p>看下面一张图了解一下Vuex整体的数据流动：</p>
 <p><img src="imgs/04vuex模型.png" alt=""></p>
+<h2 id="vuex-demo">Vuex实例demo</h2>
 <p>可能前面的图和概念都太多了，先看一个例子，简单了解一下Vuex中的仓库的数据 怎么整合到 Vue的实例中去。</p>
+<p>创建Vuexdemo的项目</p>
+<pre><code class="lang-shell"># 通过vue-cli创建vuexdemo的项目，注意首先cd到你的存放项目代码的目录
+vue init webpack vuexdemo
+
+# 过程中，会有几个选项你可以选择输入Y或者n来开启或者关闭某些选项。
+
+# 创建完成后，就可以通过以下命令，进行初始化和安装相关的依赖项了。
+cd vuexdemo
+npm install
+npm run dev
+
+# 然后安装 vuex
+npm i vuex -S
+</code></pre>
 
 			</article>
 		</div>

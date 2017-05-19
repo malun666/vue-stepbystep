@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <TestMutations></TestMutations>
+    <hr>
     <demo></demo>
     <hr>
     <hello></hello>
@@ -9,12 +11,14 @@
 <script>
 import Hello from './components/Hello'
 import Demo from './components/Demo'
+import TestMutations from './components/TestMutation'
 
 export default {
   name: 'app',
   components: {
     Hello,
-    Demo
+    Demo,
+    TestMutations
   }
 }
 </script>
