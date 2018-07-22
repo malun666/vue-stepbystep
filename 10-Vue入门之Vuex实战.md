@@ -1,16 +1,17 @@
-# Vue入门之Vuex实战
+# Vue 入门之 Vuex 实战
 
 ## 引言
-Vue组件化做的确实非常彻底，它独有的vue单文件组件也是做的非常有特色。组件化的同时带来的是：组件之间的数据共享和通信的难题。
-尤其Vue组件设计的就是，父组件通过子组件的prop进行传递数据，而且数据传递是`单向`的。也就是说：父组件可以把数据传递给子组件，但是
-反之则不同。如下图所示：   
+
+Vue 组件化做的确实非常彻底，它独有的 vue 单文件组件也是做的非常有特色。组件化的同时带来的是：组件之间的数据共享和通信的难题。
+尤其 Vue 组件设计的就是，父组件通过子组件的 prop 进行传递数据，而且数据传递是`单向`的。也就是说：父组件可以把数据传递给子组件，但是
+反之则不同。如下图所示：
 
 ![vue父子传递](imgs/05vue.png)
 
 ## 单向数据流动
 
 单方向的数据流动带来了非常简洁和清晰的数据流，纯展示性或者独立性较强的模块的开发确实非常方便和省事。
-但是复杂的页面逻辑，组件之间的数据共享处理就会需要通过事件总线的方式解决或者使用Vue的Vuex框架了。
+但是复杂的页面逻辑，组件之间的数据共享处理就会需要通过事件总线的方式解决或者使用 Vue 的 Vuex 框架了。
 
 ## 子组件通知父组件数据更新：事件方式的实现
 
@@ -18,7 +19,7 @@ Vue组件化做的确实非常彻底，它独有的vue单文件组件也是做�
 
 ![vue父子传递](imgs/06vue.png)
 
-+ 使用 v-on 绑定自定义事件
+- 使用 v-on 绑定自定义事件
 
 ```
 每个 Vue 实例都实现了事件接口(Events interface)，即：
@@ -27,6 +28,7 @@ Vue组件化做的确实非常彻底，它独有的vue单文件组件也是做�
 ```
 
 参考代码案例：
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -107,16 +109,17 @@ Vue组件化做的确实非常彻底，它独有的vue单文件组件也是做�
 </body>
 
 </html>
-
 ```
 
 ## 事件总线方式解决非父子组件数据同步
-如果非父子组件怎么通过事件进行同步数据，或者同步消息呢？Vue中的事件触发和监听都是跟一个具体的Vue实例挂钩。
-所以在不同的Vue实例中想进行事件的统一跟踪和触发，那就需要一个公共的Vue实例，这个实例就是公共的事件对象。
+
+如果非父子组件怎么通过事件进行同步数据，或者同步消息呢？Vue 中的事件触发和监听都是跟一个具体的 Vue 实例挂钩。
+所以在不同的 Vue 实例中想进行事件的统一跟踪和触发，那就需要一个公共的 Vue 实例，这个实例就是公共的事件对象。
 
 ![](imgs/07eventbus.png)
 
 参考下面做的一个购物车的案例的代码：
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -143,12 +146,11 @@ Vue组件化做的确实非常彻底，它独有的vue单文件组件也是做�
 <body>
   <div id="app">
     <product-list :products="products" v-on:addpro="addToCarts"> </product-list>
-    <hr>  
+    <hr>
     <cart :cart-products="carts"> </cart>
   </div>
   <script>
-    var eventBus = new Vue()
-  
+    var eventBus = new Vue();
     Vue.component('cart', {
       template: `
       <table class="table table-borderd table-striped table-hover">
@@ -162,7 +164,6 @@ Vue组件化做的确实非常彻底，它独有的vue单文件组件也是做�
       </thead>
       <tbody>
         <tr v-for="item in cartProducts">
-          
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
           <td>
@@ -218,7 +219,6 @@ Vue组件化做的确实非常彻底，它独有的vue单文件组件也是做�
         }
       },
       props: ['products'],
-     
     })
 
     var app = new Vue({
@@ -262,33 +262,34 @@ Vue组件化做的确实非常彻底，它独有的vue单文件组件也是做�
     });
   </script>
 </body>
-
 </html>
 ```
 
-## Vuex解决复杂单页面应用
-上面的方式只能解决一些简单的页面中的组件的通信问题，但是如果是复杂的单页面应用就需要使用更强大的Vuex来帮我们进行状态的统一管理和同步。
+## Vuex 解决复杂单页面应用
 
-当第一次接触Vuex的时候，眼前一亮，之前经过Redux之后，被它繁琐的使用令我痛苦不已，虽然思路很清晰，其实完全可以设计的更简单和高效。
-当我接触到Vuex之后，发现这就是我想要的。的确简洁就是一种艺术。
+上面的方式只能解决一些简单的页面中的组件的通信问题，但是如果是复杂的单页面应用就需要使用更强大的 Vuex 来帮我们进行状态的统一管理和同步。
 
-其实本质上，Vuex就是一个大的EventBus对象的升级版本，相当于一个特定的仓库，所有数据都在统一的仓库中，进行统一的管理。
+当第一次接触 Vuex 的时候，眼前一亮，之前经过 Redux 之后，被它繁琐的使用令我痛苦不已，虽然思路很清晰，其实完全可以设计的更简单和高效。
+当我接触到 Vuex 之后，发现这就是我想要的。的确简洁就是一种艺术。
+
+其实本质上，Vuex 就是一个大的 EventBus 对象的升级版本，相当于一个特定的仓库，所有数据都在统一的仓库中，进行统一的管理。
 
 几个核心的概念：
-+ State： Vuex仓库中的数据。
-+ Getter： 类似于Vue实例中的计算属性，Getter就是普通的获取state包装函数。
-+ Mutations: Vuex 的 store 中的状态的唯一方法是提交 mutation。Vuex 中的 mutations 非常类似于事件：每个 mutation 都有一个字符串的 事件类型 (type) 和 一个 回调函数 (handler)。
-+ Action: action可以触发Mutations，不能直接改变state。
 
-看下面一张图了解一下Vuex整体的数据流动：
+- State： Vuex 仓库中的数据。
+- Getter： 类似于 Vue 实例中的计算属性，Getter 就是普通的获取 state 包装函数。
+- Mutations: Vuex 的 store 中的状态的唯一方法是提交 mutation。Vuex 中的 mutations 非常类似于事件：每个 mutation 都有一个字符串的 事件类型 (type) 和 一个 回调函数 (handler)。
+- Action: action 可以触发 Mutations，不能直接改变 state。
+
+看下面一张图了解一下 Vuex 整体的数据流动：
 
 ![](imgs/04vuex模型.png)
 
-## Vuex实例demo
+## Vuex 实例 demo
 
-可能前面的图和概念都太多了，先看一个例子，简单了解一下Vuex中的仓库的数据 怎么整合到 Vue的实例中去。
+可能前面的图和概念都太多了，先看一个例子，简单了解一下 Vuex 中的仓库的数据 怎么整合到 Vue 的实例中去。
 
-创建Vuexdemo的项目
+创建 Vuexdemo 的项目
 
 ```shell
 # 通过vue-cli创建vuexdemo的项目，注意首先cd到你的存放项目代码的目录
@@ -304,15 +305,3 @@ npm run dev
 # 然后安装 vuex
 npm i vuex -S
 ```
-
-
-
-
-
-
-
-
-
-
-
-

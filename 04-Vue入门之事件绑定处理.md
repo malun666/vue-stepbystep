@@ -1,10 +1,11 @@
-# Vue事件处理
+# Vue 事件处理
 
-## 监听事件的Vue处理
-Vue提供了协助我们为标签绑定时间的方法，当然我们可以直接用dom原生的方式去绑定事件。Vue提供的指令进行绑定也是非常方便，而且能让ViewModel更简洁，逻辑更彻底。所以还是推荐大家使用的。
+## 监听事件的 Vue 处理
 
-Vue提供了`v-on`指令帮助我们进行事件的绑定。
-基本的内联事件处理方法[官方demo]：   
+Vue 提供了协助我们为标签绑定时间的方法，当然我们可以直接用 dom 原生的方式去绑定事件。Vue 提供的指令进行绑定也是非常方便，而且能让 ViewModel 更简洁，逻辑更彻底。所以还是推荐大家使用的。
+
+Vue 提供了`v-on`指令帮助我们进行事件的绑定。
+基本的内联事件处理方法[官方 demo]：
 
 ```html
 <div id="example-1">
@@ -22,12 +23,13 @@ var example1 = new Vue({
 </script>
 ```
 
-## 事件处理方法集成到Vue对象
-内联的方式绑定的事件，只能处理简单的事件的处理逻辑。复杂的情况还是封装到js中最方便，也不容易出错。
-Vue对象中可以添加methods属性，开发者可以把事件处理函数的逻辑放到methods中。
+## 事件处理方法集成到 Vue 对象
+
+内联的方式绑定的事件，只能处理简单的事件的处理逻辑。复杂的情况还是封装到 js 中最方便，也不容易出错。
+Vue 对象中可以添加 methods 属性，开发者可以把事件处理函数的逻辑放到 methods 中。
 
 ```html
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -41,9 +43,9 @@ Vue对象中可以添加methods属性，开发者可以把事件处理函数的�
     <input type="button" name="btnGetNumber" value="增加[内联方法调用]" v-on:click="getNumber()">
   </div>
   <script>
-    var app = new Vue({         
-      el: '#app',               
-      data: {                   
+    var app = new Vue({
+      el: '#app',
+      data: {
         number: 1
       },
       methods: {
@@ -59,13 +61,16 @@ Vue对象中可以添加methods属性，开发者可以把事件处理函数的�
 ```
 
 ## 事件修饰符
+
 官网上写的非常好，这块就直接用管网的吧。在事件处理程序中调用 event.preventDefault() 或 event.stopPropagation() 是非常常见的需求。尽管我们可以在 methods 中轻松实现这点，但更好的方式是：methods 只有纯粹的数据逻辑，而不是去处理 DOM 事件细节。
 为了解决这个问题， Vue.js 为 v-on 提供了 事件修饰符。通过由点(.)表示的指令后缀来调用修饰符。
+
 - .stop
 - .prevent
 - .capture
 - .self
 - .once
+
 ```html
 <!-- 阻止单击事件冒泡 -->
 <a v-on:click.stop="doThis"></a>
@@ -84,7 +89,9 @@ Vue对象中可以添加methods属性，开发者可以把事件处理函数的�
 ```
 
 ## 按键修饰符
+
 在监听键盘事件时，我们经常需要监测常见的键值。 Vue 允许为 v-on 在监听键盘事件时添加按键修饰符：
+
 ```html
 <!-- 只有在 keyCode 是 13 时调用 vm.submit() -->
 <input v-on:keyup.13="submit">
@@ -112,9 +119,11 @@ Vue对象中可以添加methods属性，开发者可以把事件处理函数的�
 - .meta
 
 ## 事件绑定的简写
-Vue中属性的绑定的简写直接是`:` === 'v-bind:'   
-而事件的缩写是直接变成`@`.  也就是说：  `v-on:` === `@`
+
+Vue 中属性的绑定的简写直接是`:` === 'v-bind:'  
+而事件的缩写是直接变成`@`. 也就是说： `v-on:` === `@`
 看下面的例子：
+
 ```html
 <!-- 完整语法 -->
 <a v-on:click="doSomething"></a>
@@ -124,4 +133,4 @@ Vue中属性的绑定的简写直接是`:` === 'v-bind:'
 
 ## 事件绑定总结
 
-Vue为了方便大家进行开发，提供了事件的相关的封装，可以让我们方便我们用Vue对事件进行开发，尤其是v-on指令的非常方便的跟Vue对象中methods进行配合进行复杂的事件处理，非常方便。另外事件的事件修饰符和按键修饰符也可以让Vue事件这块锦上添花。
+Vue 为了方便大家进行开发，提供了事件的相关的封装，可以让我们方便我们用 Vue 对事件进行开发，尤其是 v-on 指令的非常方便的跟 Vue 对象中 methods 进行配合进行复杂的事件处理，非常方便。另外事件的事件修饰符和按键修饰符也可以让 Vue 事件这块锦上添花。

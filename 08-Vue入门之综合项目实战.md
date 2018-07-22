@@ -1,45 +1,46 @@
-
-# Vue综合实战项目
+# Vue 综合实战项目
 
 ## 前置知识学习
+
 - npm 学习
-  + [官方文档](https://docs.npmjs.com/)
-  + 推荐资料
-    * [npm入门](http://www.cnblogs.com/kelsen/p/4947859.html)
-    * [npm介绍](http://www.nodeclass.com/articles/810142)
-  + 需要了解的知识点
-    * `package.json` 文件相关配置选项
-    * npm 本地安装、全局安装、本地开发安装等区别及相关命令
-    * npm script脚步的基本编写能力
+  - [官方文档](https://docs.npmjs.com/)
+  - 推荐资料
+    - [npm 入门](http://www.cnblogs.com/kelsen/p/4947859.html)
+    - [npm 介绍](http://www.nodeclass.com/articles/810142)
+  - 需要了解的知识点
+    - `package.json` 文件相关配置选项
+    - npm 本地安装、全局安装、本地开发安装等区别及相关命令
+    - npm script 脚步的基本编写能力
 
 > 有时间专门写一个这样的专题，如果需要可以邮件我。malun666@126.com
 
-- webpack基础学习
-  + [官方文档](https://webpack.js.org/)
-  + Webpack了解的知识点： 
-    * webpack的基本配置
-    * 了解webpack常用的loader： less-loader、sass-loader、 vue-loader、style-loader、css-loader、eslint-loader、babel-loader等
-    * 熟悉Webpack的webpack-dev-server的基本配置和使用，会配置热更新
-    
-- es6语法学习
-  + 阮一峰老师的大作[《ECMAScript 6 入门》](http://es6.ruanyifeng.com/)
-  + 需要学习的知识点
-    * es6的模块机制
-    * 各种最新语法糖，简写、geter、setter、箭头函数
-    * 类、继承的心机制
-    ...
-- nodejs基础知识
-  + 知识点学习：
-    * 文件操作
-    * http服务
-    * express
+- webpack 基础学习
+  - [官方文档](https://webpack.js.org/)
+  - Webpack 了解的知识点：
+
+    - webpack 的基本配置
+    - 了解 webpack 常用的 loader： less-loader、sass-loader、 vue-loader、style-loader、css-loader、eslint-loader、babel-loader 等
+    - 熟悉 Webpack 的 webpack-dev-server 的基本配置和使用，会配置热更新
+- es6 语法学习
+  - 阮一峰老师的大作[《ECMAScript 6 入门》](http://es6.ruanyifeng.com/)
+  - 需要学习的知识点
+    - es6 的模块机制
+    - 各种最新语法糖，简写、geter、setter、箭头函数
+    - 类、继承的心机制
+      ...
+- nodejs 基础知识
+
+  - 知识点学习：
+    - 文件操作
+    - http 服务
+    - express
 
 - 组件化开发思想
 
-## Vue脚手架工具：`vue-cli`构建实战项目
+## Vue 脚手架工具：`vue-cli`构建实战项目
 
-其实如果编写Vue的前端项目，直接使用vue的官方vue-cli构建工具最好用，一个命令就可以直接生成项目的结构和目录。
-而且官方需要依赖的包也可以自动配置好，只需要npm instal一下，然后就可以开发测试了。
+其实如果编写 Vue 的前端项目，直接使用 vue 的官方 vue-cli 构建工具最好用，一个命令就可以直接生成项目的结构和目录。
+而且官方需要依赖的包也可以自动配置好，只需要 npm instal 一下，然后就可以开发测试了。
 
 ### `vue-cli`安装
 
@@ -60,11 +61,13 @@ $ vue -V
 ```shell
 $ vue init <template-name> <project-name>
 ```
-其中template-name可以取以下值，每个值对应不同的项目构建的模板。
-- [webpack](https://github.com/vuejs-templates/webpack)--全功能的Webpack + vueify，包括热加载，静态检测，单元测试
-- [webpack](https://github.com/vuejs-templates/webpack-simple)-simple--一个简易的Webpack + vueify，以便于快速开始。
-- [browserify](https://github.com/vuejs-templates/browserify)--全功能的Browserify + vueify，包括热加载，静态检测，单元测试
-- [browserify](https://github.com/vuejs-templates/browserify-simple)-simple--一个简易的Browserify + vueify，以便于快速开始。
+
+其中 template-name 可以取以下值，每个值对应不同的项目构建的模板。
+
+- [webpack](https://github.com/vuejs-templates/webpack)--全功能的 Webpack + vueify，包括热加载，静态检测，单元测试
+- [webpack](https://github.com/vuejs-templates/webpack-simple)-simple--一个简易的 Webpack + vueify，以便于快速开始。
+- [browserify](https://github.com/vuejs-templates/browserify)--全功能的 Browserify + vueify，包括热加载，静态检测，单元测试
+- [browserify](https://github.com/vuejs-templates/browserify-simple)-simple--一个简易的 Browserify + vueify，以便于快速开始。
 
 安装和开发控制台的命令：
 
@@ -87,9 +90,9 @@ $ npm run dev
 
 ### 综合实例开发记录
 
-1. 通过vue-cli构建工具初始化项目目录
+1.  通过 vue-cli 构建工具初始化项目目录
 
->安装过程，控制台会问你项目名称是什么？项目描述？项目作者，是否使用eslint校验，是否使用单元测试等....
+> 安装过程，控制台会问你项目名称是什么？项目描述？项目作者，是否使用 eslint 校验，是否使用单元测试等....
 
 我的安装过程如下请参考：
 
@@ -117,20 +120,20 @@ $ vue init webpack ttl                        # => 安装webpack模板的项目 
    vue-cli · Generated "ttl".
 
    To get started:
-   
+
      cd ttl
      npm install
      npm run dev
-   
+
    Documentation can be found at https://vuejs-templates.github.io/webpack
 ```
 
-通过上面一系列的命令后，我们就会创建一个webpack配置好的项目包。目录结构如下：
+通过上面一系列的命令后，我们就会创建一个 webpack 配置好的项目包。目录结构如下：
 
 ```shell
-ttl 
+ttl
 |--.babelrc           #=> babel的配置文件，主要用于转换es6等最新的js语法。
-|--.editorconfig      #=> 编辑器配置 
+|--.editorconfig      #=> 编辑器配置
 |--.eslintignore      #=> eslint的忽略校验的配置文件
 |--.eslintrc.js       #=> eslint的配置校验js是否规范的配置文件
 |--.gitignore         #=> 设置git忽略的管理的文件
@@ -144,165 +147,170 @@ ttl
 |--test/              #=> 测试相关目录
 ```
 
-2. 初始化依赖包
+2.  初始化依赖包
 
 ```shell
 $ cd ttl              #=> 进入上面创建好的项目目录
 $ npm install         #=> 安装所有的依赖包。  安装过程可能非常长，网络也可能有问题，请耐心等待。
 
 # 安装完成后，可以直接运行测试,如果自动打开浏览器，并跳转到http://localhost:8080/ 说明一切都ok了。
-$ npm run dev 
+$ npm run dev
 ```
 
-> npm 安装的时候经常网会断开，国内的网（哎，说多了都是泪）你懂的。最好能科学上网，或者是用淘宝的npm的镜像
-  
-3. 安装`vue-router`组件
+> npm 安装的时候经常网会断开，国内的网（哎，说多了都是泪）你懂的。最好能科学上网，或者是用淘宝的 npm 的镜像
+
+3.  安装`vue-router`组件
 
 ```shell
 $ npm i -S vue-router
 ```
 
-4. 到项目的 `/src/components/` 目录下创建三个组件文件。
+4.  到项目的 `/src/components/` 目录下创建三个组件文件。
 
 分别是：
 
-  - 首页组件
+- 首页组件
 
-  ```html
-  <template>
-    <div class="home">
-      <h3>{{ msg }}</h3>
-    </div>
-  </template>
 
-  <script>
-  export default {
-    name: 'home',     // 组件可以有自己的名字。
-    data () {         // 组件的data必须是函数
-      return {
-        msg: '这里是Home视图'
-      }
+```html
+<template>
+  <div class="home">
+    <h3>{{ msg }}</h3>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'home',     // 组件可以有自己的名字。
+  data () {         // 组件的data必须是函数
+    return {
+      msg: '这里是Home视图'
     }
   }
-  </script>
+}
+</script>
 
-  <style scoped>
-  h3 {
-    background-color: #82c;
-  }
-  </style>
-  ```
+<style scoped>
+h3 {
+  background-color: #82c;
+}
+</style>
+```
 
-  - 用户首页组件
+- 用户首页组件
 
-  ```html
-  <template>
-    <div>
-      <h3>{{ msg }}</h3>
-    </div>
-  </template>
 
-  <script>
-  export default {    // es6的模块导出定义语法，此模块导出默认的对象
-    name: 'user',     // 组件可以有自己的名字。
-    data () {         // 组件的data必须是函数
-      return {
-        msg: '这里是User视图'
-      }
+```html
+<template>
+  <div>
+    <h3>{{ msg }}</h3>
+  </div>
+</template>
+
+<script>
+export default {    // es6的模块导出定义语法，此模块导出默认的对象
+  name: 'user',     // 组件可以有自己的名字。
+  data () {         // 组件的data必须是函数
+    return {
+      msg: '这里是User视图'
     }
   }
-  </script>
+}
+</script>
 
-  <style scoped>
-  h3 {
-    background-color: red;
-  }
-  </style>
-  ```
+<style scoped>
+h3 {
+  background-color: red;
+}
+</style>
+```
 
-  - 产品组件
-  
-  ```html
-  <template>
-    <div class="product">
-      <h3>{{ msg }}</h3>
-    </div>
-  </template>
+- 产品组件
 
-  <script>
-  export default {
-    name: 'product',     // 组件可以有自己的名字。
-    data () {         // 组件的data必须是函数
-      return {
-        msg: '这里是Home视图'
-      }
+
+```html
+<template>
+  <div class="product">
+    <h3>{{ msg }}</h3>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'product',     // 组件可以有自己的名字。
+  data () {         // 组件的data必须是函数
+    return {
+      msg: '这里是Home视图'
     }
   }
-  </script>
+}
+</script>
 
-  <style scoped>
-  h3 {
-    background-color: green;
-  }
-  </style>
-  ```
+<style scoped>
+h3 {
+  background-color: green;
+}
+</style>
+```
 
 项目的目录结构为：
 
 ```
 ttl
-|-- src    
+|-- src
 |--|-- Hello.vue
 |--|-- Home.vue
 |--|-- Product.vue
 |--|-- User.vue
 ```
 
-5. 创建router对象及配置路由
+5.  创建 router 对象及配置路由
 
 在`src`目录下创建`approuter.js`文件。
 然后添加如下代码：
 
 ```js
-import VueRouter from 'vue-router'              // 导入路由模块    
-import Home from './components/Home.vue'        // 导入Home组件
-import User from './components/User.vue'
-import Product from './components/Product.vue'
+import VueRouter from 'vue-router'; // 导入路由模块
+import Home from './components/Home.vue'; // 导入Home组件
+import User from './components/User.vue';
+import Product from './components/Product.vue';
 
-export default new VueRouter({                  // 定义路由规则对象
+export default new VueRouter({
+  // 定义路由规则对象
   routes: [
-    {path: '/home', component: Home},
-    {path: '/user/:id', component: User},
-    {path: '/product/:id', component: Product}
+    { path: '/home', component: Home },
+    { path: '/user/:id', component: User },
+    { path: '/product/:id', component: Product }
   ]
-})
-``` 
-6. 修改main.js文件
-找到`src/`目录下的main.js文件，
-共修改4处，添加路由引用、添加路由规则对象导入、启用路由、将路由键入到Vue中。   
-修改此文件为：
+});
+```
+
+6.  修改 main.js 文件
+    找到`src/`目录下的 main.js 文件，
+    共修改 4 处，添加路由引用、添加路由规则对象导入、启用路由、将路由键入到 Vue 中。  
+    修改此文件为：
 
 ```js
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './App'
-import VueRouter from 'vue-router'      // +++1、导入路由组件
-import router from './approuter'        // +++2、导入我们自己写的路由配置文件
+import Vue from 'vue';
+import App from './App';
+import VueRouter from 'vue-router'; // +++1、导入路由组件
+import router from './approuter'; // +++2、导入我们自己写的路由配置文件
 
 // +++ 3、使用路由组件
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   template: '<App/>',
   components: { App },
-  router: router                        // +++4、添加路由对象
-})
+  router: router // +++4、添加路由对象
+});
 ```
 
-7. 在app.vue中添加路由导航
+7.  在 app.vue 中添加路由导航
 
 最终代码如下：
 
@@ -340,7 +348,7 @@ export default {
 
 <style>
 #app {
- 
+
 }
 .top-menu ul, .top-menu li {
   list-style: none;
@@ -359,10 +367,10 @@ export default {
 
 # 总结
 
-Vue的入门系列基本都写完了，大部分内容是参考了官网的文档。
+Vue 的入门系列基本都写完了，大部分内容是参考了官网的文档。
 
-还有很多内容没有整理到这个系列中。比如：vue的过渡动画，vue的异步刷新队列，vue的过滤器等，我相信你通过本文档就能
-实现vue的入门了，那些琐碎的知识点只要看一下官方的文档应该很容入门。
+还有很多内容没有整理到这个系列中。比如：vue 的过渡动画，vue 的异步刷新队列，vue 的过滤器等，我相信你通过本文档就能
+实现 vue 的入门了，那些琐碎的知识点只要看一下官方的文档应该很容入门。
 
-这一次整理过程，让我对Vue有了更深入的认识，之前不熟悉的东西，强迫自己把
-文档写一遍后，认识比以前更清晰了。Vue确实带来很多的惊喜。希望这个文档对你有用。
+这一次整理过程，让我对 Vue 有了更深入的认识，之前不熟悉的东西，强迫自己把
+文档写一遍后，认识比以前更清晰了。Vue 确实带来很多的惊喜。希望这个文档对你有用。

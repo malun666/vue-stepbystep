@@ -1,21 +1,22 @@
-# Vue路由详解
+# Vue 路由详解
 
 > 对于前端来说，其实浏览器配合超级连接就很好的实现了路由功能。但是对于单页面应用来说，浏览器和超级连接的跳转方式已经不能适用，
-所以各大框架纷纷给出了单页面应用的解决路由跳转的方案。 
+> 所以各大框架纷纷给出了单页面应用的解决路由跳转的方案。
 
-> Vue框架的兼容性非常好，可以很好的跟其他第三方的路由框架进行结合。当然官方也给出了路由的方案： `vue-router`;
-建议还是用官方的最好，使用量也是最大，相对来说Vue框架的升级路由组件升级也会及时跟上，所以为了以后的维护和升级方便还是使用Vue自家的东西最好。
+> Vue 框架的兼容性非常好，可以很好的跟其他第三方的路由框架进行结合。当然官方也给出了路由的方案： `vue-router`;
+> 建议还是用官方的最好，使用量也是最大，相对来说 Vue 框架的升级路由组件升级也会及时跟上，所以为了以后的维护和升级方便还是使用 Vue 自家的东西最好。
 
-## Vue-router的版本对应
+## Vue-router 的版本对应
+
 > 注意: vue-router@2.x 只适用于 Vue 2.x 版本。
-> vue-router@1.x 对应于Vue1.x版本。
+> vue-router@1.x 对应于 Vue1.x 版本。
 
-- 的Github地址：[vue-router](https://github.com/vuejs/vue-router)   
+- 的 Github 地址：[vue-router](https://github.com/vuejs/vue-router)
 - [文档地址](https://router.vuejs.org/zh-cn/)
 
-## vue-router的安装使用
+## vue-router 的安装使用
 
-- CDN连接方式
+- CDN 连接方式
 
 `https://unpkg.com/vue-router/dist/vue-router.js`
 
@@ -25,13 +26,13 @@
 npm install vue-router
 ```
 
-## vue-router 入门demo
+## vue-router 入门 demo
 
-vue-router开发的步骤：
+vue-router 开发的步骤：
 
-- 第一步： 引入vue和vue-router包。
-> 可以使用cdn的方式或者npm的方式。如果配合npm和webpack的话可以直接作为一个模块导入即可。但是作为初学入门的话建议还是
-> 直接使用cdn包的形式，先学会怎么用路由。
+- 第一步： 引入 vue 和 vue-router 包。
+  > 可以使用 cdn 的方式或者 npm 的方式。如果配合 npm 和 webpack 的话可以直接作为一个模块导入即可。但是作为初学入门的话建议还是
+  > 直接使用 cdn 包的形式，先学会怎么用路由。
 
 ```html
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
@@ -39,11 +40,13 @@ vue-router开发的步骤：
 ```
 
 - 第二步： 定义路由跳转的组件
+
 ```js
 // 1. 定义（路由）组件。
-const Foo = { template: '<div>foo</div>' }
-const Bar = { template: '<div>bar</div>' }
+const Foo = { template: '<div>foo</div>' };
+const Bar = { template: '<div>bar</div>' };
 ```
+
 - 第三步： 定义路由规则对象
 
 ```js
@@ -53,22 +56,22 @@ const Bar = { template: '<div>bar</div>' }
 const routes = [
   { path: '/foo', component: Foo },
   { path: '/bar', component: Bar }
-]
+];
 
 // 创建路由对象
 const router = new VueRouter({
   routes // （缩写）相当于 routes: routes，es6的新语法
-})
+});
 ```
 
-- 第四步： 创建Vue对象，并加重上面创建的路由对象
+- 第四步： 创建 Vue 对象，并加重上面创建的路由对象
 
 ```js
 // 记得要通过 router 配置参数注入路由，
 // 从而让整个应用都有路由功能
 const app = new Vue({
   router
-}).$mount('#app')
+}).$mount('#app');
 ```
 
 - 第五步： 在模板中编写路由跳转链接
@@ -135,11 +138,12 @@ const app = new Vue({
 </script>
 ```
 
-## 使用vue-router的综合实例
+## 使用 vue-router 的综合实例
+
 下面是一个综合的例子, 页面上有几个导航的按钮，然后通过点击不同的按钮，可以在当前页面切换不同的组件。
 
 ```html
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -157,7 +161,7 @@ const app = new Vue({
   <div id="app">
     <top-bar> </top-bar>
     <hr>
-      <p>email to: {{ email }}</p> 
+      <p>email to: {{ email }}</p>
     <hr>
     <router-view class="view one"></router-view>
     <footer-bar></footer-bar>
@@ -170,10 +174,10 @@ const app = new Vue({
             <router-link :to="item.url">{{ item.name }}</router-link>
           </li>
         </ul>
-      </nav>        
+      </nav>
     `;
     // 定义组件：topbar
-    Vue.component('top-bar', {          
+    Vue.component('top-bar', {
       template: topbarTemp,
       data: function () {
         return {
@@ -185,7 +189,7 @@ const app = new Vue({
           ]
         }
       }
-    });             
+    });
 
     Vue.component('footer-bar', {  // 定义组件 footerbar
       template: `
@@ -221,9 +225,9 @@ const app = new Vue({
     });
 
     // 初始化一个Vue实例
-    var app = new Vue({         
-      el: '#app',               
-      data: {                   
+    var app = new Vue({
+      el: '#app',
+      data: {
        email: 'flydragon@gmail.com'
       },
       router: router
@@ -235,15 +239,17 @@ const app = new Vue({
 
 ## 路由参数获取
 
-定义路由路径的时候，可以指定参数。参数需要通过路径进行标识：`/user/:id`就是定义了一个规则，/user开头，然后后面的就是id参数的值。
-比如： 
+定义路由路径的时候，可以指定参数。参数需要通过路径进行标识：`/user/:id`就是定义了一个规则，/user 开头，然后后面的就是 id 参数的值。
+比如：
+
 ```
 路由规则：  /user/:id
 /user/9   =>  id = 9
 /user/8   =>  id = 8
 /user/1   =>  id = 1
-```  
-然后在跳转后的vue中可以通过`this.$route.params.参数名`获取对应的参数。
+```
+
+然后在跳转后的 vue 中可以通过`this.$route.params.参数名`获取对应的参数。
 比如代码：
 
 ```html
@@ -299,28 +305,31 @@ const app = new Vue({
 </body>
 </html>
 ```
-## js控制路由跳转
 
-上面我们演示的都是通过router-link进行跳转。 其实我们还可以通过js编程的方式进行路由的跳转。
+## js 控制路由跳转
+
+上面我们演示的都是通过 router-link 进行跳转。 其实我们还可以通过 js 编程的方式进行路由的跳转。
 
 ```js
 // 当前路由的view跳转到 /home
-router.push('home')
+router.push('home');
 
 // 对象,  跳转到/home
-router.push({ path: 'home' })
+router.push({ path: 'home' });
 
-// 命名的路由   
-router.push({ name: 'user', params: { userId: 123 }})
+// 命名的路由
+router.push({ name: 'user', params: { userId: 123 } });
 
 // 带查询参数，变成 /register?plan=private
-router.push({ path: 'register', query: { plan: 'private' }})
+router.push({ path: 'register', query: { plan: 'private' } });
 ```
 
 ## 嵌套路由
-嵌套路由跟普通路由基本没有什么区别。但是可以让vue开发变的非常灵活。
+
+嵌套路由跟普通路由基本没有什么区别。但是可以让 vue 开发变的非常灵活。
 官网这块写的也非常好，我就直接拷贝了（原谅我吧。）
 实际生活中的应用界面，通常由多层嵌套的组件组合而成。同样地，URL 中各段动态路径也按某种结构对应嵌套的各层组件，例如：
+
 ```
 /user/foo/profile                     /user/foo/posts
 +------------------+                  +-----------------+
@@ -380,7 +389,6 @@ const router = new VueRouter({
 })
 ```
 
-
 要注意，以 / 开头的嵌套路径会被当作根路径。 这让你充分的使用嵌套组件而无须设置嵌套的路径。
 你会发现，children 配置就是像 routes 配置一样的路由配置数组，所以呢，你可以嵌套多层路由。
 
@@ -390,19 +398,20 @@ const router = new VueRouter({
 const router = new VueRouter({
   routes: [
     {
-      path: '/user/:id', component: User,
+      path: '/user/:id',
+      component: User,
       children: [
         // 当 /user/:id 匹配成功，
         // UserHome 会被渲染在 User 的 <router-view> 中
-        { path: '', component: UserHome },
+        { path: '', component: UserHome }
 
         // ...其他子路由
       ]
     }
   ]
-})
+});
 ```
 
 ## 总结
-其实作为入门的话，暂时先掌握这些知识，后续 
 
+其实作为入门的话，暂时先掌握这些知识，后续
